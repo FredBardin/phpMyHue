@@ -19,6 +19,3 @@
 # exclude external code
 js/jquery-ui/* linguist-vendored
 js/jquery-minicolors-master/* linguist-vendored
-*.js linguist-vendored=true
-*.html linguist-vendored=true
-*.css linguist-vendored=true

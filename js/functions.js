@@ -1,0 +1,364 @@
+// Javascript Functions for phpMyHue
+// F. Bardin 2015/02/10
+// -----------------------------------
+/*====================================
+  Generic Functions
+=====================================*/
+//----------------------------------------
+// Create fonctions for mobiles detection
+//----------------------------------------
+var isMobile = {
+    Android: 	function(){return /Android/i.test(navigator.userAgent);},
+    BlackBerry: function(){return /BlackBerry/i.test(navigator.userAgent);},
+    iOS: 		function(){return /iPhone|iPad|iPod/i.test(navigator.userAgent);},
+    Windows: 	function(){return /IEMobile/i.test(navigator.userAgent);},
+    any: function(){return (isMobile.Android()||isMobile.BlackBerry()||isMobile.iOS()||isMobile.Windows());}
+};
+
+//----------------------------------------------
+// Generate a unique id as php 'uniqid' function
+// --> generate a 13 char string (+prefix if supplied)
+//----------------------------------------------
+function uniqid(prefix, more_entropy) {
+  //  discuss at: http://phpjs.org/functions/uniqid/
+  // original by: Kevin van Zonneveld (http://kevin.vanzonneveld.net)
+  //  revised by: Kankrelune (http://www.webfaktory.info/)
+  if (typeof prefix === 'undefined') {
+    prefix = '';
+  }
+
+  var retId;
+  var formatSeed = function (seed, reqWidth) {
+    seed = parseInt(seed, 10)
+      .toString(16); // to hex str
+    if (reqWidth < seed.length) {
+      // so long we split
+      return seed.slice(seed.length - reqWidth);
+    }
+    if (reqWidth > seed.length) {
+      // so short we pad
+      return Array(1 + (reqWidth - seed.length))
+        .join('0') + seed;
+    }
+    return seed;
+  };
+
+  // BEGIN REDUNDANT
+  if (!this.php_js) {
+    this.php_js = {};
+  }
+  // END REDUNDANT
+  if (!this.php_js.uniqidSeed) {
+    // init seed with big random int
+    this.php_js.uniqidSeed = Math.floor(Math.random() * 0x75bcd15);
+  }
+  this.php_js.uniqidSeed++;
+
+  // start with prefix, add current milliseconds hex string
+  retId = prefix;
+  retId += formatSeed(parseInt(new Date()
+    .getTime() / 1000, 10), 8);
+  // add seed hex string
+  retId += formatSeed(this.php_js.uniqidSeed, 5);
+  if (more_entropy) {
+    // for more entropy we add a float lower to 10
+    retId += (Math.random() * 10)
+      .toFixed(8)
+      .toString();
+  }
+
+  return retId;
+} // uniqid
+
+//----------------------------------------
+// Calculate scrollbar width
+//----------------------------------------
+(function($){$.scrollbarWidth=function(){
+	if(!$._scrollbarWidth){
+    	var parent = $('<div style="width:50px;height:50px;overflow:auto"><div/></div>').appendTo('body');
+    	var child=parent.children();
+    	$._scrollbarWidth=child.innerWidth()-child.height(99).innerWidth();
+    	parent.remove();
+	}
+	return $._scrollbarWidth;
+};})(jQuery);
+$.scrollbarWidth();
+
+//----------------------------------------
+// Set vertical scroll bar on current tab if needed
+// If scroll id exists : scroll on this component
+// The scroll id container can't have padding, margin or border, except padding top
+//----------------------------------------
+function scrollCurrentTab(tabsID){
+	// Initialize parameters
+	var curtabid = getCurrentTabsID(tabsID);
+	var innerdivid = 'inner-'+curtabid;
+	var scrolldivid = 'scroll-'+curtabid;
+
+	var divtab=$(tabsID);
+	var	curtab=$('#'+curtabid);
+	var scrolltab = curtab;
+	if ($('#'+curtabid+' #scroll').length){scrolltab = $('#'+curtabid+' #scroll');}
+
+	var bar_width=0;
+	var win_height=$(window).height();
+	var curtab_pos=scrolltab.offset();
+	var curtab_padding_top=Math.floor(scrolltab.css("padding-top").replace("px", ""));
+	var curtab_padding_bottom=Math.floor(curtab.css("padding-bottom").replace("px", ""));
+	var curtab_border_bottom=Math.floor(curtab.css("border-bottom-width").replace("px", ""));
+	var curtab_margin_bottom=Math.floor(curtab.css("margin-bottom").replace("px", ""));
+	var curtab_outer_bottom_tot=curtab_padding_bottom+curtab_border_bottom+curtab_margin_bottom;
+
+	var divtab_padding_bottom=Math.floor(divtab.css("padding-bottom").replace("px", ""));
+	var divtab_border_bottom=Math.floor(divtab.css("border-bottom-width").replace("px", ""));
+	var divtab_margin_bottom=Math.floor(divtab.css("margin-bottom").replace("px", ""));
+	var divtab_outer_bottom_tot=divtab_padding_bottom+divtab_border_bottom+divtab_margin_bottom;
+
+	var scroll_height=Math.floor(win_height-curtab_pos.top);
+	scroll_height -=curtab_padding_top+curtab_outer_bottom_tot+divtab_outer_bottom_tot;
+
+	// Create inner div if not exists to wrap content
+	if (! $('#'+innerdivid).length){scrolltab.wrapInner('<DIV ID='+innerdivid+'>');}
+	var innerdiv = $('#'+innerdivid);
+
+	var inner_height=Math.ceil(innerdiv.height());
+
+	// Manage scroll bar display
+	if (inner_height>=scroll_height){ // If scroll bar is needed
+		var scrolldiv = "";
+
+		if (! $('#'+scrolldivid).length){ // Create scroll div if not exist
+			innerdiv.wrap('<DIV ID='+scrolldivid+'>');
+			scrolldiv = $('#'+scrolldivid);
+
+			// Set width to include scrollbar width
+			var win_width=$(window).width();
+			var scrolldiv_width=scrolldiv.width();
+			if(scrolldiv_width!=win_width){bar_width=$.scrollbarWidth();}
+			var scroll_width=(scrolldiv_width+bar_width);
+			scrolldiv.css('width',scroll_width);
+		} else {
+			scrolldiv = $('#'+scrolldivid);
+		}
+
+		// Set scroll height + vertical scrollbar
+		var	scroll_pos=scrolldiv.scrollTop();
+		scroll_height-=scroll_pos;
+		scrolldiv.scrollTop(scroll_pos);
+		scrolldiv.css("height",scroll_height);
+		scrolldiv.css("overflow-y","auto");
+	} else { // remove scrolldiv if exists
+		if ($('#'+scrolldivid).length){innerdiv.unwrap();}
+	}
+} // scrollCurrentTab
+
+// Intercept browser resize
+$(window).resize(function(){
+	scrollCurrentTab('#tabs');
+	if ($('#detail').is(':visible')){scrollCurrentTab('#detail');}
+});
+
+//----------------------------------------
+// Display message
+//----------------------------------------
+function msg(msg){
+	var msgdiv = '#msg';
+	$(msgdiv).fadeOut('fast');
+	$(msgdiv).html(msg);
+	$(msgdiv).fadeIn(50);
+}
+
+//----------------------------------------
+// Get ID of a current jquery-ui tabs content
+//----------------------------------------
+function getCurrentTabsID(tabSelector){
+	var activeTabIdx = $(tabSelector).tabs('option','active');
+
+	return $(tabSelector+' > ul > li').eq(activeTabIdx).attr('aria-controls');
+} // getCurrentTabsID
+
+//----------------------------------------
+// Function to manage lights list events
+// listtab = id of list tab
+// prefid = prefix applied to id if detail tab
+//----------------------------------------
+function lightsList(listtab,prefid){
+	prefid = prefid || "";
+
+	// Switch a light
+	$(listtab+' a.switch').click(function(onoff) {
+		onoff.preventDefault();
+		// switch and reload light
+		var lnum = $(this).attr('lnum');
+		$(listtab+' a.switch[lnum='+lnum+']').load('main.php?rt=switch&lnum='+lnum);
+	});
+
+	// Switch all
+	$(listtab+' button.allon').click(function(){
+		switchGroup(listtab,'0','on');
+	});
+	$(listtab+' button.alloff').click(function(){
+		switchGroup(listtab,'0','off');
+	});
+
+	// Switch a group
+	$(listtab+' button.gron').click(function(){
+		var gnum = $(this).attr('grp');
+		switchGroup(listtab,gnum,'on');
+	});
+	$(listtab+' button.groff').click(function(){
+		var gnum = $(this).attr('grp');
+		switchGroup(listtab,gnum,'off');
+	});
+
+	// Switch lamps without group
+	$(listtab+' button.otheron').click(function(){
+		switchGroup(listtab,'other','on');
+	});
+	$(listtab+' button.otheroff').click(function(){
+		// reload current tab
+		switchGroup(listtab,'other','off');
+	});
+
+	// Select all
+	$('#'+prefid+'selall').change(function() {
+		$('#'+prefid+'cbselall').toggleClass('cbchecked');
+		if ($(this).prop('checked')){
+			$(listtab+' tbody input[type="checkbox"]').prop('checked',true);
+			$(listtab+' tbody input[type="checkbox"]').parent('span').addClass('cbchecked');
+			$(listtab+' label').parent('td').addClass('ui-state-focus');
+		} else {
+			$(listtab+' tbody input[type="checkbox"]').prop('checked',false);
+			$(listtab+' tbody input[type="checkbox"]').parent('span').removeClass('cbchecked');
+			$(listtab+' label').parent('td').removeClass('ui-state-focus');
+		}
+		if (prefid == ""){loadSelectedLightsDetail(listtab);}
+	});
+
+	// Select group
+	$(listtab+' tbody input.selgroup').change(function() {
+		id=$(this).attr('id');
+		var gnum = $(this).attr('grp');
+		$('#'+prefid+'cbsg'+gnum).toggleClass('cbchecked');
+
+		if ($(this).prop('checked')){
+			$(listtab+' tbody td.label[gnum='+gnum+']').addClass('ui-state-focus');
+			$(listtab+' tbody input.sellight[grp='+gnum+']').prop('checked',true);
+			$(listtab+' tbody input.sellight[grp='+gnum+']').parent('span').addClass('cbchecked');
+			$(listtab+' tbody tr.grp'+gnum+' td.sellight').addClass('ui-state-focus');
+		} else { // unckecked lamp + all
+			$(listtab+' tbody td.label[gnum='+gnum+']').removeClass('ui-state-focus');
+			$(listtab+' tbody input.sellight[grp='+gnum+']').prop('checked',false);
+			$(listtab+' tbody input.sellight[grp='+gnum+']').parent('span').removeClass('cbchecked');
+			$(listtab+' tbody tr.grp'+gnum+' td.sellight').removeClass('ui-state-focus');
+			$('#'+prefid+'selall').prop('checked',false);
+			$('#'+prefid+'cbselall').removeClass('cbchecked');
+			$('#'+prefid+'cbselall').parent('td').parent('tr').children('td.label').removeClass('ui-state-focus');
+		}
+		if (prefid == ""){loadSelectedLightsDetail(listtab)};
+	});
+
+	// Uncheck all and group if a lamp is unchecked
+	// + check/uncheck all line for the same lamp (if it belongs to several groups)
+	$(listtab+' tbody input.sellight').change(function() {
+		id=$(this).attr('id');
+		var lnum = $(this).attr('lnum');
+		var gnum = $(this).attr('grp');
+		$('#'+prefid+'cb'+gnum+'_'+lnum).toggleClass('cbchecked');
+		if ($(this).prop('checked')){
+			$(listtab+' tbody input.sellight[lnum='+lnum+']').prop('checked',true);
+			$(listtab+' tbody input.sellight[lnum='+lnum+']').parent('span').addClass('cbchecked');
+			$(listtab+' tbody td.sellight[lnum='+lnum+']').addClass('ui-state-focus');
+		} else {
+			$(listtab+' tbody input.sellight[lnum='+lnum+']').prop('checked',false);
+			$(listtab+' tbody input.sellight[lnum='+lnum+']').parent('span').removeClass('cbchecked');
+			$(listtab+' tbody td.sellight[lnum='+lnum+']').removeClass('ui-state-focus');
+			$(listtab+' tbody input.selgroup[grp='+gnum+']').prop('checked',false);
+			$(listtab+' tbody input.selgroup[grp='+gnum+']').parent('span').removeClass('cbchecked');
+			$(listtab+' tbody td.label[gnum='+gnum+']').removeClass('ui-state-focus');
+			$('#'+prefid+'selall').prop('checked',false);
+			$('#'+prefid+'cbselall').removeClass('cbchecked');
+			$('#'+prefid+'cbselall').parent('td').parent('tr').children('td.label').removeClass('ui-state-focus');
+		}
+		if (prefid == ""){loadSelectedLightsDetail(listtab);}
+	});
+	
+	// Collapse/Extend group
+	$(listtab+' span.grp').click(function(){
+		var gnum = $(this).attr('grp');
+		if ($(this).attr('open')){
+			$(listtab+' tbody tr.grp'+gnum).hide(300);
+			$(this).switchClass('ui-icon-circle-minus','ui-icon-circle-plus',0);
+			$(this).removeAttr('open');
+			// Uncheck lights if group not checked
+			if (! $(listtab+' tbody input.selgroup[grp="'+gnum+'"]').prop('checked')){
+				$(listtab+' tbody input.sellight[grp="'+gnum+'"]').prop('checked',false);
+				if (prefid == ""){loadSelectedLightsDetail(listtab);}
+			}
+		} else {
+			$(listtab+' tbody tr.grp'+gnum).show(300);
+			$(this).switchClass('ui-icon-circle-plus','ui-icon-circle-minus',0);
+			$(this).attr('open','');
+		}
+	});
+
+	// Intialize brillance slider if existing
+	$(listtab+' .brislider').each(function(){
+		var bsid = $(this).attr('id');
+		$(this).noUiSlider({
+			start: 0,
+			step: 1,
+			connect: 'upper',
+			range: {
+					'min': 0,
+					'max': 254
+			},
+			format: wNumb({decimals: 0})
+		});
+		$(this).Link('lower').to($('#'+bsid+'_val'));
+	});
+	// Change light brillance
+	$(listtab+' .brislider').change(function(){
+		var val = $(this).val();
+		var gnum = $(this).attr('gnum');
+		var lnum = "";
+		if ($(this).is('[lnum]')){lnum = $(this).attr('lnum');}
+		if (lnum == ""){
+			var bschild = listtab+' tbody .brislider' 
+			if (gnum != 'all'){bschild = bschild + '[gnum="'+gnum+'"]';}
+			$(bschild).val(val);
+			$(bschild+'[lnum]').change();
+		} else {
+			var action = 'lights/'+lnum+'/state';
+			var cmdjs = '&cmdjs={"bri":'+val+'}'; 
+			var curlnum = (lnum);
+			$('#msg').load('hueapi_cmd.php?action='+action+cmdjs, (function(){
+				$(listtab+' a.switch[lnum='+curlnum+']').load('main.php?rt=display&lnum='+curlnum);
+			}));
+		}
+	});	
+} // lightsList
+
+// -----------------------------
+// Switch a lights group on/off
+// listtab = tab id with lights list
+// if gnum=other : lamp without group
+// onoff = on or off
+// -----------------------------
+function switchGroup(listtab,gnum,onoff){
+	var action = "groups/"+gnum+"/action";
+	var cmdjs = '&cmdjs={"on":'+(onoff == 'on' ? true : false)+'}';
+
+	if (gnum == 'other'){action = gnum;}
+
+	$.getJSON('hueapi_cmd.php?action='+action+cmdjs, function(){
+		// re-display all lights in the group
+		var lnum = "";
+		var gsearch = "";
+		if (gnum != '0'){gsearch = ' tr.grp'+gnum;}
+		$(listtab+gsearch+' a.switch').each(function(){
+			lnum = $(this).attr('lnum');
+			$(this).load('main.php?rt=display&lnum='+lnum);
+		});
+	});
+} // switchGroup

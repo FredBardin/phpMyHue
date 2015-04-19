@@ -1,0 +1,280 @@
+body {
+	font-weight: normal;
+	font-size: 11pt;
+	margin: 0;
+	color: #FFFFFF;
+	font-family: Arial;
+	text-align: center;
+	background-color: #000000;
+	background-repeat: no-repeat;
+	background-attachment: fixed;
+	background-position: top center;
+	margin-top: 5px;
+	scrollbar-track-color: #000000;
+	scrollbar-base-color: #0d0d0d;
+	scrollbar-arrow-color: #ffffff;
+	scrollbar-3dlight-color: #000000;
+	scrollbar-shadow-color: #6d6d6d;
+}
+
+a {
+	text-decoration: none;
+}
+
+/* Style for generic elements */
+table {
+	border: 0;
+}
+
+input[type=checkbox] {
+	vertical-align: middle;
+}
+
+label, input[type=checkbox] {
+	cursor:pointer;
+}
+
+input[type=checkbox]:checked {
+   opacity:0.0;
+	outline:0;
+	z-index:1;
+}
+
+.cbchecked {
+	background: url("../js/jquery-ui/images/ui-icons_f29a00_256x240.png") -61px -144px no-repeat;
+	background-origin:content-box;
+}
+
+/* tooltip */
+.ui-tooltip {
+	-webkit-box-shadow: none;
+	box-shadow: none;
+	border-width: 1px;
+	font-size: smaller;
+}
+
+/* Message div */
+#msg {
+	position: absolute;
+	left:0;
+	top : 5px;
+	font-size: larger;
+	font-weight: bold;
+	text-align: left;
+}
+
+/* Title */
+#title {
+	font: 3em "Comic Sans MS";
+}
+
+/* Page body */
+#sel {
+	float: left;
+	background: #272727;
+}
+#content {
+	float: left;
+}
+
+.tabicon {
+	float: right;
+	margin: 2px;
+}
+
+
+/* lights group icon */
+span.grp{
+	display: inline-block;
+	vertical-align: text-bottom;
+	cursor:pointer;
+}
+
+/* Table label, scene name */
+.ui-state-focus.radio, .ui-state-focus.label, .ui-state-focus.sellight {
+	background: transparent;
+	border: 0;
+	color: #f29a00;
+}
+.radio:hover, label:hover {
+	color: #f29a00;
+}
+.label, .ui-state-focus.label, .sname {
+	font-weight: bold;
+	cursor:pointer;
+}
+.sname {
+	text-align: left;
+}
+#tabs td span.ui-icon{
+	cursor:pointer;
+}
+/*
+	Lamps icons classes = .<state class (switch on/off)>.modelid
+   To update when a new modelid comes
+	Remark : un-identified lamp modelid are bulb by default
+*/
+
+div.swoff, div.swon {
+	width:70px;
+	height: 70px;
+}
+.swoff, .swoff.LCT001, .swoff.LLS001, .swoff.LWB001, .swoff.LWB002, .swoff.LWB003, .swoff.LWB004, .swoff.LWL001 {
+	background-image: url(../img/bulb-off.png);
+}
+.swon, .swon.LCT001, .swon.LLS001, .swon.LWB001, .swon.LWB002, .swon.LWB003, .swon.LWB004, .swon.LWL001 {
+	background-image: url(../img/bulb-on.png);
+}
+.swoff.LCT002 {
+	background-image: url(../img/bulb-LCT002-off.png);
+}
+.swon.LCT002 {
+	background-image: url(../img/bulb-LCT002-on.png);
+}
+.swoff.LCT003 {
+	background-image: url(../img/bulb-LCT003-off.png);
+}
+.swon.LCT003 {
+	background-image: url(../img/bulb-LCT003-on.png);
+}
+.swoff.LLC001, .swoff.LLC006, .swoff.LLC010 {
+	background-image: url(../img/iris-off.png);
+}
+.swon.LLC001, .swon.LLC006, .swon.LLC010  {
+	background-image: url(../img/iris-on.png);
+}
+.swoff.LLC005, .swoff.LLC007, .swoff.LLC011, .swoff.LLC012 {
+	background-image: url(../img/bloom-off.png);
+}
+.swon.LLC005, .swon.LLC007, .swon.LLC011, swon.LLC012  {
+	background-image: url(../img/bloom-on.png);
+}
+.swoff.LLC013 {
+	background-image: url(../img/disney-off.png);
+}
+.swon.LLC013 {
+	background-image: url(../img/disney-on.png);
+}
+.swoff.LST001 {
+	background-image: url(../img/lightstrips-off.png);
+}
+.swon.LST001 {
+	background-image: url(../img/lightstrips-on.png);
+}
+/* 
+Multi-source luminaire groups
+
+hue beyond : lights order in group type luminaire is top then bottom
+             every lamp belongs to 2 groups : one with type=luminaire and the other with type=lightsource
+HBL001 : 2 lamps (1 top + 1 bottom) = table
+HBL002 : 4 lamps (1 top + 3 bottom) = pendant
+HBL003 : 4 lamps (1 top + 3 bottom) = ceiling 
+
+3d print : hel = entity (bulb), hil = intensity (oval)
+HEL001 : 2 lamps (2 bottom)
+HEL002 : 2 lamps (2 bottom)
+HIL001 : 2 lamps (2 bottom)
+HIL002 : 2 lamps (2 bottom)
+*/
+.swoff.LLM001 .msl-bottom { /* groups HBL001,2,3 HEL001,2 HIL001,2 */
+	background-image: url(../img/msl-bottom-off.png);
+}
+.swon.LLM001 .msl-bottom { /* groups HBL001,2,3 HEL001,2 HIL001,2 */
+	background-image: url(../img/msl-bottom-on.png);
+}
+.swoff.LLM001 .msl-top { /* groups HBL001,2,3 */
+	background-image: url(../img/msl-top-off.png);
+}
+.swon.LLM001 .msl-top { /* groups HBL001,2,3 */
+	background-image: url(../img/msl-top-on.png);
+}
+
+/* Unreachable status */
+.ui-state-focus.unreachable {
+	background: transparent;
+	border:0;
+	width:70px;
+	height: 70px;
+}
+.ui-icon.unreachable {
+	display: inline-block;
+	margin: 27px; /* = (70-16)/2 */
+}
+
+/* == DETAILS tab == */
+#detail {
+	text-align: left;
+	width: 640px;
+}
+.det_table {
+	text-align: center;
+}
+#dispname {
+	line-height: 2.5em;
+}
+#descri {
+	font-size: smaller;
+}
+
+/* Classes for using with noUISlider */
+.slilib {
+	text-align:center;
+	vertical-align: bottom;
+}
+.slider {
+	width: 26.5em;
+	padding: 0 1em 0 1em;
+}
+.bslider { /* used in scenes */
+	width: 15.5em;
+	padding: 0 1em 0 1em;
+}
+.bsval {
+	width: 2em;
+}
+.noUi-background {
+	background: #dddddd url("../js/jquery-ui/images/ui-bg_highlight-soft_60_dddddd_1x100.png") 50% 50% repeat-x;
+}
+.noUi-connect {
+	border-right: 1px solid #D3D3D3;
+   background: url("../js/jquery-ui/images/ui-bg_gloss-wave_16_121212_500x100.png") repeat-x scroll 50% top #121212;
+}
+.noUi-handle {
+	border: 1px solid #CCC;
+	box-shadow: none;
+	background: url("../js/jquery-ui/images/ui-bg_highlight-soft_35_adadad_1x100.png") repeat-x scroll 50% 50% #ADADAD;
+}
+.noUi-handle::before, .noUi-handle::after {
+	background: #333;
+}
+
+/* Classes for lights details */
+#assigngrp {
+	width: auto;
+}
+#tsradio {
+	float: left;
+}
+@-moz-document url-prefix()
+{
+	#creategrp {
+		position: relative;
+		bottom: .8em;
+	}
+	#tsradio {		
+		position: relative;
+		top: .15em;
+	}
+}
+#grpassign {
+	float: right;
+}
+#dtsexec {
+	text-align: center;
+}
+
+/* Classes for minicolors */
+.minicolors-panel {
+	background-color: transparent;
+	border: none;
+}

@@ -16,4 +16,5 @@
 *.rtf	 diff=astextplain
 *.RTF	 diff=astextplain
 
-*.js linguist-vendored=false
+js/jquery-ui linguist-vendored=false
+js/jquery-minicolors-master linguist-vendored=false

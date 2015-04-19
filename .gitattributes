@@ -19,3 +19,4 @@
 # exclude external code
 js/jquery-ui/* linguist-vendored
 js/jquery-minicolors-master/* linguist-vendored
+js/nouislider/* linguist-vendored

@@ -16,5 +16,8 @@
 *.rtf	 diff=astextplain
 *.RTF	 diff=astextplain
 
-js/jquery-ui linguist-vendored=false
-js/jquery-minicolors-master linguist-vendored=false
+# exclude external code
+js/jquery-ui/* linguist-vendored
+js/jquery-minicolors-master/* linguist-vendored
+*.js linguist-vendored=false
+*.html linguist-vendored=false

@@ -18,8 +18,10 @@ username is a registered user in your hue bridge (cf http://www.developers.meeth
 * Hue API class available in 'include/hueapi.php' (see comments in file)
 * ...
 
+![screenshot](screen1_pmh.jpg)
+
 ### Licence
 MIT
 
-Include the following plugins also used with MIT licence : jquery-ui, jquery-minicolors
+Includes the following plugins also used with MIT licence : jquery-ui, jquery-minicolors
 

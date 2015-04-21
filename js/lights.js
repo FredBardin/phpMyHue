@@ -207,6 +207,7 @@ function lightsDetailAction(tabaction,xy){
 	var actionsup = "";
 	var cmdjs = "";
 	var method = "";
+	var successmsg = "";
 	var tablights = "#"+getCurrentTabsID('#tabs');
 
 	$('#sellist span').each(function(){ // Read each selected element to get info
@@ -244,6 +245,7 @@ function lightsDetailAction(tabaction,xy){
 					elemid='sg'+num;
 					$(tablights+' table label[for="'+elemid+'"]').text(name);
 				}
+				successmsg = "Name updated."
 				break;
 
 			case 'bri' :
@@ -262,14 +264,17 @@ function lightsDetailAction(tabaction,xy){
 			case 'blinkoff' :
 				action += actionsup;
 				cmdjs = '"alert":"none"';
+				successmsg = "Blink stopped."
 				break;
 			case 'colorloop' :
 				action += actionsup;
 				cmdjs = '"effect":"colorloop"';
+				successmsg = "Color Loop started."
 				break;
 			case 'colorloopoff' :
 				action += actionsup;
 				cmdjs = '"effect":"none"';
+				successmsg = "Color Loop stopped."
 				break;
 
 			case 'color' :
@@ -284,6 +289,7 @@ function lightsDetailAction(tabaction,xy){
 
 			case 'delgrp' :
 				method = '&method=DELETE';
+				successmsg = "Group "+$('#elemname').val()+" Deleted";
 				break;
 
 			default : // do nothing
@@ -297,28 +303,30 @@ function lightsDetailAction(tabaction,xy){
 			var curtype = (type);
 			var curnum = (num);
 
-			$('#msg').load('hueapi_cmd.php?action='+action+cmdjs+method, (function(){
-				switch(tabaction){
-					case 'delgrp' :	// reload lights tabs
-						$("#tabs").tabs('load',0);
-						break;
+			$.getJSON('hueapi_cmd.php?action='+action+cmdjs+method, (function(jsmsg){
+				if (processReturnMsg(jsmsg,successmsg)){
+					switch(tabaction){
+						case 'delgrp' :	// reload lights tabs
+							$("#tabs").tabs('load',0);
+							break;
 
-					case 'bri' : // reload updated lamps
-					case 'color' :
-						if (curtype == 'light'){ // only 1 light
-							$(tablights+' table a.switch[lnum='+curnum+']').load('main.php?rt=display&lnum='+curnum);
-						} else { // update group
-							var searchgroup = '';
-							var lnum = 0;
-							if (curtype != 'all'){searchgroup = ' tr.grp'+curnum;}
-							$(tablights+' table'+searchgroup+' a.switch').each(function(){
-								lnum = $(this).attr('lnum');
-								$(this).load('main.php?rt=display&lnum='+lnum);
-							});
-						}
-						break;
+						case 'bri' : // reload updated lamps
+						case 'color' :
+							if (curtype == 'light'){ // only 1 light
+								$(tablights+' table a.switch[lnum='+curnum+']').load('main.php?rt=display&lnum='+curnum);
+							} else { // update group
+								var searchgroup = '';
+								var lnum = 0;
+								if (curtype != 'all'){searchgroup = ' tr.grp'+curnum;}
+								$(tablights+' table'+searchgroup+' a.switch').each(function(){
+									lnum = $(this).attr('lnum');
+									$(this).load('main.php?rt=display&lnum='+lnum);
+								});
+							}
+							break;
+					}
 				}
-				}));
+			}));
 		}
 	});
 
@@ -326,6 +334,7 @@ function lightsDetailAction(tabaction,xy){
 	if (tabaction == 'grpassign'){
 		var valsel = $('#assigngrp').val();
 		var newgrp = $('#newgrp').val();
+		var successmsg = "Group ";
 
 		action = 'groups';
 		cmdjs = '"lights":['+cmdjs.substr(1)+']';
@@ -333,17 +342,21 @@ function lightsDetailAction(tabaction,xy){
 		if (newgrp != ""){ // Create new group with selection
 			method = '&method=POST';
 			cmdjs = '&cmdjs={"name":"'+newgrp+'",'+cmdjs+'}';
+			successmsg += newgrp+" Created.";
 		} else {          // Update lamp of selected group
 			if (valsel != 'other'){
 				action += '/'+valsel;
 				cmdjs = '&cmdjs={'+cmdjs+'}';
+				successmsg += $('#assigngrp option[value='+valsel+']').text()+" Updated.";
 			} else { // no action if no selection
 				action = '';
 			}
 		}
 		if (action != ''){
-			$('#msg').load('hueapi_cmd.php?action='+action+cmdjs+method, function(){
-				$("#tabs").tabs('load',0);
+			$.getJSON('hueapi_cmd.php?action='+action+cmdjs+method, function(jsmsg){
+				if (processReturnMsg(jsmsg,successmsg)){
+					$("#tabs").tabs('load',0);
+				}
 			});
 		}
 	}
@@ -383,26 +396,33 @@ function lightsDetailAction(tabaction,xy){
 
 					switch (typaction){ // Execture action
 						case 'cpto' : // Copy selected to targeted
-							$('#msg').load('hueapi_cmd.php?action='+actiontargeted+actionsup+'&cmdjs='+JSON.stringify(lselected),
-								function(){
+							$.getJSON('hueapi_cmd.php?action='+actiontargeted+actionsup+'&cmdjs='+JSON.stringify(lselected),
+								function(jsmsg){
+									if (processReturnMsg(jsmsg)){
 										$(tablights+' a.switch[lnum='+valtarget+']').load('main.php?rt=display&lnum='+valtarget);
+									}
 							});
 							break;
 						case 'cpfrom' : // Copy targeted to selected
-							$('#msg').load('hueapi_cmd.php?action='+actionselected+actionsup+'&cmdjs='+JSON.stringify(ltargeted),
-								function(){
+							$.getJSON('hueapi_cmd.php?action='+actionselected+actionsup+'&cmdjs='+JSON.stringify(ltargeted),
+								function(jsmsg){
+									if (processReturnMsg(jsmsg)){
 										$(tablights+' a.switch[lnum='+num+']').load('main.php?rt=display&lnum='+num);
+									}
 							});
 							break;
 						case 'swwith' : // Switch selected with targeted = copy to + copy from
-							jQuery.get('hueapi_cmd.php?action='+actiontargeted+actionsup+'&cmdjs='+JSON.stringify(lselected),
+							$.getJSON('hueapi_cmd.php?action='+actiontargeted+actionsup+'&cmdjs='+JSON.stringify(lselected),
 								function(ret1){
-									jQuery.get('hueapi_cmd.php?action='+actionselected+actionsup+'&cmdjs='+JSON.stringify(ltargeted),
-										function(ret2){
-											$('#msg').html(JSON.stringify(ret1)+'<BR>'+JSON.stringify(ret2));
-											$(tablights+' a.switch[lnum='+valtarget+']').load('main.php?rt=display&lnum='+valtarget);
-											$(tablights+' a.switch[lnum='+num+']').load('main.php?rt=display&lnum='+num);
-									});
+									if (processReturnMsg(ret1)){
+										$.getJSON('hueapi_cmd.php?action='+actionselected+actionsup+'&cmdjs='+JSON.stringify(ltargeted),
+											function(ret2){
+												$(tablights+' a.switch[lnum='+valtarget+']').load('main.php?rt=display&lnum='+valtarget);
+												if (processReturnMsg(ret2)){
+													$(tablights+' a.switch[lnum='+num+']').load('main.php?rt=display&lnum='+num);
+												}
+										});
+									}
 							});
 							break
 					}

@@ -62,6 +62,9 @@ input[type=checkbox]:checked {
 	font-weight: bold;
 	text-align: left;
 }
+.error {
+	color: red;
+}
 
 /* Title */
 #title {

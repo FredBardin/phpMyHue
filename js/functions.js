@@ -147,13 +147,42 @@ $(window).resize(function(){
 
 //----------------------------------------
 // Display message
+// parameter err = true if error message
 //----------------------------------------
-function msg(msg){
+function msg(msg,err){
+	err = err || false;
 	var msgdiv = '#msg';
-	$(msgdiv).fadeOut('fast');
-	$(msgdiv).html(msg);
-	$(msgdiv).fadeIn(50);
-}
+
+	if (err){$(msgdiv).addClass('error');}
+	else    {$(msgdiv).removeClass('error');}
+	$(msgdiv).text(msg);
+	$(msgdiv).fadeIn('fast');
+	$(msgdiv).fadeOut(5000, function(){
+		$(msgdiv).text('');
+		$(msgdiv).fadeIn('fast');
+	});
+} // msg
+
+//----------------------------------------
+// Process Return message send by bridge
+// Paremeters : 
+// - retmsg = json message returned by the bridge
+// - successmsg = if supplied, message to display for sucessful command
+// Return : true/false if succes/error
+// display the result in msg box
+//----------------------------------------
+function processReturnMsg(retmsg,successmsg){
+	sucessmsg = successmsg || '';
+	var result = true;
+
+	if (retmsg[0].error){
+		result = false;
+		msg('ERROR : '+retmsg[0].error.description, true);
+	} else {
+		msg(successmsg);
+	}
+	return result;
+} // processReturnMsg
 
 //----------------------------------------
 // Get ID of a current jquery-ui tabs content
@@ -280,6 +309,7 @@ function lightsList(listtab,prefid){
 			// Uncheck lights if group not checked
 			if (! $(listtab+' tbody input.selgroup[grp="'+gnum+'"]').prop('checked')){
 				$(listtab+' tbody input.sellight[grp="'+gnum+'"]').prop('checked',false);
+				$(listtab+' tbody tr.grp'+gnum+' td.sellight').removeClass('ui-state-focus');
 				if (prefid == ""){loadSelectedLightsDetail(listtab);}
 			}
 		} else {
@@ -319,8 +349,10 @@ function lightsList(listtab,prefid){
 			var action = 'lights/'+lnum+'/state';
 			var cmdjs = '&cmdjs={"bri":'+val+'}'; 
 			var curlnum = (lnum);
-			$('#msg').load('hueapi_cmd.php?action='+action+cmdjs, (function(){
-				$(listtab+' a.switch[lnum='+curlnum+']').load('main.php?rt=display&lnum='+curlnum);
+			$.getJSON('hueapi_cmd.php?action='+action+cmdjs, (function(jsmsg){
+				if (processReturnMsg(jsmsg)){
+					$(listtab+' a.switch[lnum='+curlnum+']').load('main.php?rt=display&lnum='+curlnum);
+				}
 			}));
 		}
 	});	

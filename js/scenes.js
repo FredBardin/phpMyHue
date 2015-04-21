@@ -29,8 +29,10 @@ function scenesTab(){
 		cbspan.addClass('ui-icon-arrow-1-e');
 		var sceneid = $(this).attr('id');
 		$('#detail').attr('sceneid',sceneid);
-		$('#msg').load('hueapi_cmd.php?action=groups/0/action&cmdjs={"scene":"'+sceneid+'"}', function(){
-			loadScenesDetail(sceneid);
+		$.getJSON('hueapi_cmd.php?action=groups/0/action&cmdjs={"scene":"'+sceneid+'"}', function(jsmsg){
+			if (processReturnMsg(jsmsg)){
+				loadScenesDetail(sceneid);
+			}
 		});
 
 	});
@@ -166,16 +168,23 @@ function saveScene(sceneid){
 			var cmdjs = '{"name":"'+encodeURIComponent(scname)+'","lights":['+lights_enum+']}';
 
 			// Send update
-			$('#msg').load('hueapi_cmd.php?action=scenes/'+sceneid+'&cmdjs='+cmdjs, function(){
-				if (newscene){ // reload whole scene tab
-					$("#tabs").tabs('load',1);
-				} else { // Update scene list
-					$(tabscene+' table .sname label[for='+sceneid+']').text(scname);
-					$(tabscene+' table label[for='+sceneid+'] span').text(nblights);
+			$.getJSON('hueapi_cmd.php?action=scenes/'+sceneid+'&cmdjs='+cmdjs, function(jsmsg){
+				var msg = "Scene "+sceneid+" with name '"+scname+"' ";
+				if (newscene){msg += "Created.";}
+				else         {msg += "Updated.";}
+				if (processReturnMsg(jsmsg,msg)){
+					if (newscene){ // reload whole scene tab
+						$("#tabs").tabs('load',1);
+					} else { // Update scene list
+						$(tabscene+' table .sname label[for='+sceneid+']').text(scname);
+						$(tabscene+' table label[for='+sceneid+'] span').text(nblights);
+					}
 				}
 			});
 		} else {
-			msg('No light selected for scene.');
+			msg('No light selected for scene.',true);
 		}
+	} else {
+		msg('Scene name empty.',true);
 	}
 } // saveScene

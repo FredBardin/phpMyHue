@@ -1,8 +1,8 @@
 <?php
 //===========================================
-// Send cmd to hue api
+// Send cmd to hue api as web service
 //
-// Remark : there's a trick about action for lamps that aren't in a group
+// Remark : there's a trick about action for lamps that aren't in a group,
 // action is set to 'other' to select this virtual group of lamp
 //
 // Return in json format :

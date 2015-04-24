@@ -17,12 +17,12 @@ define('ANTI_HACK', true);
 <LINK REL="stylesheet" TYPE="text/css" HREF="js/jquery-ui/jquery-ui.min.css">
 <LINK REL="stylesheet" TYPE="text/css" HREF="js/nouislider/jquery.nouislider.min.css">
 <LINK REL="stylesheet" TYPE="text/css" HREF="js/nouislider/jquery.nouislider.pips.min.css">
-<LINK REL="stylesheet" TYPE="text/css" HREF="js/jquery-minicolors-master/jquery.minicolors.css">
+<LINK REL="stylesheet" TYPE="text/css" HREF="js/jquery-minicolors/jquery.minicolors.css">
 <LINK REL="stylesheet" TYPE="text/css" HREF="themes/style.css">
 <SCRIPT TYPE="text/javascript" SRC="js/jquery-ui/external/jquery/jquery.js"></SCRIPT>
 <SCRIPT TYPE="text/javascript" SRC="js/jquery-ui/jquery-ui.min.js"></SCRIPT>
 <SCRIPT TYPE="text/javascript" SRC="js/nouislider/jquery.nouislider.all.min.js"></SCRIPT>
-<SCRIPT TYPE="text/javascript" SRC="js/jquery-minicolors-master/jquery.minicolors.js"></SCRIPT>
+<SCRIPT TYPE="text/javascript" SRC="js/jquery-minicolors/jquery.minicolors.js"></SCRIPT>
 <SCRIPT TYPE="text/javascript" SRC="js/functions.js"></SCRIPT>
 <BODY>
 <DIV ID=msg></DIV>

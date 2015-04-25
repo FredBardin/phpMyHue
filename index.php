@@ -26,7 +26,7 @@ define('ANTI_HACK', true);
 <SCRIPT TYPE="text/javascript" SRC="js/functions.js"></SCRIPT>
 <BODY>
 <DIV ID=msg></DIV>
-<DIV ID=title><DIV CLASS=titre>phpMy<IMG src="img/hue.png"></DIV></DIV>
+<DIV ID=title><DIV CLASS=titre>ZphpMy<IMG src="img/hue.png"></DIV></DIV>
 <DIV ID=page>
 
 <!-- left pane -->

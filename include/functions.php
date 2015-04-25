@@ -18,9 +18,8 @@ function display_bri_slider($id,$gnum,$lnum=""){
 	echo "<TD CLASS=bslider>";
 	echo "<DIV ID=$id CLASS=brislider gnum=$gnum";
 	if ($lnum != ""){echo " lnum=$lnum";}
-	echo "></DIV></TD>";
-	echo "<TD>";
-	echo "<DIV ID=".$id."_val CLASS=bsval></DIV>";
+	echo "></DIV>";
+	echo "<TD><DIV ID=".$id."_val CLASS=bsval></DIV>";
 } // display_bri_slider
 
 // -------------------------------------------------------------

@@ -12,7 +12,7 @@ define('ANTI_HACK', true);
 <HTML>
 <HEAD>
 <META HTTP-EQUIV="Content-Type" CONTENT="text/html; charset=UTF-8" />
-<TITLE>phpMyHue</TITLE>
+<TITLE>phpMyHue DEV</TITLE>
 </HEAD>
 <LINK REL="stylesheet" TYPE="text/css" HREF="js/jquery-ui/jquery-ui.min.css">
 <LINK REL="stylesheet" TYPE="text/css" HREF="js/nouislider/jquery.nouislider.min.css">
@@ -26,7 +26,7 @@ define('ANTI_HACK', true);
 <SCRIPT TYPE="text/javascript" SRC="js/functions.js"></SCRIPT>
 <BODY>
 <DIV ID=msg></DIV>
-<DIV ID=title><DIV CLASS=titre>ZphpMy<IMG src="img/hue.png"></DIV></DIV>
+<DIV ID=title><DIV CLASS=titre>phpMy<IMG src="img/hue.png"></DIV></DIV>
 <DIV ID=page>
 
 <!-- left pane -->

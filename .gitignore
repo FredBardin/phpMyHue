@@ -20,6 +20,7 @@ $RECYCLE.BIN/
 # other
 *.zip
 *.txt
+*.swp
 include/config.php
 jquery-ui_FULL
 

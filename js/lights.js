@@ -59,7 +59,7 @@ function loadSelectedLightsDetail(tablights){
 				return false;
 
 			} else {
-				var grp = $(this).attr('grp');
+				var gnum = $(this).attr('gnum');
 				name = $(tablights+' table label[for='+elemid+']').text();
 
 				if ($(this).attr('class') == 'selgroup'){ // Group
@@ -242,8 +242,7 @@ function lightsDetailAction(tabaction,xy){
 				if (type == 'light'){
 					$(tablights+' table label[lnum='+num+']').text(name);
 				} else {
-					elemid='sg'+num;
-					$(tablights+' table label[for='+elemid+']').text(name);
+					$(tablights+' table label[gnum='+num+']').text(name);
 				}
 				successmsg = "Name updated."
 				break;

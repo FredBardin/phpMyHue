@@ -219,11 +219,11 @@ function lightsList(listtab,prefid){
 
 	// Switch a group
 	$(listtab+' button.gron').click(function(){
-		var gnum = $(this).attr('grp');
+		var gnum = $(this).attr('gnum');
 		switchGroup(listtab,gnum,'on');
 	});
 	$(listtab+' button.groff').click(function(){
-		var gnum = $(this).attr('grp');
+		var gnum = $(this).attr('gnum');
 		switchGroup(listtab,gnum,'off');
 	});
 
@@ -254,19 +254,19 @@ function lightsList(listtab,prefid){
 	// Select group
 	$(listtab+' tbody input.selgroup').change(function() {
 		id=$(this).attr('id');
-		var gnum = $(this).attr('grp');
+		var gnum = $(this).attr('gnum');
 		$('#'+prefid+'cbsg'+gnum).toggleClass('cbchecked');
 
 		if ($(this).prop('checked')){
 			$(listtab+' tbody td.label[gnum='+gnum+']').addClass('ui-state-focus');
-			$(listtab+' tbody input.sellight[grp='+gnum+']').prop('checked',true);
-			$(listtab+' tbody input.sellight[grp='+gnum+']').parent('span').addClass('cbchecked');
-			$(listtab+' tbody tr.grp'+gnum+' td.sellight').addClass('ui-state-focus');
+			$(listtab+' tbody input.sellight[gnum='+gnum+']').prop('checked',true);
+			$(listtab+' tbody input.sellight[gnum='+gnum+']').parent('span').addClass('cbchecked');
+			$(listtab+' tbody tr.gnum'+gnum+' td.sellight').addClass('ui-state-focus');
 		} else { // unckecked lamp + all
 			$(listtab+' tbody td.label[gnum='+gnum+']').removeClass('ui-state-focus');
-			$(listtab+' tbody input.sellight[grp='+gnum+']').prop('checked',false);
-			$(listtab+' tbody input.sellight[grp='+gnum+']').parent('span').removeClass('cbchecked');
-			$(listtab+' tbody tr.grp'+gnum+' td.sellight').removeClass('ui-state-focus');
+			$(listtab+' tbody input.sellight[gnum='+gnum+']').prop('checked',false);
+			$(listtab+' tbody input.sellight[gnum='+gnum+']').parent('span').removeClass('cbchecked');
+			$(listtab+' tbody tr.gnum'+gnum+' td.sellight').removeClass('ui-state-focus');
 			$('#'+prefid+'selall').prop('checked',false);
 			$('#'+prefid+'cbselall').removeClass('cbchecked');
 			$('#'+prefid+'cbselall').parent('td').parent('tr').children('td.label').removeClass('ui-state-focus');
@@ -279,7 +279,7 @@ function lightsList(listtab,prefid){
 	$(listtab+' tbody input.sellight').change(function() {
 		id=$(this).attr('id');
 		var lnum = $(this).attr('lnum');
-		var gnum = $(this).attr('grp');
+		var gnum = $(this).attr('gnum');
 		$('#'+prefid+'cb'+gnum+'_'+lnum).toggleClass('cbchecked');
 		if ($(this).prop('checked')){
 			$(listtab+' tbody input.sellight[lnum='+lnum+']').prop('checked',true);
@@ -289,8 +289,8 @@ function lightsList(listtab,prefid){
 			$(listtab+' tbody input.sellight[lnum='+lnum+']').prop('checked',false);
 			$(listtab+' tbody input.sellight[lnum='+lnum+']').parent('span').removeClass('cbchecked');
 			$(listtab+' tbody td.sellight[lnum='+lnum+']').removeClass('ui-state-focus');
-			$(listtab+' tbody input.selgroup[grp='+gnum+']').prop('checked',false);
-			$(listtab+' tbody input.selgroup[grp='+gnum+']').parent('span').removeClass('cbchecked');
+			$(listtab+' tbody input.selgroup[gnum='+gnum+']').prop('checked',false);
+			$(listtab+' tbody input.selgroup[gnum='+gnum+']').parent('span').removeClass('cbchecked');
 			$(listtab+' tbody td.label[gnum='+gnum+']').removeClass('ui-state-focus');
 			$('#'+prefid+'selall').prop('checked',false);
 			$('#'+prefid+'cbselall').removeClass('cbchecked');
@@ -301,14 +301,14 @@ function lightsList(listtab,prefid){
 	
 	// Collapse/Extend group
 	$(listtab+' span.grp').click(function(){
-		var gnum = $(this).attr('grp');
+		var gnum = $(this).attr('gnum');
 		if ($(this).attr('open')){
 			$(listtab+' tbody tr.grp'+gnum).hide(300);
 			$(this).switchClass('ui-icon-circle-minus','ui-icon-circle-plus',0);
 			$(this).removeAttr('open');
 			// Uncheck lights if group not checked
-			if (! $(listtab+' tbody input.selgroup[grp="'+gnum+'"]').prop('checked')){
-				$(listtab+' tbody input.sellight[grp="'+gnum+'"]').prop('checked',false);
+			if (! $(listtab+' tbody input.selgroup[gnum="'+gnum+'"]').prop('checked')){
+				$(listtab+' tbody input.sellight[gnum="'+gnum+'"]').prop('checked',false);
 				$(listtab+' tbody tr.grp'+gnum+' td.sellight').removeClass('ui-state-focus');
 				if (prefid == ""){loadSelectedLightsDetail(listtab);}
 			}

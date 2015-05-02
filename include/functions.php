@@ -34,7 +34,7 @@ function display_lg_checkbox($prefid, $id, $class="", $gnum="", $lnum=""){
 	if ($class != ""){
 		echo " CLASS=\"$class\"";
 		if ($gnum != ""){
-			echo " grp=$gnum";
+			echo " gnum=$gnum";
 			if ($lnum != ""){echo " lnum=$lnum";}
 		}
 	}
@@ -97,7 +97,7 @@ function display_lights_groups($prefid="",$cbpos="E",$brislider=false){
 		echo "<TD><SPAN CLASS=\"grp ui-icon ui-icon-circle-minus\" grp=$gnum open></SPAN>";
 		if ($cbpos == "B"){display_lg_checkbox($prefid, "sg$gnum", "selgroup", $gnum);}
 		echo "<TD CLASS=\"label selgrp\" gnum=$gnum><LABEL FOR=".$prefid."cb_$gnum>".$gval['name']."</LABEL>";
-		echo "<TD><BUTTON CLASS=gron grp=$gnum>On</BUTTON><BUTTON CLASS=groff grp=$gnum>Off</BUTTON>";
+		echo "<TD><BUTTON CLASS=gron gnum=$gnum>On</BUTTON><BUTTON CLASS=groff gnum=$gnum>Off</BUTTON>";
 		if ($cbpos == "E"){display_lg_checkbox($prefid, $gnum, "selgroup", $gnum);}
 		if ($brislider){display_bri_slider($prefid,$gnum,$gnum);}
 		foreach ($gval['lights'] as $internal => $lnum){display_light_row($prefid,$lnum,$gnum,$cbpos,$brislider);}

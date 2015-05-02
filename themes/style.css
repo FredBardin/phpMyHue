@@ -102,7 +102,7 @@ span.grp{
 .radio:hover, label:hover {
 	color: #f29a00;
 }
-.label, .ui-state-focus.label, .sname {
+.selall, .ui-state-focus.selall, .selgrp, .ui-state-focus.selgrp, .sname {
 	font-weight: bold;
 	cursor:pointer;
 }

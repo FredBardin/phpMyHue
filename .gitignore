@@ -18,11 +18,13 @@ $RECYCLE.BIN/
 *.lnk
 
 # other
+.gitignore
 *.zip
 *.txt
 *.swp
 include/config.php
 jquery-ui_FULL
+
 
 # =========================
 # Operating System Files

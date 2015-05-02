@@ -18,6 +18,7 @@ $RECYCLE.BIN/
 *.lnk
 
 # other
+.gitignore
 *.zip
 *.txt
 *.swp

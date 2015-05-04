@@ -60,13 +60,13 @@ function display_light_row($prefid,$lnum,$gnum,$cbpos="E",$brislider=false){
 	// Display icon+name
 	echo "<TR CLASS=\"light grp$gnum\" lnum=$lnum gnum=$gnum>";
 	echo "<TD>";
-	if ($cbpos == "B"){display_lg_checkbox($prefid, $lid, "sellight", $gnum, $lnum);}
+	if ($cbpos == "B"){display_lg_checkbox($prefid, $lid, "light", $gnum, $lnum);}
 	echo "<TD>";
 	if (! $unreachable){echo "<A HREF=lights CLASS=switch lnum=$lnum>";}
 	display_light($lnum);
 	if (! $unreachable){echo "</A>";}
-	echo "<TD CLASS=\"label sellight\" lnum=$lnum><LABEL FOR=".$prefid."cb_$lid lnum=$lnum>".$HueAPI->info['lights'][$lnum]['name']."</LABEL>";
-	if ($cbpos == "E"){display_lg_checkbox($prefid, $lid, "sellight", $gnum, $lnum);}
+	echo "<TD CLASS=\"label light\"><LABEL FOR=".$prefid."cb_$lid>".$HueAPI->info['lights'][$lnum]['name']."</LABEL>";
+	if ($cbpos == "E"){display_lg_checkbox($prefid, $lid, "light", $gnum, $lnum);}
 	if ($brislider){display_bri_slider($prefid,$lid,$gnum,$lnum);}
 } // display_light_row
 
@@ -86,30 +86,30 @@ function display_lights_groups($prefid="",$cbpos="E",$brislider=false){
 	echo "<TR>";
 	echo "<TD>";
 	if ($cbpos == "B"){display_lg_checkbox($prefid,"all");}
-	echo "<TD CLASS=\"label selall\"><LABEL FOR=".$prefid."cb_all>All</LABEL>";
-	echo "<TD><BUTTON CLASS=allon>On</BUTTON><BUTTON CLASS=alloff>Off</BUTTON>";
+	echo "<TD CLASS=\"label all\"><LABEL FOR=".$prefid."cb_all>All</LABEL>";
+	echo "<TD><BUTTON ID=".$prefid."allon>On</BUTTON><BUTTON ID=".$prefid."alloff>Off</BUTTON>";
 	if ($cbpos == "E"){display_lg_checkbox($prefid,"all");}
 	if ($brislider){display_bri_slider($prefid,"all","all");}
 
 	echo "<TBODY>";
 	foreach ($HueAPI->info['groups'] as $gnum => $gval){ // Existing groups
 		echo "<TR CLASS=grp gnum=$gnum>";
-		echo "<TD><SPAN CLASS=\"grp ui-icon ui-icon-circle-minus\" grp=$gnum open></SPAN>";
-		if ($cbpos == "B"){display_lg_checkbox($prefid, "sg$gnum", "selgroup", $gnum);}
-		echo "<TD CLASS=\"label selgrp\" gnum=$gnum><LABEL FOR=".$prefid."cb_$gnum>".$gval['name']."</LABEL>";
+		echo "<TD><SPAN CLASS=\"grp ui-icon ui-icon-circle-minus\" gnum=$gnum open></SPAN>";
+		if ($cbpos == "B"){display_lg_checkbox($prefid, "$gnum", "grp", $gnum);}
+		echo "<TD CLASS=\"label grp\"><LABEL FOR=".$prefid."cb_$gnum>".$gval['name']."</LABEL>";
 		echo "<TD><BUTTON CLASS=gron gnum=$gnum>On</BUTTON><BUTTON CLASS=groff gnum=$gnum>Off</BUTTON>";
-		if ($cbpos == "E"){display_lg_checkbox($prefid, $gnum, "selgroup", $gnum);}
+		if ($cbpos == "E"){display_lg_checkbox($prefid, $gnum, "grp", $gnum);}
 		if ($brislider){display_bri_slider($prefid,$gnum,$gnum);}
 		foreach ($gval['lights'] as $internal => $lnum){display_light_row($prefid,$lnum,$gnum,$cbpos,$brislider);}
 	}
 
 	// Lamps without group
 	echo "<TR CLASS=grp gnum=other>";
-	echo "<TD><SPAN CLASS=\"grp ui-icon ui-icon-circle-minus\" grp=other open></SPAN>";
-	if ($cbpos == "B"){display_lg_checkbox($prefid, "other", "selgroup", "other");}
-	echo "<TD CLASS=\"label selgrp\" gnum=other><LABEL FOR=".$prefid."cb_other>Lamps</LABEL>";
-	echo "<TD><BUTTON CLASS=otheron>On</BUTTON><BUTTON CLASS=otheroff>Off</BUTTON>";
-	if ($cbpos == "E"){display_lg_checkbox($prefid, "other", "selgroup", "other");}
+	echo "<TD><SPAN CLASS=\"grp ui-icon ui-icon-circle-minus\" gnum=other open></SPAN>";
+	if ($cbpos == "B"){display_lg_checkbox($prefid, "other", "grp", "other");}
+	echo "<TD CLASS=\"label grp\"><LABEL FOR=".$prefid."cb_other>Lamps</LABEL>";
+	echo "<TD><BUTTON ID=".$prefid."otheron>On</BUTTON><BUTTON ID=".$prefid."otheroff>Off</BUTTON>";
+	if ($cbpos == "E"){display_lg_checkbox($prefid, "other", "grp", "other");}
 	if ($brislider){display_bri_slider($prefid,"other","other");}
 	foreach ($HueAPI->info['lights'] as $lnum => $lval){if (! isset($lval['grp'])){display_light_row($prefid,$lnum,"other",$cbpos,$brislider);}}
 	echo "</DIV>";

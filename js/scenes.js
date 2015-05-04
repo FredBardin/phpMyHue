@@ -93,12 +93,12 @@ function loadScenesDetail(sceneid){
 
 		$(tabdetail+' table input[type=checkbox]').prop('checked',false);
 		$(tabdetail+' table input[type=checkbox]').parent('span').removeClass('cbchecked');
-		$(tabdetail+' label').parent('td').removeClass('ui-state-focus');
+		$(tabdetail+' td.label').removeClass('ui-state-focus');
 
 		jQuery.each(info[sceneid].lights, function(num, lnum){
-			$(tabdetail+' table input[type=checkbox][lnum='+lnum+']').prop('checked',true);
-			$(tabdetail+' table input[type=checkbox][lnum='+lnum+']').parent('span').addClass('cbchecked');
-			$(tabdetail+' tbody td.sellight[lnum='+lnum+']').addClass('ui-state-focus');
+			$(tabdetail+' tbody tr.light[lnum='+lnum+'] input.light').prop('checked',true);
+			$(tabdetail+' tbody tr.light[lnum='+lnum+'] input.light').parent('span').addClass('cbchecked');
+			$(tabdetail+' tbody tr.light[lnum='+lnum+'] td.label').addClass('ui-state-focus');
 
 			// Re-display colors
 			setTimeout(function(){$(tabdetail+' a.switch[lnum='+lnum+']').load('main.php?rt=display&lnum='+lnum);
@@ -156,7 +156,7 @@ function saveScene(sceneid){
 		// Search for selected lights
 		var lights_enum = "";
 		var nblights = 0;
-		$(tabdetail+' table input[type=checkbox][lnum]').each(function(){
+		$(tabdetail+' tbody input.light').each(function(){
 			if ($(this).prop('checked')){
 				if (nblights > 0){lights_enum += ",";}
 				lights_enum += '"'+$(this).attr('lnum')+'"';

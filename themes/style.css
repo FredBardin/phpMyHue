@@ -94,7 +94,7 @@ span.grp{
 }
 
 /* Table label, scene name */
-.ui-state-focus.radio, .ui-state-focus.label, .ui-state-focus.sellight {
+.ui-state-focus.radio, .ui-state-focus.label {
 	background: transparent;
 	border: 0;
 	color: #f29a00;
@@ -102,7 +102,7 @@ span.grp{
 .radio:hover, label:hover {
 	color: #f29a00;
 }
-.selall, .ui-state-focus.selall, .selgrp, .ui-state-focus.selgrp, .sname {
+.all, .ui-state-focus.all, .grp, .ui-state-focus.grp, .sname {
 	font-weight: bold;
 	cursor:pointer;
 }

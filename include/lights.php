@@ -21,7 +21,7 @@ display_lights_groups();
 ?>
 <SCRIPT TYPE="text/javascript" SRC="js/lights.js"></SCRIPT>
 <SCRIPT language="javascript">
-$('#tabs button.allon, #tabs button.alloff, #tabs button.gron, #tabs button.groff, #tabs button.otheron, #tabs button.otheroff').button();
+$('#allon, #alloff, #tabs button.gron, #tabs button.groff, #otheron, #otheroff').button();
 lightsTab(); // keep in last position after object initialization
 </SCRIPT>
 

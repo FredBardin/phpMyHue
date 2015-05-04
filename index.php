@@ -12,7 +12,7 @@ define('ANTI_HACK', true);
 <HTML>
 <HEAD>
 <META HTTP-EQUIV="Content-Type" CONTENT="text/html; charset=UTF-8" />
-<TITLE>phpMyHue DEV</TITLE>
+<TITLE>phpMyHue</TITLE>
 </HEAD>
 <LINK REL="stylesheet" TYPE="text/css" HREF="js/jquery-ui/jquery-ui.min.css">
 <LINK REL="stylesheet" TYPE="text/css" HREF="js/nouislider/jquery.nouislider.min.css">

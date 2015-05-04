@@ -43,14 +43,14 @@ function loadSelectedLightsDetail(tablights){
 
 
 	// Select all checkboxes
-	$(tablights+' table input[type="checkbox"]').each(function(){
+	$(tablights+' table input[type=checkbox]').each(function(){
 		if ($(this).prop('checked')){
 			var elemid = $(this).attr('id');		
 			var num = "";
 			var name = "";
 
 			// Identify the row type and construct the selectio string
-			if (elemid == 'selall'){ // ALL
+			if (elemid == 'cb_all'){ // ALL
 				selstring = ', <SPAN type=all>All lamps</SPAN>';
 				selcount++;
 				lamponly = false;
@@ -59,11 +59,10 @@ function loadSelectedLightsDetail(tablights){
 				return false;
 
 			} else {
-				var grp = $(this).attr('grp');
-				name = $(tablights+' table label[for="'+elemid+'"]').text();
 
-				if ($(this).attr('class') == 'selgroup'){ // Group
-					num = elemid.substr(2);
+				if ($(this).attr('class') == 'grp'){ // Group
+					num = $(this).attr('gnum');
+					name = $(tablights+' tbody tr.grp[gnum='+num+'] td.label').text();
 					lamponly = false;
 					recordlight = false; // unallow light recording until the next group is reached
 					selstring += ', <SPAN type=group num='+num+'>group "'+name+'"</SPAN>';
@@ -76,6 +75,7 @@ function loadSelectedLightsDetail(tablights){
 				} else { // Light
 					if (recordlight){ // if current group not selected : record light
 						num = $(this).attr('lnum'); 
+						name = $(tablights+' tbody tr.grp'+$(this).attr('gnum')+'[lnum='+num+'] td.label').text();
 
 						// Check if lamp numid not already selected
 						var notsel = true;
@@ -101,7 +101,7 @@ function loadSelectedLightsDetail(tablights){
 				}
 			}
 		} else { // if group, authorize lights recording
-			if ($(this).attr('class') == 'selgroup'){recordlight = true;} 
+			if ($(this).attr('class') == 'grp'){recordlight = true;} 
 		}
 	});
 
@@ -240,10 +240,9 @@ function lightsDetailAction(tabaction,xy){
 
 				// Update name in tab lights (!! update occurs regardless of possible error)
 				if (type == 'light'){
-					$(tablights+' table label[lnum="'+num+'"]').text(name);
+					$(tablights+' table label[lnum='+num+']').text(name);
 				} else {
-					elemid='sg'+num;
-					$(tablights+' table label[for="'+elemid+'"]').text(name);
+					$(tablights+' table label[gnum='+num+']').text(name);
 				}
 				successmsg = "Name updated."
 				break;
@@ -476,7 +475,7 @@ function UpdateColorOnBriUpdate(){
 	var hexrgb = $('#colorpicker').val();
 
 	// Search checked lights, count them and store last lnum found
-	$(tablights+' table input[type="checkbox"][lnum]').each(function(){
+	$(tablights+' table tbody input.light').each(function(){
 		if ($(this).prop('checked')){
 			lnum = $(this).attr('lnum');
 			if ($(tablights+' table a.switch[lnum='+lnum+'] .swon').length){

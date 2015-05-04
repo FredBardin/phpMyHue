@@ -210,106 +210,105 @@ function lightsList(listtab,prefid){
 	});
 
 	// Switch all
-	$(listtab+' button.allon').click(function(){
+	$('#'+prefid+'allon').click(function(){
 		switchGroup(listtab,'0','on');
 	});
-	$(listtab+' button.alloff').click(function(){
+	$('#'+prefid+'alloff').click(function(){
 		switchGroup(listtab,'0','off');
 	});
 
 	// Switch a group
 	$(listtab+' button.gron').click(function(){
-		var gnum = $(this).attr('grp');
+		var gnum = $(this).attr('gnum');
 		switchGroup(listtab,gnum,'on');
 	});
 	$(listtab+' button.groff').click(function(){
-		var gnum = $(this).attr('grp');
+		var gnum = $(this).attr('gnum');
 		switchGroup(listtab,gnum,'off');
 	});
 
 	// Switch lamps without group
-	$(listtab+' button.otheron').click(function(){
+	$('#'+prefid+'otheron').click(function(){
 		switchGroup(listtab,'other','on');
 	});
-	$(listtab+' button.otheroff').click(function(){
+	$('#'+prefid+'otheroff').click(function(){
 		// reload current tab
 		switchGroup(listtab,'other','off');
 	});
 
 	// Select all
-	$('#'+prefid+'selall').change(function() {
-		$('#'+prefid+'cbselall').toggleClass('cbchecked');
+	$('#'+prefid+'cb_all').change(function() {
+		$('#'+prefid+'s_all').toggleClass('cbchecked');
 		if ($(this).prop('checked')){
 			$(listtab+' tbody input[type="checkbox"]').prop('checked',true);
 			$(listtab+' tbody input[type="checkbox"]').parent('span').addClass('cbchecked');
-			$(listtab+' label').parent('td').addClass('ui-state-focus');
+			$(listtab+' td.label').addClass('ui-state-focus');
 		} else {
 			$(listtab+' tbody input[type="checkbox"]').prop('checked',false);
-			$(listtab+' tbody input[type="checkbox"]').parent('span').removeClass('cbchecked');
-			$(listtab+' label').parent('td').removeClass('ui-state-focus');
+			$(listtab+' td.label').removeClass('ui-state-focus');
 		}
 		if (prefid == ""){loadSelectedLightsDetail(listtab);}
 	});
 
 	// Select group
-	$(listtab+' tbody input.selgroup').change(function() {
+	$(listtab+' tbody input.grp').change(function() {
 		id=$(this).attr('id');
-		var gnum = $(this).attr('grp');
-		$('#'+prefid+'cbsg'+gnum).toggleClass('cbchecked');
+		var gnum = $(this).attr('gnum');
+		$('#'+prefid+'s_'+gnum).toggleClass('cbchecked');
 
 		if ($(this).prop('checked')){
-			$(listtab+' tbody td.label[gnum='+gnum+']').addClass('ui-state-focus');
-			$(listtab+' tbody input.sellight[grp='+gnum+']').prop('checked',true);
-			$(listtab+' tbody input.sellight[grp='+gnum+']').parent('span').addClass('cbchecked');
-			$(listtab+' tbody tr.grp'+gnum+' td.sellight').addClass('ui-state-focus');
+			$(listtab+' tbody tr.grp[gnum='+gnum+'] td.label').addClass('ui-state-focus');
+			$(listtab+' tbody tr.grp'+gnum+' input.light').prop('checked',true);
+			$(listtab+' tbody tr.grp'+gnum+' input.light').parent('span').addClass('cbchecked');
+			$(listtab+' tbody tr.grp'+gnum+' td.label').addClass('ui-state-focus');
 		} else { // unckecked lamp + all
-			$(listtab+' tbody td.label[gnum='+gnum+']').removeClass('ui-state-focus');
-			$(listtab+' tbody input.sellight[grp='+gnum+']').prop('checked',false);
-			$(listtab+' tbody input.sellight[grp='+gnum+']').parent('span').removeClass('cbchecked');
-			$(listtab+' tbody tr.grp'+gnum+' td.sellight').removeClass('ui-state-focus');
-			$('#'+prefid+'selall').prop('checked',false);
-			$('#'+prefid+'cbselall').removeClass('cbchecked');
-			$('#'+prefid+'cbselall').parent('td').parent('tr').children('td.label').removeClass('ui-state-focus');
+			$(listtab+' tbody tr.grp[gnum='+gnum+'] td.label').removeClass('ui-state-focus');
+			$(listtab+' tbody tr.grp'+gnum+' input.light').prop('checked',false);
+			$(listtab+' tbody tr.grp'+gnum+' td.label').removeClass('ui-state-focus');
+			$('#'+prefid+'cb_all').prop('checked',false);
+			$('#'+prefid+'s_all').removeClass('cbchecked');
+			$(listtab+' thead td.label').removeClass('ui-state-focus');
 		}
 		if (prefid == ""){loadSelectedLightsDetail(listtab)};
 	});
 
 	// Uncheck all and group if a lamp is unchecked
 	// + check/uncheck all line for the same lamp (if it belongs to several groups)
-	$(listtab+' tbody input.sellight').change(function() {
+	$(listtab+' tbody input.light').change(function() {
 		id=$(this).attr('id');
 		var lnum = $(this).attr('lnum');
-		var gnum = $(this).attr('grp');
-		$('#'+prefid+'cb'+gnum+'_'+lnum).toggleClass('cbchecked');
+		var gnum = $(this).attr('gnum');
+		$('#'+prefid+'s_'+gnum+'_'+lnum).toggleClass('cbchecked');
 		if ($(this).prop('checked')){
-			$(listtab+' tbody input.sellight[lnum='+lnum+']').prop('checked',true);
-			$(listtab+' tbody input.sellight[lnum='+lnum+']').parent('span').addClass('cbchecked');
-			$(listtab+' tbody td.sellight[lnum='+lnum+']').addClass('ui-state-focus');
+			$(listtab+' tbody tr.light[lnum='+lnum+'] td.label').addClass('ui-state-focus');
+			$(listtab+' tbody tr.light[lnum='+lnum+'] input.light').prop('checked',true);
+			$(listtab+' tbody tr.light[lnum='+lnum+'] input.light').parent('span').addClass('cbchecked');
 		} else {
-			$(listtab+' tbody input.sellight[lnum='+lnum+']').prop('checked',false);
-			$(listtab+' tbody input.sellight[lnum='+lnum+']').parent('span').removeClass('cbchecked');
-			$(listtab+' tbody td.sellight[lnum='+lnum+']').removeClass('ui-state-focus');
-			$(listtab+' tbody input.selgroup[grp='+gnum+']').prop('checked',false);
-			$(listtab+' tbody input.selgroup[grp='+gnum+']').parent('span').removeClass('cbchecked');
-			$(listtab+' tbody td.label[gnum='+gnum+']').removeClass('ui-state-focus');
-			$('#'+prefid+'selall').prop('checked',false);
-			$('#'+prefid+'cbselall').removeClass('cbchecked');
-			$('#'+prefid+'cbselall').parent('td').parent('tr').children('td.label').removeClass('ui-state-focus');
+			$(listtab+' tbody tr.light[lnum='+lnum+'] td.label').removeClass('ui-state-focus');
+			$(listtab+' tbody tr.light[lnum='+lnum+'] input.light').prop('checked',false);
+			$(listtab+' tbody tr.light[lnum='+lnum+']').each(function(){
+				gnum = $(this).attr('gnum');
+				$(listtab+' tbody tr.grp[gnum='+gnum+'] input.grp').prop('checked',false);
+				$(listtab+' tbody tr.grp[gnum='+gnum+'] td.label').removeClass('ui-state-focus');
+			});
+			$('#'+prefid+'cb_all').prop('checked',false);
+			$('#'+prefid+'s_all').removeClass('cbchecked');
+			$(listtab+' thead td.label').removeClass('ui-state-focus');
 		}
 		if (prefid == ""){loadSelectedLightsDetail(listtab);}
 	});
 	
 	// Collapse/Extend group
 	$(listtab+' span.grp').click(function(){
-		var gnum = $(this).attr('grp');
+		var gnum = $(this).attr('gnum');
 		if ($(this).attr('open')){
 			$(listtab+' tbody tr.grp'+gnum).hide(300);
 			$(this).switchClass('ui-icon-circle-minus','ui-icon-circle-plus',0);
 			$(this).removeAttr('open');
 			// Uncheck lights if group not checked
-			if (! $(listtab+' tbody input.selgroup[grp="'+gnum+'"]').prop('checked')){
-				$(listtab+' tbody input.sellight[grp="'+gnum+'"]').prop('checked',false);
-				$(listtab+' tbody tr.grp'+gnum+' td.sellight').removeClass('ui-state-focus');
+			if (! $(listtab+' tbody tr.grp[gnum='+gnum+'] input.grp').prop('checked')){
+				$(listtab+' tbody tr.grp'+gnum+' input.light').prop('checked',false);
+				$(listtab+' tbody tr.grp'+gnum+' td.label').removeClass('ui-state-focus');
 				if (prefid == ""){loadSelectedLightsDetail(listtab);}
 			}
 		} else {

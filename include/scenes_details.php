@@ -21,7 +21,7 @@ echo "\n<DIV>"; // scroll
 
 ?>
 <SCRIPT language="javascript">
-$('#detail button.allon, #detail button.alloff, #detail button.gron, #detail button.groff, #detail button.otheron, #detail button.otheroff').button();
+$('#S_allon, #S_alloff, #detail button.gron, #detail button.groff, #S_otheron, #S_otheroff').button();
 $('#updscene, #newscene').button();
 scenesDetail();
 </SCRIPT>

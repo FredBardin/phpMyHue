@@ -20,6 +20,9 @@ body {
 a {
 	text-decoration: none;
 }
+a.about {
+	color: #f29a00;
+}
 
 /* Style for generic elements */
 table {

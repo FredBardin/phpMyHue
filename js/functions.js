@@ -318,7 +318,7 @@ function lightsList(listtab,prefid){
 		}
 	});
 
-	// Intialize brillance slider if existing
+	// Intialize brightness slider if existing
 	$(listtab+' .brislider').each(function(){
 		var bsid = $(this).attr('id');
 		$(this).noUiSlider({
@@ -333,7 +333,7 @@ function lightsList(listtab,prefid){
 		});
 		$(this).Link('lower').to($('#'+bsid+'_val'));
 	});
-	// Change light brillance
+	// Change light brightness
 	$(listtab+' .brislider').change(function(){
 		var val = $(this).val();
 		var gnum = $(this).attr('gnum');

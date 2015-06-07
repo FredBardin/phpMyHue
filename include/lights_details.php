@@ -7,7 +7,7 @@ if (! defined('ANTI_HACK')){exit;}
 
 // Elements selected and name update if 1 element or color switch if 2 lights selected
 echo "\n<DIV ID=dispname><SPAN ID=sellist></SPAN>";
-echo "<SPAN ID=selname><INPUT TYPE=text ID=elemname CLASS=ui-corner-all> <BUTTON ID=updname>Rename</BUTTON>";
+echo "<SPAN ID=selname><INPUT TYPE=text ID=elemname CLASS=ui-corner-all> <BUTTON ID=updname>".$trs["Rename"]."</BUTTON>";
 echo "</SPAN>"; // selname
 echo "</DIV>"; // dispname
 
@@ -16,7 +16,7 @@ echo "\n<TABLE>";
 echo "\n<TR>";
 echo "<TD rowspan=4><INPUT TYPE=text ID=colorpicker>";
 echo "\n<TR ID=trbri>";
-echo "<TD CLASS=\"slider slilib\">Brightness";
+echo "<TD CLASS=\"slider slilib\">".$trs["Brightness"];
 echo "\n<TR ID=trbri>";
 echo "<TD CLASS=slider><DIV ID=brislider></DIV></TD>";
 echo "<TD><DIV ID=brival CLASS=bsval></DIV>";
@@ -25,46 +25,46 @@ echo "\n</TABLE>";
 
 // Action buttons
 echo "\n<DIV ID=actions>";
-echo "<FIELDSET CLASS=\"ui-widget ui-widget-content ui-corner-all\"><LEGEND>Effects</LEGEND>\n";
-echo "<BUTTON ID=blink1>1 Blink</BUTTON>";
-echo "<BUTTON ID=blink30s>Blink 30 s</BUTTON>";
-echo "<BUTTON ID=blinkoff>Blink Off</BUTTON>";
+echo "<FIELDSET CLASS=\"ui-widget ui-widget-content ui-corner-all\"><LEGEND>".$trs["Effects"]."</LEGEND>\n";
+echo "<BUTTON ID=blink1>".$trs["1_Blink"]."</BUTTON>";
+echo "<BUTTON ID=blink30s>".$trs["Blink_30_s"]."</BUTTON>";
+echo "<BUTTON ID=blinkoff>".$trs["Blink_Off"]."</BUTTON>";
 echo "&nbsp;&nbsp;";
-echo "<BUTTON ID=colorloop>Color Loop</BUTTON>";
-echo "<BUTTON ID=colorloopoff>Loop Off</BUTTON>";
+echo "<BUTTON ID=colorloop>".$trs["Color_Loop"]."</BUTTON>";
+echo "<BUTTON ID=colorloopoff>".$trs["Loop_Off"]."</BUTTON>";
 echo "</FIELDSET>";
 echo "\n</DIV>"; // actions
 
 // Transfert color settings
 echo "\n<DIV ID=transset>";
-echo "<FIELDSET CLASS=\"ui-widget ui-widget-content ui-corner-all\"><LEGEND ID=transsetlegend>Copy color settings</LEGEND>\n";
+echo "<FIELDSET CLASS=\"ui-widget ui-widget-content ui-corner-all\"><LEGEND ID=transsetlegend>".$trs["Copy_color_settings"]."</LEGEND>\n";
 
 echo "<DIV ID=tsradio>";
-echo "<INPUT TYPE=radio NAME=tsradio ID=cpto VALUE=cpto CHECKED=checked><LABEL FOR=cpto>Copy to</LABEL>";
-echo "<INPUT TYPE=radio NAME=tsradio ID=cpfrom VALUE=cpfrom><LABEL FOR=cpfrom>Copy from</LABEL>";
-echo "<INPUT TYPE=radio NAME=tsradio ID=swwith VALUE=swwith><LABEL FOR=swwith>Switch with</LABEL>";
+echo "<INPUT TYPE=radio NAME=tsradio ID=cpto VALUE=cpto CHECKED=checked><LABEL FOR=cpto>".$trs["Copy_to"]."</LABEL>";
+echo "<INPUT TYPE=radio NAME=tsradio ID=cpfrom VALUE=cpfrom><LABEL FOR=cpfrom>".$trs["Copy_from"]."</LABEL>";
+echo "<INPUT TYPE=radio NAME=tsradio ID=swwith VALUE=swwith><LABEL FOR=swwith>".$trs["Switch_with"]."</LABEL>";
 echo "</DIV>"; // tsradio
 echo "&nbsp;<SELECT ID=tssell>\n";
-echo "<OPTION VALUE=none>Select light</OPTION>\n";
+echo "<OPTION VALUE=none>".$trs["Select_light"]."</OPTION>\n";
 foreach ($HueAPI->info['lights'] as $lnum => $lval){
 	echo "<OPTION VALUE=$lnum>".$lval['name']."</OPTION>\n";
 }
 echo "</SELECT>\n";
 
 echo "<DIV ID=dtsexec>";
-echo "<BUTTON ID=tsexec>Execute</BUTTON>";
+echo "<BUTTON ID=tsexec>".$trs["Execute"]."</BUTTON>";
 echo "</DIV>"; // dtsexec
 echo "\n</FIELDSET>";
 echo "\n</DIV>"; // transset
 
 // Group management
 echo "\n<DIV ID=grpmgmt>";
-echo "<FIELDSET CLASS=\"ui-widget ui-widget-content ui-corner-all\"><LEGEND ID=grplegend>Manage group</LEGEND>\n";
+echo "<FIELDSET CLASS=\"ui-widget ui-widget-content ui-corner-all\"><LEGEND ID=grplegend>".$trs["Manage_group"]."</LEGEND>\n";
 
 echo "<SPAN ID=grplightopt>\n";
 
 echo "<SELECT ID=assigngrp>\n";
-echo "<OPTION VALUE=other>Select</OPTION>\n";
+echo "<OPTION VALUE=other>".$trs["Select"]."</OPTION>\n";
 foreach ($HueAPI->info['groups'] as $gnum => $gval){
 	echo "<OPTION VALUE=$gnum LIGHTS=\"[";
 	$lightslist = "";
@@ -74,19 +74,19 @@ foreach ($HueAPI->info['groups'] as $gnum => $gval){
 }
 echo "</SELECT>\n";
 
-echo "<SPAN ID=creategrp> or create <INPUT TYPE=text ID=newgrp CLASS=ui-corner-all></SPAN>\n";
-echo "<BUTTON ID=grpassign>Fill Group</BUTTON>\n";
+echo "<SPAN ID=creategrp> ".$trs["or_create"]." <INPUT TYPE=text ID=newgrp CLASS=ui-corner-all></SPAN>\n";
+echo "<BUTTON ID=grpassign>".$trs["Fill_Group"]."</BUTTON>\n";
 echo "</SPAN>\n"; // grplightopt
 
 echo "<SPAN ID=grpopt>\n";
-echo "<BUTTON ID=delgrp>Delete group(s)</BUTTON>\n";
+echo "<BUTTON ID=delgrp>".$trs["Delete_groups"]."</BUTTON>\n";
 echo "</SPAN>\n"; // grpopt
 
 echo "\n</FIELDSET>";
 echo "\n</DIV>"; // grpmgmt
 
 // Element description (if 1 element only)
-echo "\n<BR><DIV ID=descri><H3>Informations</H3><DIV ID=detdescri></DIV></DIV>";
+echo "\n<BR><DIV ID=descri><H3>".$trs["Informations"]."</H3><DIV ID=detdescri></DIV></DIV>";
 ?>
 <SCRIPT>
 // Initialize controls

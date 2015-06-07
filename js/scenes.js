@@ -182,9 +182,9 @@ function saveScene(sceneid){
 				}
 			});
 		} else {
-			msg('No light selected for scene.',true);
+			msg(trs.No_light_selected_for_scene,true);
 		}
 	} else {
-		msg('Scene name empty.',true);
+		msg(trs.Scene_name_empty,true);
 	}
 } // saveScene

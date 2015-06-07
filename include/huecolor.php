@@ -195,7 +195,7 @@ function RGBToXy($RGB,$type="bulb"){
 // Remark : HueAPI->info must be already set
 // ------------------------------------------
 function display_light($lnum){
-	global $HueAPI;
+	global $HueAPI, $trs;
 
 	$linfo = &$HueAPI->info['lights'][$lnum];
 
@@ -212,7 +212,7 @@ function display_light($lnum){
 		$lcolor = "transparent";
 		if ($lstate['reachable'] == ""){
 			$unreachable = true;
-			$popup = " TITLE=\"Unreachable\"";
+			$popup = " TITLE=\"".$trs["Unreachable"]."\"";
 		}
 	} else { // light on : get rgb color
 		$onoff = "on";

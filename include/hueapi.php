@@ -32,6 +32,9 @@ if (! defined('ANTI_HACK')){exit;}
 // Init env
 include "include/config.php";
 
+// Load translations
+$trs = json_decode(implode(file('include/text_'.$lang.'.json')),true);
+
 //-- API Class
 class HueAPI {
 	//=====================================

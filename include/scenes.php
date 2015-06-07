@@ -29,7 +29,7 @@ foreach ($a_sname as $sceneid => $sname){
 	echo "\n<TR CLASS=radio>";
 	echo "<TD><SPAN CLASS=\"ui-icon ui-icon-radio-off\"><INPUT TYPE=radio NAME=scradio ID=$sceneid></SPAN>";
 	echo "<TD CLASS=sname><LABEL FOR=$sceneid>$sname</LABEL>";
-	echo "<TD><LABEL FOR=$sceneid>&nbsp;Lights: <SPAN>".count($HueAPI->info['scenes'][$sceneid]['lights'])."</SPAN></LABEL>";
+	echo "<TD><LABEL FOR=$sceneid>&nbsp;".$trs["LightsNB"]." <SPAN>".count($HueAPI->info['scenes'][$sceneid]['lights'])."</SPAN></LABEL>";
 }
 echo "</TABLE>";
 ?>

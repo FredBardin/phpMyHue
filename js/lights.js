@@ -51,7 +51,7 @@ function loadSelectedLightsDetail(tablights){
 
 			// Identify the row type and construct the selectio string
 			if (elemid == 'cb_all'){ // ALL
-				selstring = ', <SPAN type=all>All lamps</SPAN>';
+				selstring = ', <SPAN type=all>'+trs.All_lamps+'</SPAN>';
 				selcount++;
 				lamponly = false;
 				grponly = false;
@@ -65,7 +65,7 @@ function loadSelectedLightsDetail(tablights){
 					name = $(tablights+' tbody tr.grp[gnum='+num+'] td.label').text();
 					lamponly = false;
 					recordlight = false; // unallow light recording until the next group is reached
-					selstring += ', <SPAN type=group num='+num+'>group "'+name+'"</SPAN>';
+					selstring += ', <SPAN type=group num='+num+'>'+trs.group+' "'+name+'"</SPAN>';
 					selcount++;
 					lasttype = 'group';
 					lastnum = num;
@@ -119,12 +119,12 @@ function loadSelectedLightsDetail(tablights){
 			$('#grpmgmt').show();
 
 			if (lamponly){ // show lamp options
-				$('#grplegend').text('Fill a group with selected lamp(s)');
+				$('#grplegend').text(trs.Fill_a_group_with_selected_lamps);
 				$('#grplightopt').show();
 				$('#grpopt').hide();
 			}
 			else { // show group option
-				$('#grplegend').text('Delete selected group(s)');
+				$('#grplegend').text(trs.Delete_selected_groups);
 				$('#grplightopt').hide();
 				$('#grpopt').show();
 			}
@@ -136,10 +136,10 @@ function loadSelectedLightsDetail(tablights){
 				var action = "";
 				selstring = '<SPAN type='+lasttype+' num='+lastnum+'>';
 				if (lasttype == 'group'){
-					selstring += 'Group';
+					selstring += trs.Group;
 					action = 'groups/'+lastnum;
 				} else {
-					selstring += 'Light';
+					selstring += trs.Light;
 					action = 'lights/'+lastnum;
 				}
 				selstring += ' : </SPAN>';
@@ -155,17 +155,18 @@ function loadSelectedLightsDetail(tablights){
 
 				// Display informations
 				 $.getJSON('hueapi_cmd.php?action='+action, function(info){
+					// FBA --> currently no tranlastion
 					var descri = lasttype.charAt(0).toUpperCase()+lasttype.slice(1)+' id: '+lastnum;
-					descri += '<BR>Type: '+info.type;
+					descri += '<BR>'+trs.Type+': '+info.type;
 					if (lasttype == 'light' || info.type == 'Luminaire')
 					{
-						descri += '<BR>Model id: '+info.modelid;
+						descri += '<BR>'+trs.Model_id+': '+info.modelid;
 					}
 				 	if (lasttype == 'light'){
-						descri += '&nbsp;&nbsp;&nbsp;Unique id: '+info.uniqueid;
-						descri += '<BR>Software version: '+info.swversion;
+						descri += '&nbsp;&nbsp;&nbsp;'+trs.Unique_id+': '+info.uniqueid;
+						descri += '<BR>'+trs.Software_version+': '+info.swversion;
 						if (info.state.effect != 'none'){
-							descri += '<BR>Effect: '+info.state.effect;
+							descri += '<BR>'+trs.Effect+': '+info.state.effect;
 						}
 						// Set brightness
 						$('#brislider').val(info.state.bri);
@@ -174,7 +175,7 @@ function loadSelectedLightsDetail(tablights){
 						updateColorPicker(tablights,lastnum);
 					} else {
 						if (info.action.effect != 'none'){
-							descri += '<BR>Effect: '+info.action.effect;
+							descri += '<BR>'+trs.Effect+': '+info.action.effect;
 						}
 					}
 					$('#detdescri').html(descri);
@@ -183,11 +184,11 @@ function loadSelectedLightsDetail(tablights){
 
 			} else { // Normal display
 				selstring = selstring.substr(2);
-				selstring = 'Element : '+selstring;
+				selstring = trs.Element+' : '+selstring;
 			}
 		} else { // if several elements : normal display
 			selstring = selstring.substr(2);
-			selstring = 'Elements : '+selstring;
+			selstring = trs.Elements+' : '+selstring;
 		}
 	} else {
 		$('#detail').hide("slide");
@@ -244,7 +245,7 @@ function lightsDetailAction(tabaction,xy){
 				} else {
 					$(tablights+' table label[gnum='+num+']').text(name);
 				}
-				successmsg = "Name updated."
+				successmsg = trs.Name_updated;
 				break;
 
 			case 'bri' :
@@ -263,17 +264,17 @@ function lightsDetailAction(tabaction,xy){
 			case 'blinkoff' :
 				action += actionsup;
 				cmdjs = '"alert":"none"';
-				successmsg = "Blink stopped."
+				successmsg = trs.Blink_stopped;
 				break;
 			case 'colorloop' :
 				action += actionsup;
 				cmdjs = '"effect":"colorloop"';
-				successmsg = "Color Loop started."
+				successmsg = trs.Color_Loop_started;
 				break;
 			case 'colorloopoff' :
 				action += actionsup;
 				cmdjs = '"effect":"none"';
-				successmsg = "Color Loop stopped."
+				successmsg = trs.Color_Loop_stopped;
 				break;
 
 			case 'color' :
@@ -288,7 +289,7 @@ function lightsDetailAction(tabaction,xy){
 
 			case 'delgrp' :
 				method = '&method=DELETE';
-				successmsg = "Group "+$('#elemname').val()+" Deleted";
+				successmsg = trs.Group+" "+$('#elemname').val()+" "+trs.Deleted;
 				break;
 
 			default : // do nothing
@@ -333,7 +334,7 @@ function lightsDetailAction(tabaction,xy){
 	if (tabaction == 'grpassign'){
 		var valsel = $('#assigngrp').val();
 		var newgrp = $('#newgrp').val();
-		var successmsg = "Group ";
+		var successmsg = trs.Group+" ";
 
 		action = 'groups';
 		cmdjs = '"lights":['+cmdjs.substr(1)+']';
@@ -341,12 +342,12 @@ function lightsDetailAction(tabaction,xy){
 		if (newgrp != ""){ // Create new group with selection
 			method = '&method=POST';
 			cmdjs = '&cmdjs={"name":"'+newgrp+'",'+cmdjs+'}';
-			successmsg += newgrp+" Created.";
+			successmsg += newgrp+" "+trs.Created;
 		} else {          // Update lamp of selected group
 			if (valsel != 'other'){
 				action += '/'+valsel;
 				cmdjs = '&cmdjs={'+cmdjs+'}';
-				successmsg += $('#assigngrp option[value='+valsel+']').text()+" Updated.";
+				successmsg += $('#assigngrp option[value='+valsel+']').text()+" "+trs.Updated;
 			} else { // no action if no selection
 				action = '';
 			}

@@ -37,9 +37,7 @@ function uniqid(prefix, more_entropy) {
     return seed;
   };
 
-  // BEGIN REDUNDANT
   if (!this.php_js) {this.php_js = {};}
-  // END REDUNDANT
   if (!this.php_js.uniqidSeed) { // init seed with big random int
     this.php_js.uniqidSeed = Math.floor(Math.random() * 0x75bcd15);
   }
@@ -177,7 +175,7 @@ function processReturnMsg(retmsg,successmsg){
 
 	if (retmsg[0].error){
 		result = false;
-		msg('ERROR : '+retmsg[0].error.description, true);
+		msg(trs.ERROR+' : '+retmsg[0].error.description, true);
 	} else {
 		msg(successmsg);
 	}

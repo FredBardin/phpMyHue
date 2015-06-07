@@ -18,9 +18,9 @@ $RECYCLE.BIN/
 *.lnk
 
 # other
-.gitignore
 *.zip
 *.txt
+!LICENCE.txt
 *.swp
 include/config.php
 jquery-ui_FULL

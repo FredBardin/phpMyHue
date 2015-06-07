@@ -79,14 +79,14 @@ function display_light_row($prefid,$lnum,$gnum,$cbpos="E",$brislider=false){
 // brislider : optional, if true display a brightness slider at the end of a selected row
 // -------------------------------------------------------------
 function display_lights_groups($prefid="",$cbpos="E",$brislider=false){
-	global $HueAPI;
+	global $HueAPI, $trs;
 
 	echo "<TABLE CLASS=det_table>";
 	echo "<THEAD>";
 	echo "<TR>";
 	echo "<TD>";
 	if ($cbpos == "B"){display_lg_checkbox($prefid,"all");}
-	echo "<TD CLASS=\"label all\"><LABEL FOR=".$prefid."cb_all>All</LABEL>";
+	echo "<TD CLASS=\"label all\"><LABEL FOR=".$prefid."cb_all>".$trs["All"]."</LABEL>";
 	echo "<TD><BUTTON ID=".$prefid."allon>On</BUTTON><BUTTON ID=".$prefid."alloff>Off</BUTTON>";
 	if ($cbpos == "E"){display_lg_checkbox($prefid,"all");}
 	if ($brislider){display_bri_slider($prefid,"all","all");}
@@ -107,7 +107,7 @@ function display_lights_groups($prefid="",$cbpos="E",$brislider=false){
 	echo "<TR CLASS=grp gnum=other>";
 	echo "<TD><SPAN CLASS=\"grp ui-icon ui-icon-circle-minus\" gnum=other open></SPAN>";
 	if ($cbpos == "B"){display_lg_checkbox($prefid, "other", "grp", "other");}
-	echo "<TD CLASS=\"label grp\"><LABEL FOR=".$prefid."cb_other>Lamps</LABEL>";
+	echo "<TD CLASS=\"label grp\"><LABEL FOR=".$prefid."cb_other>".$trs["Lamps"]."</LABEL>";
 	echo "<TD><BUTTON ID=".$prefid."otheron>On</BUTTON><BUTTON ID=".$prefid."otheroff>Off</BUTTON>";
 	if ($cbpos == "E"){display_lg_checkbox($prefid, "other", "grp", "other");}
 	if ($brislider){display_bri_slider($prefid,"other","other");}

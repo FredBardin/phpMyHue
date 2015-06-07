@@ -9,5 +9,7 @@ $username = "";
 
 $appname = "phpMyHue"; // optional
 
-$apiurl="http://$bridgeip/api/$username";
+$apiurl = "http://$bridgeip/api/$username";
+
+$lang = "en";
 ?>

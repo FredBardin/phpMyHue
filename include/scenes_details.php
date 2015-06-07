@@ -7,10 +7,10 @@ if (! defined('ANTI_HACK')){exit;}
 
 include 'include/functions.php';
 
-echo "\n<FIELDSET CLASS=\"ui-widget ui-widget-content ui-corner-all\"><LEGEND>Save scene with selected lights</LEGEND>";
-echo "\n<DIV ID=dispscname>Name <INPUT TYPE=text ID=scname CLASS=ui-corner-all> ";
-echo "<BUTTON ID=updscene>Update scene</BUTTON>&nbsp;";
-echo "<BUTTON ID=newscene>New scene</BUTTON>";
+echo "\n<FIELDSET CLASS=\"ui-widget ui-widget-content ui-corner-all\"><LEGEND>".$trs["Save_scene_with_selected_lights"]."</LEGEND>";
+echo "\n<DIV ID=dispscname>".$trs["Name"]." <INPUT TYPE=text ID=scname CLASS=ui-corner-all> ";
+echo "<BUTTON ID=updscene>".$trs["Update_scene"]."</BUTTON>&nbsp;";
+echo "<BUTTON ID=newscene>".$trs["New_scene"]."</BUTTON>";
 echo "</DIV>"; // dispscname
 echo "</FIELDSET>";
 echo "<BR>";

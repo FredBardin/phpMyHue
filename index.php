@@ -7,6 +7,13 @@
 // Anti-hack
 define('ANTI_HACK', true);
 
+// Init env
+include "include/config.php";
+
+// Load translations (lf+cr+<+> are removed)
+$trs_json = preg_replace("/[\n\r<>]/","", implode(file('include/text_'.$lang.'.json')));
+$trs = json_decode($trs_json,true);
+
 ?>
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN">
 <HTML>
@@ -33,9 +40,9 @@ define('ANTI_HACK', true);
 <DIV ID=sel>
 <DIV ID=tabs>
 <UL>
-	<LI><A HREF="main.php?rt=lights" TITLE="Lights & Groups"><SPAN CLASS="tabicon ui-icon ui-icon-lightbulb"></SPAN>Lights</A></LI>
-	<LI><A HREF="main.php?rt=scenes" TITLE="Scenes management"><SPAN CLASS="tabicon ui-icon ui-icon-image"></SPAN>Scenes</A></LI>
-	<LI><A HREF="main.php?rt=about" TITLE="About phpMyHue">About</A></LI>
+<LI><A HREF="main.php?rt=lights" TITLE="<?php echo $trs["Lights_&_Groups"]?>"><SPAN CLASS="tabicon ui-icon ui-icon-lightbulb"></SPAN><?php echo $trs["Lights"]?></A></LI>
+	<LI><A HREF="main.php?rt=scenes" TITLE="<?php echo $trs["Scenes_management"]?>"><SPAN CLASS="tabicon ui-icon ui-icon-image"></SPAN><?php echo $trs["Scenes"]?></A></LI>
+	<LI><A HREF="main.php?rt=about" TITLE="<?php echo $trs["About_phpMyHue"]?>"><?php echo $trs["About"]?></A></LI>
 </UL> 
 </DIV><!-- /div tabs -->
 </DIV><!-- /div sel -->
@@ -44,13 +51,15 @@ define('ANTI_HACK', true);
 <DIV ID=content>
 <DIV ID=detail>
 <UL>
-	<LI><A HREF="details.php">Selection details</A></LI>
+	<LI><A HREF="details.php"><?php echo $trs["Selection_details"]?></A></LI>
 </UL> 
 </DIV><!-- /div detail -->
 </DIV><!-- /div content -->
 
 </DIV><!-- div page -->
 <SCRIPT>
+var trs = jQuery.parseJSON('<?php echo $trs_json?>');
+
 // Enable tooltip if not on mobile (= touch interface)
 if (! isMobile.any()){
 $(document).tooltip({

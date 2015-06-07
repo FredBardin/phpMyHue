@@ -21,6 +21,7 @@ $RECYCLE.BIN/
 *.zip
 *.txt
 !LICENCE.txt
+!histo.txt
 *.swp
 include/config.php
 jquery-ui_FULL

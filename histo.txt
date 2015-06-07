@@ -1,0 +1,4 @@
+v1.0 - 24/04/2015 : Creation
+v1.1 - 04/05/2015 : Html tag attributes and javascript optimization
+v1.2 - 07/06/2015 : Add Multi Lang support
+

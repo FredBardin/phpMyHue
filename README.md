@@ -7,7 +7,7 @@ Php web interface to manage Philips Hue lights in a lan.
 3. Edit 'include/config.php' and put correct values for '$bridgeip', '$username' and, if needed, for '$lang'.  
 'bridgeip' is the ip address of your hue bridge in your lan.  
 'username' is a registered user in your hue bridge (cf http://www.developers.meethue.com/documentation/api-core-concepts).  
-'lang' references an exiting 'include/text_<lang>.json' file ('en' by default).  
+'lang' references an exiting 'include/text_"lang".json' file ('en' by default).  
 
 ## Main Functionnalities
 * Full group management

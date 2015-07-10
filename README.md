@@ -17,7 +17,7 @@ Php web interface to manage Philips Hue lights in a lan.
 * Switch lights on/off
 * Run effects
 * Hue API class available in 'include/hueapi.php' (see comments in file)
-* Hue cmd web services available 'hueapi_cmd.php' (see comments in file)
+* Hue cmd web service available with 'hueapi_cmd.php' (see comments in file)
 * Fully touch device compatible
 * Multi Lang
 * ...

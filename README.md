@@ -22,10 +22,10 @@ Php web interface to manage Philips Hue lights in a lan.
 * Multi Lang
 * ...
 
-ie: lights screen in english language
+ie: lights screen in english
 ![screenshot](screen1_pmh.jpg)
 
-ie: scenes screen in french language
+ie: scenes screen in french
 ![screenshot](screen2_pmh.jpg)
 
 ### Licence

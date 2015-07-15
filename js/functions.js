@@ -243,6 +243,7 @@ function lightsList(listtab,prefid){
 			$(listtab+' td.label').addClass('ui-state-focus');
 		} else {
 			$(listtab+' tbody input[type="checkbox"]').prop('checked',false);
+			$(listtab+' tbody input[type="checkbox"]').parent('span').removeClass('cbchecked');
 			$(listtab+' td.label').removeClass('ui-state-focus');
 		}
 		if (prefid == ""){loadSelectedLightsDetail(listtab);}
@@ -262,6 +263,7 @@ function lightsList(listtab,prefid){
 		} else { // unckecked lamp + all
 			$(listtab+' tbody tr.grp[gnum='+gnum+'] td.label').removeClass('ui-state-focus');
 			$(listtab+' tbody tr.grp'+gnum+' input.light').prop('checked',false);
+			$(listtab+' tbody tr.grp'+gnum+' input.light').parent('span').removeClass('cbchecked');
 			$(listtab+' tbody tr.grp'+gnum+' td.label').removeClass('ui-state-focus');
 			$('#'+prefid+'cb_all').prop('checked',false);
 			$('#'+prefid+'s_all').removeClass('cbchecked');

@@ -79,6 +79,9 @@ input[type=checkbox]:checked {
 	float: left;
 	background: #272727;
 }
+#tabs {
+	zwidth:300px;
+}
 #content {
 	float: left;
 }

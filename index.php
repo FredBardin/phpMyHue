@@ -14,12 +14,17 @@ include "include/config.php";
 $trs_json = preg_replace("/[\n\r<>]/","", implode(file('include/text_'.$lang.'.json')));
 $trs = json_decode($trs_json,true);
 
+// Catch current git branch to display in title if not master
+@list($ref,$dir,$cur_branch) = explode("/",trim(@file(".git/HEAD")[0]));
+if ($cur_branch == "master"){$cur_branch = "";}
+else {$cur_branch = " (".$cur_branch.")";}
+
 ?>
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN">
 <HTML>
 <HEAD>
 <META HTTP-EQUIV="Content-Type" CONTENT="text/html; charset=UTF-8" />
-<TITLE>phpMyHue</TITLE>
+<TITLE>phpMyHue<?php echo $cur_branch?></TITLE>
 </HEAD>
 <LINK REL="stylesheet" TYPE="text/css" HREF="js/jquery-ui/jquery-ui.min.css">
 <LINK REL="stylesheet" TYPE="text/css" HREF="js/nouislider/jquery.nouislider.min.css">

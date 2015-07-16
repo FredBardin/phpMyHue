@@ -38,7 +38,7 @@ else {$cur_branch = " (".$cur_branch.")";}
 <SCRIPT TYPE="text/javascript" SRC="js/functions.js"></SCRIPT>
 <BODY>
 <DIV ID=msg></DIV>
-<DIV ID=title><DIV CLASS=titre>phpMy<IMG src="img/hue.png"></DIV></DIV>
+<DIV ID=title><IMG SRC="img/phpmyhue.png"></DIV>
 <DIV ID=page>
 
 <!-- left pane -->

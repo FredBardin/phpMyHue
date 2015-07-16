@@ -69,11 +69,6 @@ input[type=checkbox]:checked {
 	color: red;
 }
 
-/* Title */
-#title {
-	font: 3em "Comic Sans MS";
-}
-
 /* Page body */
 #sel {
 	float: left;

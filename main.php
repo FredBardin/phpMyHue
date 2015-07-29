@@ -50,8 +50,7 @@ switch ($rt)
 	case "color" :
 		include 'include/huecolor.php';
 		$rgb = $_REQUEST['rgb'];
-		@$type = $_REQUEST['type'];
-		echo RGBToXy($rgb,$type);
+		echo RGBToXy($rgb);
 		break;
 }
 ?>

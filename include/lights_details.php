@@ -35,7 +35,7 @@ echo "<BUTTON ID=colorloopoff>".$trs["Loop_Off"]."</BUTTON>";
 echo "</FIELDSET>";
 echo "\n</DIV>"; // actions
 
-// Transfert color settings
+// Copy color settings
 echo "\n<DIV ID=transset>";
 echo "<FIELDSET CLASS=\"ui-widget ui-widget-content ui-corner-all\"><LEGEND ID=transsetlegend>".$trs["Copy_color_settings"]."</LEGEND>\n";
 

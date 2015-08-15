@@ -75,7 +75,7 @@ input[type=checkbox]:checked {
 	background: #272727;
 }
 #tabs {
-	width: 332px;
+	width: 323px;
 }
 #content {
 	float: left;
@@ -83,7 +83,7 @@ input[type=checkbox]:checked {
 
 .tabicon {
 	float: right;
-	margin: 2px;
+	margin: 2px 0 2px 0px;
 }
 
 

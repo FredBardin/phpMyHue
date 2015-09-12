@@ -7,8 +7,7 @@ if (! defined('ANTI_HACK')){exit;}
 $bridgeip = "";
 $username = "";
 
-$appname = "phpMyHue"; // optional
-
+$appname = "phpMyHue";
 $apiurl = "http://$bridgeip/api/$username";
 
 $lang = "en";

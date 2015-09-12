@@ -3,12 +3,13 @@
 // Index phpMyHue
 //----------------------------------------------------------------------------
 // F. Bardin  06/02/2015
+// 12/09/2015 : add init_conf
 //============================================================================
 // Anti-hack
 define('ANTI_HACK', true);
 
 // Init env
-include "include/config.php";
+include "include/init_conf.php";
 
 // Load translations (lf+cr+<+> are removed)
 $trs_json = preg_replace("/[\n\r<>]/","", implode(file('include/text_'.$lang.'.json')));

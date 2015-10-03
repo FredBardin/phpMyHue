@@ -24,13 +24,16 @@
 // - assignLightsGroup() : add group id to lights (if several, only the biggest id)
 // 
 // F. Bardin 07/02/2015
-// 20/02/2015 :  add both php array or json input/output parameters
+// 20/02/2015 :  Add both php array or json input/output parameters
+// 20/09/2015 :  Don't set config environment if init in progress
 //================================================================
 // Anti-hack
 if (! defined('ANTI_HACK')){exit;}
 
-// Init env
-include "include/config.php";
+// Load config if init not in progress
+if (! defined('INIT')){
+	include "include/config.php";
+}
 
 // Load translations
 $trs = json_decode(implode(file('include/text_'.$lang.'.json')),true);
@@ -40,12 +43,15 @@ class HueAPI {
 	//=====================================
 	//== Variables ==
 	//=====================================
+	private $apiurl; // Shortcut for api url
 	var $info = array(); // Array with loaded info
 
 	//=====================================
 	//== CONSTRUCTOR ==
 	//=====================================
 	function __construct(){
+		global $bridgeip, $username;
+		$this->apiurl = "http://$bridgeip/api/$username";
 	} // __construct
 
 	//=====================================
@@ -111,8 +117,7 @@ class HueAPI {
 	// Return : json with the requested content
 	//-------------------------------------
 	private function getInfo($action){
-		global $apiurl;
-		return @file("$apiurl/$action")[0];
+		return @file("$this->apiurl/$action")[0];
 	} // getInfo
 
 	//-------------------------------------
@@ -122,15 +127,13 @@ class HueAPI {
 	// Return : json response
 	//-------------------------------------
 	private function sendCmd($action,$content_js,$method){
-		global $apiurl;
-
 		$context = array('http'=>array(
                    	'method'=>$method,
                    	'header'=>'Content-type: application/x-www-form-urlencoded',
 					'content'=>$content_js
                 	)
 				);
-		return @file("$apiurl/$action",false,stream_context_create($context))[0]; 
+		return @file("$this->apiurl/$action",false,stream_context_create($context))[0]; 
 	} // sendCmd
 }// HueAPI
 

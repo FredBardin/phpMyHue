@@ -9,11 +9,15 @@
 // Anti-hack
 if (! defined('ANTI_HACK')){exit;}
 
+// Define 
+define('INIT', true);
+
 $conf_file = "config.php";
 $template_file = "config.tpl.php";
 $bridgeip = "";
 $username = "";
-$lang = "";
+$lang = "en";
+
 
 ini_set('default_socket_timeout', 1);
 
@@ -73,8 +77,17 @@ if ($bridgeip == ""){ // Detect hue bridge
 		die("<H3>Hue bridge not found - Configuration has to be set manually.</H3>");
 	}
 }
-// Username
 
+// Activate api
+include 'include/hueapi.php';
+
+// Register app if no username
+if ($username == ""){ // Request a username
+// $apiurl = "http://$bridgeip/api/";
+echo "<BR>Register application in bridge to get authorizations";
+$HueAPI->setInfo("",'{"devicetype":"phpMyHue#'.$bridgeip.'"}');
+echo "<H3>Please press the bridge link button within 30 seconds</H3>";
+}
 
 //die; // stop pour test --> a enlever
 /*
@@ -84,12 +97,11 @@ if (! defined('ANTI_HACK')){exit;}
  * Configuration *
  *****************/
 /*
-$bridgeip = "10.10.10.14";
-$username = "fredbardin";
+$bridgeip = "10.10.10.14"; // config+api+about ==> CONFIG
+$username = "fredbardin"; // config+api ==> CONFIG
 
-$appname = "hue#tardis";
-$apiurl = "http://$bridgeip/api/$username";
+$appname = "hue#tardis"; // que config ==> INIT
 
-$lang = "fr";
+$lang = "fr"; // config+api+about+index.php ==> CONFIG
 */
 ?>

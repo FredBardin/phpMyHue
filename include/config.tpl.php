@@ -1,13 +1,10 @@
 <?php
 if (! defined('ANTI_HACK')){exit;}
 /*****************
- * Configuration
+ * Configuration *
  * Copy this file as 'config.php' and fill parameters
  *****************/
 $bridgeip = "";
 $username = "";
-
-$appname = "phpMyHue";
-
 $lang = "en";
 ?>

@@ -14,9 +14,6 @@ define('INIT', true);
 
 $conf_file = "config.php";
 $template_file = "config.tpl.php";
-$bridgeip = "";
-$username = "";
-$lang = "en";
 
 
 ini_set('default_socket_timeout', 1);
@@ -26,22 +23,54 @@ if (file_exists("include/$conf_file")){
 	// Read config
 	include "include/config.php";
 } else {
-	echo "<H2>Configuration missing - Initialization</H2>";
-	if (! copy("include/$template_file","include/$conf_file"))
-	{
-		echo "<B>Fatal Error</B> : Copy template file 'include/$template_file' to 'include/$conf_file' failed.<BR>";
-		echo "<U>Try to copy 'include/$template_file' to 'include/$conf_file' manually.</U><BR>";
+	// Init parameters
+	@$confstep = $_REQUEST['confstep'];
+	@$bridgeip = $_REQUEST['bridgeip'];
+	@$username = $_REQUEST['username'];
+	$lang = "en";
+
+	echo "<FORM METHOD=post>";
+
+	// Config steps
+	switch($confstep){
+		case "1" : // Look for bridge
+			echo "<H3>Looking for Hue brigde IP</H3>";
+			getBridgeIP();
+			echo "<INPUT TYPE=hidden NAME=\"confstep\" VALUE=\"2\">";
+			echo "<INPUT TYPE=hidden NAME=\"bridgeip\" VALUE=\"$bridgeip\">";
+			echo "<H2>Please press the bridge link button then click on continue within 30 seconds</H2>";
+			break;
+
+		case "2" : // Register application
+			echo "<H3>Register application in bridge</H3>";
+			getUserName();
+			echo "<INPUT TYPE=hidden NAME=\"confstep\" VALUE=\"3\">";
+			echo "<INPUT TYPE=hidden NAME=\"bridgeip\" VALUE=\"$bridgeip\">";
+			echo "<INPUT TYPE=hidden NAME=\"username\" VALUE=\"$username\">";
+			break;
+
+		case "3" : // Record configuration
+			echo "<H3>Record configuration</H3>";
+			recordConf();
+			break;
+
+		default : // Init step
+			echo "<H2>Configuration missing - Automatic setup begins</H2>";
+			echo "<INPUT TYPE=hidden NAME=\"confstep\" VALUE=\"1\">";
 	}
-	else {echo "Automatic configuration in progress<BR>";}
-	ob_flush();
-	flush();
+	echo "<INPUT TYPE=submit VALUE=\"Continue\">";
+	echo "</FORM>";
+	die();
 }
 
-// If config not complete : initialize parameters
-if ($bridgeip == ""){ // Detect hue bridge
-	// It's assumed that bridge is on the same sub-network with subnet mask 255.255.255.0
+//----------------------------------------
+// Function to look for Hue bridge IP
+//----------------------------------------
+function getBridgeIP(){
+	global $bridgeip; 
 
 	// Get web server ip
+	// It's assumed that bridge is on the same sub-network with subnet mask 255.255.255.0
 	$ip = $_SERVER["SERVER_ADDR"];
 	// Get subnet
 	$subnet = preg_replace("/(.*)[.]([^.]*)/","$1",$ip);
@@ -50,12 +79,11 @@ if ($bridgeip == ""){ // Detect hue bridge
 	$search_str = "Philips hue";
 	$pattern = "/".$search_str."/";
 
-	echo "<BR>Hue brigde IP not known.<BR>";
 	echo "Detection in progress on subnet $subnet<BR>";
 	ob_flush();
 	flush();
 
-	$i=0;
+	$i=13; //FBA====> A REMETTRE A 0 APRES TESTS
 	$found=false;
 	while (! $found and $i < 254){ // Scan subnet with ip range from 1 to 254
 		$i++;
@@ -72,27 +100,73 @@ if ($bridgeip == ""){ // Detect hue bridge
 		} 
 	}
 	if ($found){
-		echo "<BR>Hue bridge found at $bridgeip";
+		echo "<H4>Hue bridge found at $bridgeip</H4>";
 	} else {
-		die("<H3>Hue bridge not found - Configuration has to be set manually.</H3>");
+		die("<H2>Hue bridge not found - Configuration has to be set manually.</H2>");
 	}
-}
 
-// Activate api
-include 'include/hueapi.php';
+} // getBridgeIP
 
-// Register app if no username
-if ($username == ""){ // Request a username
-// $apiurl = "http://$bridgeip/api/";
-echo "<BR>Register application in bridge to get authorizations";
-$HueAPI->setInfo("",'{"devicetype":"phpMyHue#'.$bridgeip.'"}');
-echo "<H3>Please press the bridge link button within 30 seconds</H3>";
-}
+//----------------------------------------------
+// Function to register app and get a username
+//----------------------------------------------
+function getUserName(){
+	global $bridgeip,$username,$lang; 
 
-//die; // stop pour test --> a enlever
-/*
-if (! defined('ANTI_HACK')){exit;}
-*/
+	// Activate api
+	include 'include/hueapi.php';
+
+	// Register app
+	$answer=json_decode($HueAPI->setInfo("",'{"devicetype":"phpMyHue#'.$bridgeip.'"}',"POST"),true);
+
+	// Get result
+	if (isset($answer[0]['error'])){
+//FBA		die("<H2>ERROR : ".$answer[0]['error']['description']."</H2>");
+$username="fredbardin";
+		echo("<H2>ERROR : ".$answer[0]['error']['description']."</H2>");
+	} else {
+		$username = $answer[0]['success']['username'];
+		echo "<H4>Application registered successfully.</H4>";
+	}
+} // getUserName
+
+//----------------------------------------------
+// Function to record configuration
+//----------------------------------------------
+function recordConf(){
+	global $bridgeip,$username,$lang,$conf_file,$template_file;
+
+	// Init config content
+	$conf_array = array(
+		"<?php",
+		"if (! defined('ANTI_HACK')){exit;}",
+		"/*****************",
+		" * Configuration *",
+		" *****************/",
+		"\$bridgeip = \"$bridgeip\";",
+		"\$username = \"$username\";",
+		"\$lang = \"$lang\";",
+		"?>"
+	);
+	$conf_count = count($conf_array);
+	$conf_rec = "";
+	$conf_html = "";
+	for ($i = 0; $i < $conf_count; $i++){
+		$conf_rec .= $conf_array[$i]."\n";
+		$conf_html .= str_replace(" ","&nbsp;",htmlentities($conf_array[$i]))."<BR>\n";
+	}
+
+	if (! file_put_contents("include/$conf_file",$conf_rec)){
+		echo "<BR><B>Fatal Error</B> : Automatic creation of 'include/$conf_file' failed.<BR>";
+		echo "<U>Copy manually 'include/$template_file' to 'include/$conf_file' then fill this file with the following values</U> :<BR>";
+	} else {
+		echo "<B>Configuration file created successfully with the following values :</B><BR>";
+	}
+	// Echo to screen
+	echo "<BR><DIV STYLE=\"margin:auto;width:250px;border:1px outset #000000;text-align:left;\"><CODE>".$conf_html."</CODE></DIV>";
+
+} // recordConf
+
 /*****************
  * Configuration *
  *****************/
@@ -104,4 +178,5 @@ $appname = "hue#tardis"; // que config ==> INIT
 
 $lang = "fr"; // config+api+about+index.php ==> CONFIG
 */
+
 ?>

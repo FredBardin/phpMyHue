@@ -4,6 +4,8 @@
 //-----------------------------------
 // Anti-hack
 if (! defined('ANTI_HACK')){exit;}
+
+include 'include/functions.php';
 ?>
 <SCRIPT language="javascript">
 $('#detail').hide("slide");
@@ -12,5 +14,5 @@ $('#detail').hide("slide");
 &copy; <A HREF="mailto:bardin.frederic@gmail.com" CLASS=about>F. Bardin</A> 09-2015<BR>
 <small>
 Bridge IP : <?php echo $bridgeip?><BR>
-Current language : <?php echo $lang?>
+Current language : <?php choose_lang();?>
 </small></DIV>

@@ -61,5 +61,21 @@
 "ERROR" : "ERROR",
 "Deleted" : "Deleted.",
 "Created" : "Created.",
-"Updated" : "Updated."
+"Updated" : "Updated.",
+"Continue" : "Continue",
+"Looking_for_Hue_brigde_IP" : "Looking for Hue brigde IP",
+"Detection_in_progress_on_subnet" : "Detection in progress on subnet",
+"Hue_bridge_found_at" : "Hue bridge found at",
+"Hue_bridge_not_found_-_Configuration_has_to_be_set_manually" : "Hue bridge not found - Configuration has to be set manually.",
+"Please_press_the_bridge_link_button_then_click_on_continue_within_30_seconds" : "Please press the bridge link button then click on continue within 30 seconds",
+"Register_application_in_bridge" : "Register application in bridge",
+"Application_registered_successfully" : "Application registered successfully",
+"Record_configuration" : "Record configuration",
+"Fatal_Error" : "Fatal Error",
+"Automatic_creation_of" : "Automatic creation of",
+"failed" : "failed",
+"Copy_manually" : "Copy manually",
+"to" : "to",
+"then_fill_this_file_with_the_following_values" : "then fill this file with the following values",
+"Configuration_file_created_successfully_with_the_following_values" : "Configuration file created successfully with the following values"
 }

@@ -61,5 +61,21 @@
 "ERROR" : "ERREUR",
 "Deleted" : "Supprimé(e).",
 "Created" : "Creé(e).",
-"Updated" : "Mis(e) à Jour."
+"Updated" : "Mis(e) à Jour.",
+"Continue" : "Continuer",
+"Looking_for_Hue_brigde_IP" : "Recherche IP du pont Hue",
+"Detection_in_progress_on_subnet" : "Détection en cours sur le sous-réseau",
+"Hue_bridge_found_at" : "Pont Hue trouvé en",
+"Hue_bridge_not_found_-_Configuration_has_to_be_set_manually" : "Pont Hue non trouvé - La configuration doit être créée manuellement.",
+"Please_press_the_bridge_link_button_then_click_on_continue_within_30_seconds" : "SVP, appuyer sur le bouton central du pont Hue puis cliquer sur continuer dans les 30 secondes",
+"Register_application_in_bridge" : "Enregistrement application dans le pont Hue",
+"Application_registered_successfully" : "Application enregistrée avec succés",
+"Record_configuration" : "Enregistrement de la configuration",
+"Fatal_Error" : "Erreur Fatale",
+"Automatic_creation_of" : "Création automatique de",
+"failed" : "abortée",
+"Copy_manually" : "Copier manuellement",
+"to" : "vers",
+"then_fill_this_file_with_the_following_values" : "puis remplir ce fichier avec les valeurs suivantes",
+"Configuration_file_created_successfully_with_the_following_values" : "Fichier de configuration créé avec succés avec les valeurs suivantes"
 }

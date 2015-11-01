@@ -39,8 +39,8 @@ else {$cur_branch = " (".$cur_branch.")";}
 // Init env
 include "include/init_conf.php";
 
-// Load translations (lf+cr+<+> are removed)
-$trs_json = preg_replace("/[\n\r<>]/","", implode(file('include/text_'.$lang.'.json')));
+// Load translations (lf+cr+<+>+' are removed)
+$trs_json = preg_replace("/[\n\r<>']/","", implode(file('include/text_'.$lang.'.json')));
 $trs = json_decode($trs_json,true);
 ?>
 

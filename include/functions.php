@@ -8,6 +8,27 @@ if (! defined('ANTI_HACK')){exit;}
 include "huecolor.php"; // Function to process color from hue
 
 // -------------------------------------------------------------
+// Display a select list to choose interface language
+// -------------------------------------------------------------
+function choose_lang(){
+	global $lang;
+
+	// Get lang file array
+	$lang_ar = glob('include/text_??.json');
+
+	// Display lang list
+	echo "<SELECT ID=c_lang NAME=\"lang\">\n";
+	$lang_count = count($lang_ar);
+	for ($i=0; $i < $lang_count; $i++){
+		$lang_val = preg_replace("/^.*text_(..)\.json$/","$1",$lang_ar[$i]);
+		echo "<OPTION VALUE=$lang_val";
+		if ($lang_val == $lang){echo " SELECTED";}
+		echo ">$lang_val</OPTION>";
+	}
+	echo "</SELECT>\n";
+} // choose_lang
+
+// -------------------------------------------------------------
 // Display brillance slider
 // -------------------------------------------------------------
 // use 2 <TD> : one for the slide, one to display the value

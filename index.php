@@ -3,16 +3,10 @@
 // Index phpMyHue
 //----------------------------------------------------------------------------
 // F. Bardin  06/02/2015
+// 12/09/2015 : add init_conf
 //============================================================================
 // Anti-hack
 define('ANTI_HACK', true);
-
-// Init env
-include "include/config.php";
-
-// Load translations (lf+cr+<+> are removed)
-$trs_json = preg_replace("/[\n\r<>]/","", implode(file('include/text_'.$lang.'.json')));
-$trs = json_decode($trs_json,true);
 
 // Catch current git branch to display in title if not master
 @list($ref,$dir,$cur_branch) = explode("/",trim(@file(".git/HEAD")[0]));
@@ -40,6 +34,15 @@ else {$cur_branch = " (".$cur_branch.")";}
 <DIV ID=msg></DIV>
 <DIV ID=title><IMG SRC="img/phpmyhue.png"></DIV>
 <DIV ID=page>
+
+<?php
+// Init env
+include "include/init_conf.php";
+
+// Load translations (lf+cr+<+>+' are removed)
+$trs_json = preg_replace("/[\n\r<>']/","", implode(file('include/text_'.$lang.'.json')));
+$trs = json_decode($trs_json,true);
+?>
 
 <!-- left pane -->
 <DIV ID=sel>

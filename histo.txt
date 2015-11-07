@@ -2,4 +2,5 @@ v1.0 - 24/04/2015 : Creation
 v1.1 - 04/05/2015 : Html tag attributes and javascript optimization
 v1.2 - 07/06/2015 : Add Multi Lang support
 v1.2.1 - 15/07/2015 : Correction of a select group display bug when a special case occured.
-v1.2.2 - 16/07/201 : Update logo in code and screenshots
+v1.2.2 - 16/07/2015 : Update logo in code and screenshots
+v1.3 - 07/11/2015 : Add automatic initialization of config file

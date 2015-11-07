@@ -4,7 +4,7 @@ Php web interface to manage Philips Hue lights in a lan.
 ## Installation
 1. Copy 'phpMyHue' directory and its content in your web server.
 2. Open a browser on your installation url, it must be something like "http://<my web server>/phpMyHue"
-* Automatic configuration begins : follow configuration informations in your browser
+	* Automatic configuration begins : follow configuration informations in your browser
 
 If you're asked to proceed manually because automatic setup failed to complete (ie. : local file writing not allowed from your web server), do as follow :
 * Rename 'include/config.tpl.php' as 'include/config.php'

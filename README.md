@@ -7,6 +7,7 @@ Php web interface to manage Philips Hue lights in a lan.
 	* Automatic configuration begins : follow configuration informations in your browser
 
 If you're asked to proceed manually because automatic setup failed to complete (ie. : local file writing not allowed from your web server), do as follow :
+
 1. Rename 'include/config.tpl.php' as 'include/config.php'
 2. Edit 'include/config.php' and put correct values for '$bridgeip', '$username' and, if needed, for '$lang'.  
 	* 'bridgeip' is the ip address of your hue bridge in your lan.  

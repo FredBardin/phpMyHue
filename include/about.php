@@ -14,5 +14,5 @@ $('#detail').hide("slide");
 &copy; <A HREF="mailto:bardin.frederic@gmail.com" CLASS=about>F. Bardin</A> 09-2015<BR>
 <small>
 Bridge IP : <?php echo $bridgeip?><BR>
-Current language : <?php choose_lang();?>
+Current language : <?php echo $lang;?>
 </small></DIV>

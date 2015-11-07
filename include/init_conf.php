@@ -94,7 +94,7 @@ function getBridgeIP(){
 	ob_flush();
 	flush();
 
-	$i=13; //FBA====> A REMETTRE A 0 APRES TESTS
+	$i=0;
 	$found=false;
 	while (! $found and $i < 254){ // Scan subnet with ip range from 1 to 254
 		$i++;
@@ -128,13 +128,11 @@ function getUserName(){
 	include 'include/hueapi.php';
 
 	// Register app
-	$answer=json_decode($HueAPI->setInfo("",'{"devicetype":"phpMyHue#'.$bridgeip.'"}',"POST"),true);
+	$answer=json_decode($HueAPI->setInfo("",'{"devicetype":"phpMyHue#'.$_SERVER["SERVER_NAME"].'"}',"POST"),true);
 
 	// Get result
 	if (isset($answer[0]['error'])){
-//FBA		die("<H2>ERROR : ".$answer[0]['error']['description']."</H2>");
-$username="fredbardin";
-		echo("<H2>".$trs["ERROR"]." : ".$answer[0]['error']['description']."</H2>");
+		die("<H2>".$trs["ERROR"]." : ".$answer[0]['error']['description']."</H2>");
 	} else {
 		$username = $answer[0]['success']['username'];
 		echo "<H4>".$trs["Application_registered_successfully"]."</H4>";

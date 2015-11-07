@@ -3,12 +3,12 @@ Php web interface to manage Philips Hue lights in a lan.
 
 ## Installation
 1. Copy 'phpMyHue' directory and its content in your web server.
-2. Open a browser on your installation url, it must be something like "http://<my web server>/phpMyHue"
+2. Open a browser on your installation url, it must be something like "http://my_web_server/phpMyHue"
 	* Automatic configuration begins : follow configuration informations in your browser
 
 If you're asked to proceed manually because automatic setup failed to complete (ie. : local file writing not allowed from your web server), do as follow :
-* Rename 'include/config.tpl.php' as 'include/config.php'
-* Edit 'include/config.php' and put correct values for '$bridgeip', '$username' and, if needed, for '$lang'.  
+1. Rename 'include/config.tpl.php' as 'include/config.php'
+2. Edit 'include/config.php' and put correct values for '$bridgeip', '$username' and, if needed, for '$lang'.  
 	* 'bridgeip' is the ip address of your hue bridge in your lan.  
 	* 'username' is a registered user in your hue bridge (cf http://www.developers.meethue.com/documentation/api-core-concepts).  
 	* 'lang' references an existing 'include/text_"lang".json' file ('en' by default).  

@@ -282,3 +282,17 @@ HIL002 : 2 lamps (2 bottom)
 	background-color: transparent;
 	border: none;
 }
+
+/* Classes for effects xml file */
+.effect-default {
+	color:#ffffff;
+}
+.effect-tag {
+	color: #ff1493;
+}
+.effect-attribute {
+	color: #32cd32;
+}
+.effect-value {
+	color:#00bfff;
+}

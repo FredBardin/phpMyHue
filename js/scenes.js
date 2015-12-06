@@ -13,8 +13,8 @@ function scenesTab(){
 	var tabdetail = "#"+getCurrentTabsID('#detail');
 
 	// Trigger scene selection
-	$('#tabs td span.ui-icon').click(function(){
-		$(this).children('input').change();
+	$('#tabs td span.ui-icon input').click(function(){
+		$(this).change();
 	});
 	// Activate scene when a new selection occurs
 	$('#tabs input[type=radio][name=scradio]').change(function(){

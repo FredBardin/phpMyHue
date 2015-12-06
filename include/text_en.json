@@ -3,6 +3,8 @@
 "Lights_&_Groups" : "Lights & Groups",
 "Scenes" : "Scenes",
 "Scenes_management" : "Scenes management",
+"Effects" : "Effects",
+"Effects_management" : "Effects management",
 "About" : "About",
 "About_phpMyHue" : "About phpMyHue",
 "All" : "All",
@@ -21,7 +23,7 @@
 "Name_updated" : "Name updated.",
 "Brightness" : "Brightness",
 "Effect" : "Effect",
-"Effects" : "Effects",
+"Simple_Effects" : "Simple effects",
 "1_Blink" : "1 Blink",
 "Blink_30_s" : "Blink 30 s",
 "Blink_Off" : "Blink Off",
@@ -77,5 +79,8 @@
 "Copy_manually" : "Copy manually",
 "to" : "to",
 "then_fill_this_file_with_the_following_values" : "then fill this file with the following values",
-"Configuration_file_created_successfully_with_the_following_values" : "Configuration file created successfully with the following values"
+"Configuration_file_created_successfully_with_the_following_values" : "Configuration file created successfully with the following values",
+"Problem_for_opening_effect" : "Problem for opening effect",
+"See_details" : "See details",
+"Run_in_debug_mode" : "Run in debug mode"
 }

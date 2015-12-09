@@ -82,5 +82,7 @@
 "Configuration_file_created_successfully_with_the_following_values" : "Fichier de configuration créé avec succés avec les valeurs suivantes",
 "Problem_for_opening_effect" : "Problème pour ouvrir l'effet",
 "See_details" : "Voir détails",
-"Run_in_debug_mode" : "Exécuter en mode debug"
+"Run_in_debug_mode" : "Exécuter en mode debogage",
+"Debug_output" : "Sortie mode debogage",
+"Running_please_wait" : "Exécution en cours, attendre svp ..."
 }

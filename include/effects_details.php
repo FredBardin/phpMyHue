@@ -18,11 +18,15 @@ echo $content;
 
 echo "<BR><BUTTON ID=rundbg>".$trs["Run_in_debug_mode"]."</BUTTON>";
 
-echo "<DIV ID=runout TITLE=\"Output\"></DIV>";
+echo "<DIV ID=runout TITLE=\"".$trs["Debug_output"]."\"></DIV>";
 ?>
 <SCRIPT language="javascript">
-$("#detail").show("slide"); // Show tab
 scrollCurrentTab('#detail');
 $("#rundbg").button();
+$("#runout").dialog({
+  autoOpen: false,
+  width : 500,
+  height: 500
+});
 effectsDetail("<?php echo $effect?>");
 </SCRIPT>

@@ -8,10 +8,6 @@
 function effectsTab(){
 	scrollCurrentTab('#tabs');
 
-	// Get selector for Div ID of current tab
-	//var tabeffects = "#"+getCurrentTabsID('#tabs');
-	//var tabdetail = "#"+getCurrentTabsID('#detail');
-
 	// Trigger effect selection
 	$('#tabs td span.ui-icon input').click(function(){
 		$(this).change();
@@ -28,13 +24,32 @@ function effectsTab(){
 		cbspan.removeClass('ui-icon-radio-off');
 		cbspan.addClass('ui-icon-arrow-1-e');
 		var effectid = $(this).attr('id');
-		msg($(this).load('main.php?rt=runeffect&effect='+effectid));
+		$(this).load('main.php?rt=runeffect&effect='+effectid);
 	});
 
-	// Load effects details
-	$('#tabs td span.ui-icon-zoomin').click(function(){
-		var effect = $(this).attr('effect');
-		$("#"+getCurrentTabsID('#detail')).load('details.php?rt=effects&effect='+effect);
+	// Manage effects details
+	$('#tabs td span.ui-icon[effect]').click(function(){
+		$(this).toggleClass('ui-icon-circle-zoomin');
+		$(this).toggleClass('ui-icon-circle-zoomout');
+		// If details to display
+		if($(this).hasClass('ui-icon-circle-zoomout')){
+			var effect = $(this).attr('effect');
+
+			// Toggle other existing zoomout icon
+			$('#tabs td span.ui-icon-circle-zoomout').each(function(){
+				if ($(this).attr('effect') != effect){
+					$(this).toggleClass('ui-icon-circle-zoomin');
+					$(this).toggleClass('ui-icon-circle-zoomout');
+				}
+			});
+
+			// Show and load tab
+			$("#detail").show("slide");
+			$("#"+getCurrentTabsID('#detail')).load('details.php?rt=effects&effect='+effect);
+
+		} else {
+			$("#detail").hide("slide");
+		}
 	});
 } // effectsTab
 
@@ -44,6 +59,8 @@ function effectsTab(){
 function effectsDetail(effect){
 	// Run effect in debug mode	
 	$("#rundbg").click(function(){
+		$("#runout").text(trs.Running_please_wait);
 		$("#runout").dialog("open");
+		$("#runout").load('main.php?rt=runeffect&effect='+effect+'&debug=1');
 	});
 } // effectsDetail

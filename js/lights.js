@@ -49,7 +49,7 @@ function loadSelectedLightsDetail(tablights){
 			var num = "";
 			var name = "";
 
-			// Identify the row type and construct the selectio string
+			// Identify the row type and construct the selection string
 			if (elemid == 'cb_all'){ // ALL
 				selstring = ', <SPAN type=all>'+trs.All_lamps+'</SPAN>';
 				selcount++;

@@ -296,3 +296,7 @@ HIL002 : 2 lamps (2 bottom)
 .effect-value {
 	color:#00bfff;
 }
+/* Classes for effects debug window */
+#runout {
+	text-align:left;
+}

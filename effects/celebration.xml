@@ -1,19 +1,20 @@
-<Effect name="Celebration" comment="Sample Effect">
-	<Var name="hueyellow" value="22059" />
+<effect name="Celebration" comment="Sample Effect">
+	<var name="hueyellow" value="22059" />
 	<var name="hueblue" value="47125" />
-	<var nAme="hue1" value="$hueyellow" />
-	<var name="hue2" value="$hueblue" />
-	<Light id="1" on="true" bri="254" sat="255" hue="$hue1" />
-	<Light id="2" on="true" bri="254" sat="255" hue="$hue2" />
-	<Light id="3" on="true" bri="254" sat="255" hue="$hue2" />
-	<Loop repeat="6">
-		<var name="huetmp" value="$hue1" />
-		<var name="hue1" value="$hue2" />
-		<var name="hue2" value="$huetmp" />
-		<light id="1" hue="$hue1" alert="select" />
-		<light id="2" hue="$hue2" alert="select" />
-		<light id="3" hue="$hue2" alert="select" />
-		<timer duration="0.5" />
+	<var name="duration" value="0.5" />
+	<light id="1" on="true" bri="254" sat="255" hue="$hueyellow" />
+	<light id="2" on="true" bri="254" sat="255" hue="$hueblue" />
+	<light id="3" on="true" bri="254" sat="255" hue="$hueblue" />
+	<timer duration="$duration" />
+	<loop repeat="6">
+		<getcolor id="1" name="first" />
+		<getcolor id="2" name="second" />
+		<setcolor id="1" name="second" />
+		<setcolor id="2" name="first" />
+		<setcolor id="3" name="first" />
+		<timer duration="$duration" />
 	</loop>
-	<group id="0" on="false" />
-</Effect>
+	<light id="1" on="false" />
+	<light id="2" on="false" />
+	<light id="3" on="false" />
+</effect>

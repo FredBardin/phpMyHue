@@ -82,7 +82,8 @@
 "Configuration_file_created_successfully_with_the_following_values" : "Configuration file created successfully with the following values",
 "Problem_for_opening_effect" : "Problem for opening effect",
 "See_details" : "See details",
-"Run_in_debug_mode" : "Run in debug mode",
-"Debug_output" : "Debug output",
+"Launch_with_execution_trace" : "Launch with execution trace",
+"Execution_trace" : "Execution trace",
+"Close" : "Close",
 "Running_please_wait" : "Running, please wait ..."
 }

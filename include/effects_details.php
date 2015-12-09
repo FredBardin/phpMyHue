@@ -7,23 +7,30 @@ if (! defined('ANTI_HACK')){exit;}
 
 @$effect = $_REQUEST['effect']; 
 
-// Get effect file and add colored syntax before display
+// Parse effect file as code
 ini_set('highlight.html', '#FFFFFF;');
 $content = highlight_file('effects/'.$effect.'.xml', true);
+// Color start tags
 $content = preg_replace('/&lt;([^&]*)&nbsp;/','&lt;<SPAN CLASS=effect-tag>\1</SPAN>&nbsp;',$content);
+// Color end tags
 $content = preg_replace("/&lt;\/([^&]*)/","&lt;/<SPAN CLASS=effect-tag>\\1</SPAN>",$content);
+// Color attributes and values
 $content = preg_replace('/&nbsp;([^&"]*)="([^"]*)"/','&nbsp;<SPAN CLASS=effect-attribute>\1</SPAN>=<SPAN CLASS=effect-value>"\2"</SPAN>',$content);
+// Replace inner &nbsp; by a space to allow automatic wordwrap
+$content = preg_replace('/([^;])&nbsp;([^&])/','\1 \2',$content);
 
 echo $content;
 
-echo "<BR><BUTTON ID=rundbg>".$trs["Run_in_debug_mode"]."</BUTTON>";
+echo "<BR><BUTTON ID=rundbg>".$trs["Launch_with_execution_trace"]."</BUTTON>";
 
-echo "<DIV ID=runout TITLE=\"".$trs["Debug_output"]."\"></DIV>";
+echo "<DIV ID=runout></DIV>";
 ?>
 <SCRIPT language="javascript">
 scrollCurrentTab('#detail');
 $("#rundbg").button();
 $("#runout").dialog({
+  title: trs.Execution_trace,
+  closeText: trs.Close,
   autoOpen: false,
   width : 500,
   height: 500

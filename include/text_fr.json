@@ -82,8 +82,9 @@
 "Configuration_file_created_successfully_with_the_following_values" : "Fichier de configuration créé avec succés avec les valeurs suivantes",
 "Problem_for_opening_effect" : "Problème pour ouvrir l'effet",
 "See_details" : "Voir détails",
-"Launch_with_execution_trace" : "Lancer avec trace d'exécution",
+"Launch_with_execution_trace" : "Lancer effet avec trace d'exécution",
 "Execution_trace" : "Trace d'exécution",
 "Close" : "Fermer",
-"Running_please_wait" : "Exécution en cours, attendre svp ..."
+"Running_please_wait" : "Exécution en cours, attendre svp ...",
+"Rules" : "Règles"
 }

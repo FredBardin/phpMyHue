@@ -1,10 +1,10 @@
 <effect name="Celebration" comment="Sample Effect">
-	<var name="hueyellow" value="22059" />
-	<var name="hueblue" value="47125" />
+	<var name="hueyellow" value="22008" />
+	<var name="hueblue" value="47126" />
 	<var name="duration" value="0.5" />
-	<light id="1" on="true" bri="254" sat="255" hue="$hueyellow" />
-	<light id="2" on="true" bri="254" sat="255" hue="$hueblue" />
-	<light id="3" on="true" bri="254" sat="255" hue="$hueblue" />
+	<light id="1" on="true" bri="254" sat="252" hue="$hueyellow" />
+	<light id="2" on="true" bri="254" sat="253" hue="$hueblue" />
+	<light id="3" on="true" bri="254" sat="253" hue="$hueblue" />
 	<timer duration="$duration" />
 	<loop repeat="6">
 		<getcolor id="1" name="first" />

@@ -3,7 +3,7 @@
 "Lights_&_Groups" : "Lights & Groups",
 "Scenes" : "Scenes",
 "Scenes_management" : "Scenes management",
-"Effects" : "Effects",
+"Effects" : "FX",
 "Effects_management" : "Effects management",
 "About" : "About",
 "About_phpMyHue" : "About phpMyHue",
@@ -82,8 +82,9 @@
 "Configuration_file_created_successfully_with_the_following_values" : "Configuration file created successfully with the following values",
 "Problem_for_opening_effect" : "Problem for opening effect",
 "See_details" : "See details",
-"Launch_with_execution_trace" : "Launch with execution trace",
+"Launch_with_execution_trace" : "Launch effect with execution trace",
 "Execution_trace" : "Execution trace",
 "Close" : "Close",
-"Running_please_wait" : "Running, please wait ..."
+"Running_please_wait" : "Running, please wait ...",
+"Rules" : "Rules"
 }

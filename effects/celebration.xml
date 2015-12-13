@@ -1,19 +1,25 @@
 <effect name="Celebration" comment="Sample Effect">
+	<!-- Set some var -->
 	<var name="hueyellow" value="22008" />
 	<var name="hueblue" value="47126" />
 	<var name="duration" value="0.5" />
+	<var name="transition" value="2" />
+	<!-- Init light state -->
 	<light id="1" on="true" bri="254" sat="252" hue="$hueyellow" />
 	<light id="2" on="true" bri="254" sat="253" hue="$hueblue" />
 	<light id="3" on="true" bri="254" sat="253" hue="$hueblue" />
 	<timer duration="$duration" />
+	<!-- Loop for effect 
+		 transitiontime for setcolor is optional -->
 	<loop repeat="6">
 		<getcolor id="1" name="first" />
 		<getcolor id="2" name="second" />
-		<setcolor id="1" name="second" />
-		<setcolor id="2" name="first" />
-		<setcolor id="3" name="first" />
+		<setcolor id="1" name="second" transitiontime="$transition" />
+		<setcolor id="2" name="first" transitiontime="$transition" />
+		<setcolor id="3" name="first" transitiontime="$transition" />
 		<timer duration="$duration" />
 	</loop>
+	<!-- Turn used lights off -->
 	<light id="1" on="false" />
 	<light id="2" on="false" />
 	<light id="3" on="false" />

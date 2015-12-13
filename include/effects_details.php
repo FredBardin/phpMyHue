@@ -10,12 +10,15 @@ if (! defined('ANTI_HACK')){exit;}
 // Parse effect file as code
 ini_set('highlight.html', '#FFFFFF;');
 $content = highlight_file('effects/'.$effect.'.xml', true);
+// Color comments
+$content = preg_replace("/(&lt;!--[^-]*--&gt;)/",'<SPAN CLASS=effect-comment>\1</SPAN>',$content);
 // Color start tags
-$content = preg_replace('/&lt;([^&]*)&nbsp;/','&lt;<SPAN CLASS=effect-tag>\1</SPAN>&nbsp;',$content);
+$content = preg_replace('/&lt;([^&!]*)&nbsp;/','&lt;<SPAN CLASS=effect-tag>\1</SPAN>&nbsp;',$content);
 // Color end tags
 $content = preg_replace("/&lt;\/([^&]*)/","&lt;/<SPAN CLASS=effect-tag>\\1</SPAN>",$content);
 // Color attributes and values
 $content = preg_replace('/&nbsp;([^&"]*)="([^"]*)"/','&nbsp;<SPAN CLASS=effect-attribute>\1</SPAN>=<SPAN CLASS=effect-value>"\2"</SPAN>',$content);
+
 // Replace inner &nbsp; by a space to allow automatic wordwrap
 $content = preg_replace('/([^;])&nbsp;([^&])/','\1 \2',$content);
 

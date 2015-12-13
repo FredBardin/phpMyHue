@@ -12,20 +12,20 @@
 // 		debug_mode : display effect execution step by step if true
 //
 // runEffect(effect_name) : run effect in parameter 
-// getDescription(effect_name) : get effect attribute(s) of tag <effect>
+// getDescription(effect_name) : return an array containing the attribute(s) of tag <effect>
 //----------------------------------------------------
 // Remark for debug mode :
 // Colored output is generated with class effect-tag, -attribute and -value
 //----------------------------------------------------
 // Available tag for effects :
-// <effect> : effect name and comment
-// <loop> : loop with repeat attribute
-// <var> : set a var name with a value
-// <light> or <group> : set light/group id with attributes values
-// <scene> : call a scene by name
-// <timer> : set a timer for n.m second
-// <getcolor> : get light id color and save it under a name (in xy + bri format)
-// <putcolor> : put a saved color on a given light (default) or group id
+// <effect></effect> : effect name and comment
+// <loop></loop> : loop with repeat attribute
+// <var /> : set a var name with a value
+// <light /> or <group /> : set light/group id with attributes values
+// <scene /> : call a scene by name
+// <timer /> : set a timer for n.m second
+// <getcolor /> : get light id color and save it under a name (in colormode format)
+// <putcolor /> : put a saved color on a given light (default) or group id (+[transitiontime])
 //----------------------------------------------------
 // F. Bardin 14/11/2015
 //====================================================
@@ -46,6 +46,7 @@ class HueEffect {
 	private $color;				// Array for saved colors
 
 	private $nodelvl = 0;		// Current node level (to manage nested node, ie. loops)
+	private $indent;			// Indentation string for debug display
 
 	//=====================================
 	//== CONSTRUCTOR ==
@@ -59,6 +60,7 @@ class HueEffect {
 		$HueAPI->loadInfo("scenes");// pre-load scenes if needed
 
 		$this->xr[$this->nodelvl] = new XMLReader();// Create a new XMLReader object
+		$this->indent = str_repeat("&nbsp;",4);
 	} // __construct
 
 	//=====================================
@@ -165,7 +167,7 @@ class HueEffect {
 
 						case "light" : // Launch command on lamp
 						case "group" :
-							$this->processCmd();
+							$this->processLamp();
 							break;
 
 						case "timer" : // Execute timer
@@ -181,13 +183,7 @@ class HueEffect {
 							break;
 
 						case "loop" : // Init loop
-							$name = $this->xr[$this->nodelvl]->localName;
-							$this->startLoop();
-
-							// Go to end of loop (=go to next tag, then to loop node if not already on it)
-							$this->xr[$this->nodelvl]->read();
-							if (strtolower($this->xr[$this->nodelvl]->localName != "loop"))
-								{$this->xr[$this->nodelvl]->next($name);}
+							$this->processLoop();
 							break;
 
 						case "scene" : // Activate a named scene (activation by scene code is made with group tag)
@@ -198,7 +194,8 @@ class HueEffect {
 							if ($this->debug){
 								while($this->xr[$this->nodelvl]->moveToNextAttribute()){ 
 									if(strtolower($this->xr[$this->nodelvl]->name) == "name"){
-										echo "<SPAN CLASS=effect-tag>Effect</SPAN> ";
+										echo str_repeat($this->indent,$this->nodelvl);
+										echo "<SPAN CLASS=effect-tag>effect</SPAN> ";
 										echo "<SPAN CLASS=effect-value>".$this->getCurrentAttributeValue()."</SPAN><BR>";
 										break;
 									}
@@ -214,7 +211,7 @@ class HueEffect {
 	//-------------------------------------
 	// Start a loop
 	//-------------------------------------
-	private function startLoop(){
+	private function processLoop(){
 		// Get repeat value
 		$repeat = 1;
 		while($this->xr[$this->nodelvl]->moveToNextAttribute()){ 
@@ -234,6 +231,7 @@ class HueEffect {
 		while ($count < $repeat){
 			$count++;
 			if ($this->debug){
+				echo str_repeat($this->indent,($this->nodelvl - 1));
 				echo "&lt;<SPAN CLASS=effect-tag>loop</SPAN> ";
 				echo "<SPAN CLASS=effect-attribute>repeat</SPAN>=<SPAN CLASS=effect-value>$repeat</SPAN> ";
 				echo "<SPAN CLASS=effect-attribute>count</SPAN>=<SPAN CLASS=effect-value>$count</SPAN>&gt;<BR>";
@@ -242,12 +240,15 @@ class HueEffect {
 			$this->processXMLContent();
 			$this->xr[$this->nodelvl]->close();
 		}
-		if ($this->debug){echo "&lt;<SPAN CLASS=effect-tag>end loop</SPAN>&gt;<BR>";}
-
 		// End loop
 		unset($this->xr[$this->nodelvl]);
 		$this->nodelvl--;
-	} // startLoop
+
+		if ($this->debug){echo str_repeat($this->indent,$this->nodelvl)."&lt;<SPAN CLASS=effect-tag>end loop</SPAN>&gt;<BR>";}
+
+		// Go to next node (skip current loop node content)
+		$this->xr[$this->nodelvl]->next();
+	} // processLoop
 
 	//-------------------------------------
 	// Process a variable
@@ -259,6 +260,7 @@ class HueEffect {
    		}
 		$this->var[$name] = $value;
 		if ($this->debug){
+			echo str_repeat($this->indent,$this->nodelvl);
 			echo "<SPAN CLASS=effect-tag>var</SPAN> ";
 			echo "<SPAN CLASS=effect-attribute>$name</SPAN> = <SPAN CLASS=effect-value>$value</SPAN><BR>";
 		}
@@ -267,7 +269,7 @@ class HueEffect {
 	//-------------------------------------
 	// Process Hue command for tag light or group
 	//-------------------------------------
-	private function processCmd(){
+	private function processLamp(){
 		$type = strtolower($this->xr[$this->nodelvl]->localName);
 		$json = "";
 		while($this->xr[$this->nodelvl]->moveToNextAttribute()){ 
@@ -275,23 +277,25 @@ class HueEffect {
 			if(strtolower($this->xr[$this->nodelvl]->name) == "id"){$id = $value;}
 			else {
 				$json .= '"'.$this->xr[$this->nodelvl]->name.'":';
-				if (is_numeric($value) || $value == "true" || $value == "false"){$json .= $value;}
-				else                   {$json .= '"'.$value.'"';}
+				if (is_numeric($value) || $value == "true" || $value == "false" || substr($value,0,1) == '['){
+						$json .= $value;
+				} else {$json .= '"'.$value.'"';}
 				$json .= ', ';
 			}
    		}
 		if ($json != ""){$json = '{'.substr($json,0,-2).'}';}
 		if ($this->debug){
+			echo str_repeat($this->indent,$this->nodelvl);
 			echo "<SPAN CLASS=effect-tag>$type</SPAN> ";
 			echo "<SPAN CLASS=effect-attribute>id</SPAN>=<SPAN CLASS=effect-value>$id</SPAN> ";
-			echo preg_replace("/,/",'<SPAN CLASS=effect-attribute>,</SPAN>',preg_replace("/([{}])/",'<SPAN CLASS=effect-tag>\1</SPAN>',$json))."<BR>";
+			$this->colorJSON($json,false);
 		}
 
 		// Execute hue command
 		if ($type == "light")	{$action = $type."s/$id/state";}
 		else					{$action = $type."s/$id/action";}
-		$this->hueResult($this->ha->setInfo($action,$json));
-	} // processCmd
+		$this->colorJSON($this->ha->setInfo($action,$json));
+	} // processLamp
 
 	//-------------------------------------
 	// Process named scene
@@ -318,8 +322,12 @@ class HueEffect {
 			}
 			// Activate found scene
 			if ($code != ""){
-				if ($this->debug){echo "<SPAN CLASS=effect-tag>Scene</SPAN> <SPAN CLASS=effect-value>$name</SPAN> id=<SPAN CLASS=effect-value>$code</SPAN><BR>";}
-				$this->hueResult($this->ha->setInfo("groups/0/action",'{"scene":"'.$code.'"}'));
+				if ($this->debug){
+					echo str_repeat($this->indent,$this->nodelvl);
+					echo "<SPAN CLASS=effect-tag>scene</SPAN> ";
+					echo "<SPAN CLASS=effect-value>$name</SPAN> ";
+					echo "id found=<SPAN CLASS=effect-value>$code</SPAN><BR>";}
+				$this->colorJSON($this->ha->setInfo("groups/0/action",'{"scene":"'.$code.'"}'));
 			}
 		}
 	} // processScene
@@ -334,7 +342,7 @@ class HueEffect {
 				break;
 			}
    		}
-		if ($this->debug){echo "<SPAN CLASS=effect-tag>timer</SPAN> = <SPAN CLASS=effect-value>$duration</SPAN> s<BR>";}
+		if ($this->debug){echo str_repeat($this->indent,$this->nodelvl)."<SPAN CLASS=effect-tag>timer</SPAN> = <SPAN CLASS=effect-value>$duration</SPAN> s<BR>";}
 		usleep ($duration * 1000000);
 	} // processTimer
 
@@ -358,6 +366,7 @@ class HueEffect {
 			}
    		}
 		if ($this->debug){
+			echo str_repeat($this->indent,$this->nodelvl);
 			echo "<SPAN CLASS=effect-tag>getcolor</SPAN> ";
 			echo "<SPAN CLASS=effect-attribute>light_id</SPAN>=<SPAN CLASS=effect-value>$id</SPAN> ";
 			echo "<SPAN CLASS=effect-attribute>save_name</SPAN>=<SPAN CLASS=effect-value>$name</SPAN><BR>";
@@ -381,7 +390,8 @@ class HueEffect {
 				break;
 		}
 		if ($this->debug){
-			echo "&nbsp;<SPAN CLASS=effect-attribute>colormode</SPAN>=<SPAN CLASS=effect-value>";
+			echo str_repeat($this->indent,$this->nodelvl);
+			echo $this->indent."<SPAN CLASS=effect-attribute>colormode</SPAN>=<SPAN CLASS=effect-value>";
 			echo $this->color[$name]['colormode']."</SPAN> ";
 			echo "<SPAN CLASS=effect-attribute>bri</SPAN>=<SPAN CLASS=effect-value>";
 			echo $this->color[$name]['bri']."</SPAN> ";
@@ -409,11 +419,13 @@ class HueEffect {
 
 	//-------------------------------------------------
 	// Set saved color to a light (default) or a group
+	// transitiontime in ms can me passed as attribute too
 	//-------------------------------------------------
 	private function setColor(){
 		$id="";
 		$name="";
 		$type="light";
+		$transitiontime="";
 		while($this->xr[$this->nodelvl]->moveToNextAttribute()){ 
 			$attr = strtolower($this->xr[$this->nodelvl]->name);
 			$value = $this->getCurrentAttributeValue();
@@ -425,15 +437,23 @@ class HueEffect {
 					$name = $value;
 					break;
 				case "type" :
-					$name = $value;
+					$type = $value;
+					break;
+				case "transitiontime" :
+					$transitiontime = $value;
 					break;
 			}
    		}
 		if ($this->debug){
+			echo str_repeat($this->indent,$this->nodelvl);
 			echo "<SPAN CLASS=effect-tag>setcolor</SPAN> ";
 			echo "<SPAN CLASS=effect-attribute>type</SPAN>=<SPAN CLASS=effect-value>$type</SPAN> ";
 			echo "<SPAN CLASS=effect-attribute>id</SPAN>=<SPAN CLASS=effect-value>$id</SPAN> ";
-			echo "<SPAN CLASS=effect-attribute>name</SPAN>=<SPAN CLASS=effect-value>$name</SPAN><BR>";
+			echo "<SPAN CLASS=effect-attribute>name</SPAN>=<SPAN CLASS=effect-value>$name</SPAN> ";
+			echo "<SPAN CLASS=effect-attribute>transitiontime</SPAN>=<SPAN CLASS=effect-value>";
+			if ($transitiontime == "")	{echo "4 ms (default)";}
+		 	else 						{echo "$transitiontime ms";}
+			echo "</SPAN><BR>";
 		}
 
 		if ($type == "light")	{$action = $type."s/$id/state";}
@@ -452,22 +472,38 @@ class HueEffect {
 				$json .= '"ct" : '.$this->color[$name]['ct'];
 				break;
 		}
+		if ($transitiontime != ""){
+			$json .= ',"transitiontime" : '.$transitiontime;
+		}
 		$json .= "}";
+		if ($this->debug){
+			echo str_repeat($this->indent,$this->nodelvl);
+			echo $this->indent."json=";
+			$this->colorJSON($json,false);
+		}
 
-		$this->hueResult($this->ha->setInfo($action,$json));
+		$this->colorJSON($this->ha->setInfo($action,$json));
 	} // setColor
 
-	//------------------------------------
-	// Return hue cmd result if debug=true
-	//------------------------------------
-	private function hueResult($ret){
+	//------------------------------------------------------------
+	// Echo colored json in parameter if debug=true
+	// Parameters :
+	// json : json string to colorize
+	// useIndent : use indentation for echo or not (default=true)
+	//------------------------------------------------------------
+	private function colorJSON($json,$useIndent=true){
 		if ($this->debug){
-			$ret = preg_replace("/^\[(.*)\]$/",'\1',$ret);
-			$ret = preg_replace("/,/",'<SPAN CLASS=effect-attribute>,</SPAN>',$ret);
-			$ret = preg_replace("/([{}])/",'<SPAN CLASS=effect-tag>\1</SPAN>',$ret);
-			echo "&nbsp;".$ret."<BR>";
+			$json = preg_replace('/^\[(.*)\]$/','\1',$json); // from hue response
+			$json = preg_replace('/{("error"):/','{<SPAN CLASS=error>\1</SPAN>:',$json);
+			$json = preg_replace('/("description":")([^"]*")/','\1<SPAN CLASS=error>\2</SPAN>:',$json);
+			$json = preg_replace('/([{,])([^:,{}<>]*):/','\1<SPAN CLASS=effect-attribute>\2</SPAN>:',$json);
+			$json = preg_replace('/:([^,{}<>]*)([,}])/',':<SPAN CLASS=effect-value>\1</SPAN>\2',$json);
+			$json = preg_replace('/,/','<SPAN CLASS=effect-comment>,</SPAN>',$json);
+			$json = preg_replace('/([{}])/','<SPAN CLASS=effect-comment>\1</SPAN>',$json);
+			if ($useIndent){echo str_repeat($this->indent,($this->nodelvl + 1));}
+			echo $json."<BR>";
 		}
-	} // hueResult
+	} // colorJSON
 }// Hue Effect
 
 $HueEffect = new HueEffect(@$debug);

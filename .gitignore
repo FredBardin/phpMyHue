@@ -28,6 +28,7 @@ include/config.php
 jquery-ui_FULL
 effects/*
 !effects/celebration.xml
+!effects/blink.xml
 
 
 # =========================

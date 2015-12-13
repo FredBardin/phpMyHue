@@ -21,9 +21,8 @@ switch ($rt)
 		$HueAPI->loadInfo("groups");
 		$HueAPI->loadInfo("lights");
 		$HueAPI->assignLightsGroup();
-
+	case "effects" :
 		include 'include/'.$rt.'_details.php';
-		break;
 		break;
 	case "adm" :
 		break;

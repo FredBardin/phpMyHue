@@ -13,18 +13,30 @@ include 'include/hueapi.php';
 
 @$rt=$_REQUEST['rt'];
 
+header('Content-Type: text/html; charset=UTF-8'); // to correctly display translation
+
 switch ($rt)
 {
+// Screens
 	case "lights" :
 		include 'include/lights.php';
 		break;
 	case "scenes" :
 		include 'include/scenes.php';
 		break;
+	case "effects" :
+		include 'include/effects.php';
+		break;
 	case "about" :
 		include 'include/about.php';
 		break;
-// action
+// Actions
+	case "runeffect" :
+		$effect = $_REQUEST['effect'];
+		@$debug = $_REQUEST['debug'];
+		include 'include/hueeffect.php';
+		$HueEffect->runEffect($effect);
+		break;
 	case "switch" :
 	case "display" :
 		include 'include/huecolor.php';

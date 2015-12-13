@@ -26,6 +26,9 @@ $RECYCLE.BIN/
 include/config.php
 *_old.php
 jquery-ui_FULL
+effects/*
+!effects/celebration.xml
+!effects/blink.xml
 
 
 # =========================

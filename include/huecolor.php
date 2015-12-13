@@ -45,7 +45,7 @@ function xyToRGB($x,$y,$bri){
 	$g = ($g > 255 ? 255 : $g);
 	$b = ($b > 255 ? 255 : $b);
 
-	// Create a web RGB string
+	// Create a web RGB string (format #xxxxxx)
 	$RGB = "#".substr("0".dechex($r),-2).substr("0".dechex($g),-2).substr("0".dechex($b),-2);
 
 	return $RGB;
@@ -88,13 +88,12 @@ function RGBToXy($RGB){
 	$bri = round($Y * 254);
 	if ($bri > 254){$bri = 254;}
 
-
 	return '{"xy": ['.$x.','.$y.'],"bri": '.$bri.'}';
 } // RGBToXy
 
 // ------------------------------------------
 // Display a ligh with icon and color
-// Remark : HueAPI->info must be already set
+// Remark : HueAPI->info must already be set
 // ------------------------------------------
 function display_light($lnum){
 	global $HueAPI, $trs;
@@ -124,10 +123,10 @@ function display_light($lnum){
 	// Init lamp class
 	$lclass = "sw".$onoff." ".$linfo['modelid'];
 
-	// TODO ==> Ajouter trt msl si modelid = LLM001
-	// cf css --> nécessite peut-être de revoir l'affichage des groupes
+	// TODO ==> Add msl process if modelid = LLM001
+	// cf css --> groups display may require some changes to do so
 	
-	// display lamp
+	// Display lamp
 	echo "<DIV STYLE=\"background-color:$lcolor;\" CLASS=\"$lclass\"$popup>";
 	if ($unreachable){echo "<SPAN CLASS=\"ui-state-focus unreachable\"><SPAN CLASS=\"ui-icon ui-icon-alert unreachable\"></SPAN></SPAN>";}
 	echo "</DIV>";

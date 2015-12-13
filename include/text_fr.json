@@ -3,6 +3,8 @@
 "Lights_&_Groups" : "Lumières & Groupes",
 "Scenes" : "Scènes",
 "Scenes_management" : "Gestion scènes",
+"Effects" : "Effets",
+"Effects_management" : "Gestion effets",
 "About" : "A propos",
 "About_phpMyHue" : "A propos de phpMyHue",
 "All" : "Tout",
@@ -21,7 +23,7 @@
 "Name_updated" : "Nom mis à jour.",
 "Brightness" : "Luminosité",
 "Effect" : "Effet",
-"Effects" : "Effets",
+"Simple_Effects" : "Effets simples",
 "1_Blink" : "Alarme",
 "Blink_30_s" : "Alarme 30 s",
 "Blink_Off" : "Fin Alarme",
@@ -77,5 +79,12 @@
 "Copy_manually" : "Copier manuellement",
 "to" : "vers",
 "then_fill_this_file_with_the_following_values" : "puis remplir ce fichier avec les valeurs suivantes",
-"Configuration_file_created_successfully_with_the_following_values" : "Fichier de configuration créé avec succés avec les valeurs suivantes"
+"Configuration_file_created_successfully_with_the_following_values" : "Fichier de configuration créé avec succés avec les valeurs suivantes",
+"Problem_for_opening_effect" : "Problème pour ouvrir l'effet",
+"See_details" : "Voir détails",
+"Launch_with_execution_trace" : "Lancer effet avec trace d'exécution",
+"Execution_trace" : "Trace d'exécution",
+"Close" : "Fermer",
+"Running_please_wait" : "Exécution en cours, attendre svp ...",
+"Rules" : "Règles"
 }

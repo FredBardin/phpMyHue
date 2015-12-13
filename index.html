@@ -25,36 +25,6 @@
 <p>Php web interface to manage Philips Hue lights in a lan.</p>
 
 <h2>
-<a id="installation" class="anchor" href="#installation" aria-hidden="true"><span class="octicon octicon-link"></span></a>Installation</h2>
-
-<ol>
-<li>Copy 'phpMyHue' directory and its content in your web server.</li>
-<li>Open a browser on your installation url, it must be something like "http://my_web_server/phpMyHue"
-
-<ul>
-<li>Automatic configuration begins : follow configuration informations in your browser</li>
-</ul>
-</li>
-</ol>
-
-<p>If you're asked to proceed manually because automatic setup failed to complete (ie. : local file writing not allowed from your web server), do as follow :</p>
-
-<ol>
-<li>Rename 'include/config.tpl.php' as 'include/config.php'</li>
-<li>Edit 'include/config.php' and put correct values for '$bridgeip', '$username' and, if needed, for '$lang'.<br>
-
-<ul>
-<li>'bridgeip' is the ip address of your hue bridge in your lan.<br>
-</li>
-<li>'username' is a registered user in your hue bridge (cf <a href="http://www.developers.meethue.com/documentation/api-core-concepts">http://www.developers.meethue.com/documentation/api-core-concepts</a>).<br>
-</li>
-<li>'lang' references an existing 'include/text_"lang".json' file ('en' by default).<br>
-</li>
-</ul>
-</li>
-</ol>
-
-<h2>
 <a id="main-functionnalities" class="anchor" href="#main-functionnalities" aria-hidden="true"><span class="octicon octicon-link"></span></a>Main Functionnalities</h2>
 
 <ul>
@@ -83,6 +53,36 @@
 
 <p>ie: effects screen in english<br>
 <img src="https://raw.githubusercontent.com/FredBardin/phpMyHue/master/screen3_pmh.gif" alt="screenshot"></p>
+
+<h2>
+<a id="installation" class="anchor" href="#installation" aria-hidden="true"><span class="octicon octicon-link"></span></a>Installation</h2>
+
+<ol>
+<li>Copy 'phpMyHue' directory and its content in your web server.</li>
+<li>Open a browser on your installation url, it must be something like "http://my_web_server/phpMyHue"
+
+<ul>
+<li>Automatic configuration begins : follow configuration informations in your browser</li>
+</ul>
+</li>
+</ol>
+
+<p>If you're asked to proceed manually because automatic setup failed to complete (ie. : local file writing not allowed from your web server), do as follow :</p>
+
+<ol>
+<li>Rename 'include/config.tpl.php' as 'include/config.php'</li>
+<li>Edit 'include/config.php' and put correct values for '$bridgeip', '$username' and, if needed, for '$lang'.<br>
+
+<ul>
+<li>'bridgeip' is the ip address of your hue bridge in your lan.<br>
+</li>
+<li>'username' is a registered user in your hue bridge (cf <a href="http://www.developers.meethue.com/documentation/api-core-concepts">http://www.developers.meethue.com/documentation/api-core-concepts</a>).<br>
+</li>
+<li>'lang' references an existing 'include/text_"lang".json' file ('en' by default).<br>
+</li>
+</ul>
+</li>
+</ol>
 
 <h3>
 <a id="licence" class="anchor" href="#licence" aria-hidden="true"><span class="octicon octicon-link"></span></a>Licence</h3>

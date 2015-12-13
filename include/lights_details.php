@@ -25,7 +25,7 @@ echo "\n</TABLE>";
 
 // Action buttons
 echo "\n<DIV ID=actions>";
-echo "<FIELDSET CLASS=\"ui-widget ui-widget-content ui-corner-all\"><LEGEND>".$trs["Effects"]."</LEGEND>\n";
+echo "<FIELDSET CLASS=\"ui-widget ui-widget-content ui-corner-all\"><LEGEND>".$trs["Simple_Effects"]."</LEGEND>\n";
 echo "<BUTTON ID=blink1>".$trs["1_Blink"]."</BUTTON>";
 echo "<BUTTON ID=blink30s>".$trs["Blink_30_s"]."</BUTTON>";
 echo "<BUTTON ID=blinkoff>".$trs["Blink_Off"]."</BUTTON>";

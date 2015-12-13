@@ -48,8 +48,9 @@ $trs = json_decode($trs_json,true);
 <DIV ID=sel>
 <DIV ID=tabs>
 <UL>
-<LI><A HREF="main.php?rt=lights" TITLE="<?php echo $trs["Lights_&_Groups"]?>"><SPAN CLASS="tabicon ui-icon ui-icon-lightbulb"></SPAN><?php echo $trs["Lights"]?></A></LI>
+	<LI><A HREF="main.php?rt=lights" TITLE="<?php echo $trs["Lights_&_Groups"]?>"><SPAN CLASS="tabicon ui-icon ui-icon-lightbulb"></SPAN><?php echo $trs["Lights"]?></A></LI>
 	<LI><A HREF="main.php?rt=scenes" TITLE="<?php echo $trs["Scenes_management"]?>"><SPAN CLASS="tabicon ui-icon ui-icon-image"></SPAN><?php echo $trs["Scenes"]?></A></LI>
+	<LI><A HREF="main.php?rt=effects" TITLE="<?php echo $trs["Effects_management"]?>"><SPAN CLASS="tabicon ui-icon ui-icon-script"></SPAN><?php echo $trs["Effects"]?></A></LI>
 	<LI><A HREF="main.php?rt=about" TITLE="<?php echo $trs["About_phpMyHue"]?>"><?php echo $trs["About"]?></A></LI>
 </UL> 
 </DIV><!-- /div tabs -->

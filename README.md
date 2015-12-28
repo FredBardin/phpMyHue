@@ -4,7 +4,7 @@ Php web interface to manage Philips Hue lights in a lan.
 ## Main Functionnalities
 * **Full group management**
 * **Scenes update or creation**
-* Manage and run **scripted effects** (debug mode available)
+* Manage and run **scripted effects** (debug mode available) ([see wiki](https://github.com/FredBardin/phpMyHue/wiki/Effects-scripts)) 
 * Set color and/or brightness for a light or several at once
 * Copy color settings between lights (copy to, copy from, switch with)
 * Switch lights on/off

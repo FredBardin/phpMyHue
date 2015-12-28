@@ -25,7 +25,7 @@
 // <scene /> : call a scene by name
 // <timer /> : set a timer for n.m second
 // <getcolor /> : get light id color and save it under a name (in colormode format)
-// <putcolor /> : put a saved color on a given light (default) or group id (+[transitiontime])
+// <setcolor /> : put a saved color on a given light (default) or group id (+[transitiontime])
 //----------------------------------------------------
 // F. Bardin 14/11/2015
 //====================================================

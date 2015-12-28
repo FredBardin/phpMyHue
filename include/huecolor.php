@@ -100,10 +100,6 @@ function display_light($lnum){
 
 	$linfo = &$HueAPI->info['lights'][$lnum];
 
-	// Init color type
-	if ($linfo['type'] == "Extended color light"){$type="bulb";}
-	else {$type="other";}
-	
 	// Init on/off + lamp color
 	$unreachable = false;
 	$popup = "";
@@ -117,7 +113,11 @@ function display_light($lnum){
 		}
 	} else { // light on : get rgb color
 		$onoff = "on";
-		$lcolor=xyToRGB($lstate['xy']['0'],$lstate['xy']['1'],$lstate['bri'],$type);
+		if ($linfo['type'] == "Dimmable light"){ // White and grey : xy are constant
+			$lcolor=xyToRGB("0.3127","0.329",$lstate['bri']);
+		} else {
+			$lcolor=xyToRGB($lstate['xy']['0'],$lstate['xy']['1'],$lstate['bri']);
+		}
 	}
 
 	// Init lamp class

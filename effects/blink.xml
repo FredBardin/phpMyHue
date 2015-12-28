@@ -2,10 +2,10 @@
 	<var name="duration" value="0.2" />
 	<var name="tt" value="0" />
 	<!-- red -->
-	<light id ="1" on="true" bri="202" xy="[0.675,0.322]" />
+	<light id="1" on="true" bri="202" xy="[0.675,0.322]" />
 	<!-- blue -->
-	<light id ="2" on="true" bri="254" xy="[0.167,0.04]" />
-	<light id ="3" on="true" bri="254" xy="[0.167,0.04]" />
+	<light id="2" on="true" bri="254" xy="[0.167,0.04]" />
+	<light id="3" on="true" bri="254" xy="[0.167,0.04]" />
 	<!-- turn off after init -->
 	<light id="1" on="false" transitiontime="$tt" />
 	<light id="2" on="false" transitiontime="$tt" />
@@ -28,7 +28,7 @@
 			<light id="1" on="true" transitiontime="$tt" alert="select" />
 			<light id="1" on="false" transitiontime="$tt" />
 		</loop>
-		<!-- Swich color between lights -->
+		<!-- Switch color between lights -->
 		<var name="tt" value="2" />
 		<light id="1" on="true" transitiontime="$tt" />
 		<light id="2" on="true" transitiontime="$tt" />

@@ -159,11 +159,17 @@ div.swoff, div.swon {
 .swon.LLC013 {
 	background-image: url(../img/disney-on.png);
 }
-.swoff.LST001 {
+.swoff.LST001, .swoff.LST002 {
 	background-image: url(../img/lightstrips-off.png);
 }
-.swon.LST001 {
+.swon.LST001, .swon.LST002 {
 	background-image: url(../img/lightstrips-on.png);
+}
+.swoff.LLC020 {
+	background-image: url(../img/huego-off.png);
+}
+.swon.LLC020 {
+	background-image: url(../img/huego-on.png);
 }
 /* 
 Multi-source luminaire groups

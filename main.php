@@ -59,7 +59,7 @@ switch ($rt)
 
 		display_light($lnum);
 		break;
-	case "color" :
+	case "color" : // echo json with xy+bri from rgb
 		include 'include/huecolor.php';
 		$rgb = $_REQUEST['rgb'];
 		echo RGBToXy($rgb);

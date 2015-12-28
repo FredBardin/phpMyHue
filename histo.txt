@@ -5,3 +5,5 @@ v1.2.1 - 15/07/2015 : Correction of a select group display bug when a special ca
 v1.2.2 - 16/07/2015 : Update logo in code and screenshots
 v1.3 - 07/11/2015 : Add Automatic Configuration
 v1.4 - 11/11/2015 : Add Effects scripts
+v1.4.1 - 28/12/2015 : Correction to manage white only lights (='dimmable light' type)
+

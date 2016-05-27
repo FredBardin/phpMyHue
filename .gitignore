@@ -29,7 +29,7 @@ jquery-ui_FULL
 effects/*
 !effects/celebration.xml
 !effects/blink.xml
-
+!effects/onoff.xml
 
 # =========================
 # Operating System Files

@@ -199,6 +199,7 @@ function loadSelectedLightsDetail(tablights){
 
 //---------------------------------------
 // Execute action from lights detail tab
+// Parameters : action [,xy color value]
 //---------------------------------------
 function lightsDetailAction(tabaction,xy){
 	var type = "";

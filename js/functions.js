@@ -1,9 +1,17 @@
 // Javascript Functions for phpMyHue
 // F. Bardin 2015/02/10
-// -----------------------------------
-/*====================================
-  Generic Functions
-=====================================*/
+//------------------------------------------------------------------------
+// Functions list :
+// isMobile 			returns true/false if navigator is used from a mobile device
+// uniqid 				generates a pseudo unique id of 13 char (+ prefix if supplied)
+// $.scrollbarWidth 	returns the scroll bar width of the navigator in pixels
+// scrollCurrentTab 	enables vertical scroll of a tab id if needed
+// msg 					displays a normal message or an error then fades it out
+// processReturnMsg 	processes return message send by the bridge and display it with msg()
+// getCurrentTabsID 	returns the current tab id of a given tab object
+// lightList 			manage list list event (for light tab or scene detail tab)
+// switchGroup 			switch on or off a group of lamps
+//------------------------------------------------------------------------
 //----------------------------------------
 // Create fonctions for mobiles detection
 //----------------------------------------

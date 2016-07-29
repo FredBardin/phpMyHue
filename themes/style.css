@@ -265,6 +265,10 @@ HIL002 : 2 lamps (2 bottom)
 #tsradio {
 	float: left;
 }
+.aligntxt {
+	position: relative;
+	bottom: .8em;
+}
 @-moz-document url-prefix()
 {
 	#creategrp {
@@ -275,6 +279,11 @@ HIL002 : 2 lamps (2 bottom)
 		position: relative;
 		top: .15em;
 	}
+}
+#srradio {		
+	float: left;
+	position: relative;
+	top: -.1em;
 }
 #grpassign {
 	float: right;

@@ -1,5 +1,5 @@
 # phpMyHue
-Php web interface to manage Philips Hue lights in a lan.
+Php web interface to manage Philips Hue lights in a local network.
 
 ## Main Functionnalities
 * **Full group management**
@@ -16,13 +16,14 @@ Php web interface to manage Philips Hue lights in a lan.
 * Hue effects web service available with 'main.php' ([see wiki](https://github.com/FredBardin/phpMyHue/wiki/Web-services))
 * ...
 
-ie: lights screen in english            
+**Screenshots**
+Lights screen in english            
 ![screenshot](screen1_pmh.jpg)
 
-ie: scenes screen in french            
+Scenes screen in french            
 ![screenshot](screen2_pmh.jpg)
 
-ie: effects screen in english            
+Effects screen in english            
 ![screenshot](screen3_pmh.gif)
 
 ## Installation

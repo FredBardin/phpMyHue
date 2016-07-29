@@ -24,10 +24,11 @@
 // <light /> or <group /> : set light/group id with attributes values
 // <scene /> : call a scene by name
 // <timer /> : set a timer for n.m second
-// <getcolor /> : get light id color and save it under a name (in colormode format)
-// <setcolor /> : put a saved color on a given light (default) or group id (+[transitiontime])
+// <getcolor /> : get light id on+color and save it under a name (in colormode format)
+// <setcolor /> : put a saved on+color on a given light (default) or group id (+[transitiontime])
 //----------------------------------------------------
 // F. Bardin 14/11/2015
+// 11/07/2015 : add 'on' state to getcolor/setcolor 
 //====================================================
 // Anti-hack
 if (! defined('ANTI_HACK')){exit;}
@@ -347,7 +348,7 @@ class HueEffect {
 	} // processTimer
 
 	//-------------------------------------------------------------
-	// Get color from a light and save it
+	// Get color and 'on' status from a light and save it
 	// Remark : color is get from colormode value (hs or xy or ct)
 	//-------------------------------------------------------------
 	private function getColor(){
@@ -374,6 +375,8 @@ class HueEffect {
 		$this->ha->loadInfo("lights");
 
 		$lstate = &$this->ha->info['lights'][$id]['state'];
+		if ($lstate['on'] == ""){$this->color[$name]['on'] = "false";}
+		else					{$this->color[$name]['on'] = "true";}
 		$this->color[$name]['colormode'] = $lstate['colormode'];
 		$this->color[$name]['bri'] = $lstate['bri'];
 		switch ($lstate['colormode']){
@@ -391,7 +394,9 @@ class HueEffect {
 		}
 		if ($this->debug){
 			echo str_repeat($this->indent,$this->nodelvl);
-			echo $this->indent."<SPAN CLASS=effect-attribute>colormode</SPAN>=<SPAN CLASS=effect-value>";
+			echo $this->indent."<SPAN CLASS=effect-attribute>on</SPAN>=<SPAN CLASS=effect-value>";
+			echo $this->color[$name]['on']."</SPAN> ";
+			echo "<SPAN CLASS=effect-attribute>colormode</SPAN>=<SPAN CLASS=effect-value>";
 			echo $this->color[$name]['colormode']."</SPAN> ";
 			echo "<SPAN CLASS=effect-attribute>bri</SPAN>=<SPAN CLASS=effect-value>";
 			echo $this->color[$name]['bri']."</SPAN> ";
@@ -459,7 +464,7 @@ class HueEffect {
 		if ($type == "light")	{$action = $type."s/$id/state";}
 		else					{$action = $type."s/$id/action";}
 
-		$json = '{"bri" : '.$this->color[$name]['bri'].',';
+		$json = '{"on" : '.$this->color[$name]['on'].',"bri" : '.$this->color[$name]['bri'].',';
 		switch ($this->color[$name]['colormode']){
 			case "hs" :
 				$json .= '"hue" : '.$this->color[$name]['hue'].',';

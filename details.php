@@ -12,6 +12,7 @@ define('ANTI_HACK', true);
 include 'include/hueapi.php';
 
 @$rt=$_REQUEST['rt'];
+@$nohide=$_REQUEST['nh']; // if set : doesn't hide details tab
 
 switch ($rt)
 {
@@ -22,14 +23,17 @@ switch ($rt)
 		$HueAPI->loadInfo("lights");
 		$HueAPI->assignLightsGroup();
 	case "effects" :
+	case "rules" :
 		include 'include/'.$rt.'_details.php';
 		break;
-	case "adm" :
-		break;
 }
+if (! isset($nohide)){
 ?>
 <SCRIPT>
 $("#detail").hide();
 </SCRIPT>
+<?php
+}
+?>
 
 

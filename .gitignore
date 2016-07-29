@@ -21,7 +21,7 @@ $RECYCLE.BIN/
 *.zip
 *.txt
 !LICENCE.txt
-!histo.txt
+!HISTO.txt
 *.swp
 include/config.php
 *_old.php

@@ -44,12 +44,12 @@ function display_bri_slider($prefid,$id,$gnum,$lnum=""){
 } // display_bri_slider
 
 // -------------------------------------------------------------
-// Display checkbox for selecting groups or lights
+// Display checkbox for selecting a row from a table
 // -------------------------------------------------------------
 // parameters : prefix id, checkbox ID, checkbox class, light id, grp id
 // -------------------------------------------------------------
-function display_lg_checkbox($prefid, $id, $class="", $gnum="", $lnum=""){
-	echo "<TD>&nbsp;";
+function display_td_checkbox($prefid, $id, $class="", $gnum="", $lnum=""){
+	echo "<TD> ";
 	echo "<SPAN ID=".$prefid."s_$id>";
 	echo "<INPUT TYPE=checkbox ID=".$prefid."cb_$id";
 	if ($class != ""){
@@ -61,7 +61,7 @@ function display_lg_checkbox($prefid, $id, $class="", $gnum="", $lnum=""){
 	}
 	echo ">";
 	echo "</SPAN>";
-} // display_lg_checkbox
+} // display_td_checkbox
 
 // -------------------------------------------------------------
 // Display a light row
@@ -81,13 +81,13 @@ function display_light_row($prefid,$lnum,$gnum,$cbpos="E",$brislider=false){
 	// Display icon+name
 	echo "<TR CLASS=\"light grp$gnum\" lnum=$lnum gnum=$gnum>";
 	echo "<TD>";
-	if ($cbpos == "B"){display_lg_checkbox($prefid, $lid, "light", $gnum, $lnum);}
+	if ($cbpos == "B"){display_td_checkbox($prefid, $lid, "light", $gnum, $lnum);}
 	echo "<TD>";
 	if (! $unreachable){echo "<A HREF=lights CLASS=switch lnum=$lnum>";}
 	display_light($lnum);
 	if (! $unreachable){echo "</A>";}
-	echo "<TD CLASS=\"label light\"><LABEL FOR=".$prefid."cb_$lid>".$HueAPI->info['lights'][$lnum]['name']."</LABEL>";
-	if ($cbpos == "E"){display_lg_checkbox($prefid, $lid, "light", $gnum, $lnum);}
+	echo "<TD CLASS=\"label light\"><LABEL FOR=".$prefid."cb_$lid lnum=$lnum>".$HueAPI->info['lights'][$lnum]['name']."</LABEL>";
+	if ($cbpos == "E"){display_td_checkbox($prefid, $lid, "light", $gnum, $lnum);}
 	if ($brislider){display_bri_slider($prefid,$lid,$gnum,$lnum);}
 } // display_light_row
 
@@ -106,20 +106,20 @@ function display_lights_groups($prefid="",$cbpos="E",$brislider=false){
 	echo "<THEAD>";
 	echo "<TR>";
 	echo "<TD>";
-	if ($cbpos == "B"){display_lg_checkbox($prefid,"all");}
+	if ($cbpos == "B"){display_td_checkbox($prefid,"all");}
 	echo "<TD CLASS=\"label all\"><LABEL FOR=".$prefid."cb_all>".$trs["All"]."</LABEL>";
 	echo "<TD><BUTTON ID=".$prefid."allon>On</BUTTON><BUTTON ID=".$prefid."alloff>Off</BUTTON>";
-	if ($cbpos == "E"){display_lg_checkbox($prefid,"all");}
+	if ($cbpos == "E"){display_td_checkbox($prefid,"all");}
 	if ($brislider){display_bri_slider($prefid,"all","all");}
 
 	echo "<TBODY>";
 	foreach ($HueAPI->info['groups'] as $gnum => $gval){ // Existing groups
 		echo "<TR CLASS=grp gnum=$gnum>";
 		echo "<TD><SPAN CLASS=\"grp ui-icon ui-icon-circle-minus\" gnum=$gnum open></SPAN>";
-		if ($cbpos == "B"){display_lg_checkbox($prefid, "$gnum", "grp", $gnum);}
-		echo "<TD CLASS=\"label grp\"><LABEL FOR=".$prefid."cb_$gnum>".$gval['name']."</LABEL>";
+		if ($cbpos == "B"){display_td_checkbox($prefid, "$gnum", "grp", $gnum);}
+		echo "<TD CLASS=\"label grp\"><LABEL FOR=".$prefid."cb_$gnum gnum=$gnum>".$gval['name']."</LABEL>";
 		echo "<TD><BUTTON CLASS=gron gnum=$gnum>On</BUTTON><BUTTON CLASS=groff gnum=$gnum>Off</BUTTON>";
-		if ($cbpos == "E"){display_lg_checkbox($prefid, $gnum, "grp", $gnum);}
+		if ($cbpos == "E"){display_td_checkbox($prefid, $gnum, "grp", $gnum);}
 		if ($brislider){display_bri_slider($prefid,$gnum,$gnum);}
 		foreach ($gval['lights'] as $internal => $lnum){display_light_row($prefid,$lnum,$gnum,$cbpos,$brislider);}
 	}
@@ -127,14 +127,124 @@ function display_lights_groups($prefid="",$cbpos="E",$brislider=false){
 	// Lamps without group
 	echo "<TR CLASS=grp gnum=other>";
 	echo "<TD><SPAN CLASS=\"grp ui-icon ui-icon-circle-minus\" gnum=other open></SPAN>";
-	if ($cbpos == "B"){display_lg_checkbox($prefid, "other", "grp", "other");}
+	if ($cbpos == "B"){display_td_checkbox($prefid, "other", "grp", "other");}
 	echo "<TD CLASS=\"label grp\"><LABEL FOR=".$prefid."cb_other>".$trs["Lamps"]."</LABEL>";
 	echo "<TD><BUTTON ID=".$prefid."otheron>On</BUTTON><BUTTON ID=".$prefid."otheroff>Off</BUTTON>";
-	if ($cbpos == "E"){display_lg_checkbox($prefid, "other", "grp", "other");}
+	if ($cbpos == "E"){display_td_checkbox($prefid, "other", "grp", "other");}
 	if ($brislider){display_bri_slider($prefid,"other","other");}
 	foreach ($HueAPI->info['lights'] as $lnum => $lval){if (! isset($lval['grp'])){display_light_row($prefid,$lnum,"other",$cbpos,$brislider);}}
 	echo "</DIV>";
 
 	echo "</TABLE>";
 } // display_lights_groups
+
+//-------------------------------------------------------
+// Function to get a condition row
+// Return the html string
+// Parameters :
+// sensorid = sensor id
+// cond = condition id (0 to 3)
+// cval = condition values (if existing)
+// create = true/false. If false, display existing cval
+// 						If true, create new cval row content (without <TR> tag)
+//-------------------------------------------------------
+function getCondRow($sensorid, $cond, $cval, $create=false){
+	if ($create){ // Init fields if row creation
+		$cval['address'] = "";
+		$cval['operator'] = "";
+		$cval['value'] = "";
+	}
+	else {echo "<TR>";}
+	display_td_checkbox("cond",$cond,"csel");
+	echo "<TD>";
+	echo "<INPUT TYPE=text ID=caddr$cond VALUE=\"".str_replace("/sensors/$sensorid/","",$cval['address'])."\" CLASS=ui-corner-all>";
+	echo "<TD>";
+	selOperator("sbcond_".$cond,$cval['operator']);
+	echo "<TD>";
+	echo "<INPUT TYPE=text ID=cval$cond VALUE=\"";
+	if ($cval['operator'] == "dx"){ // No value for dx
+		echo "\" style=\"display: none;\"";
+	} else {
+		echo $cval['value']."\"";
+	}
+   	echo " CLASS=ui-corner-all>\n";
+} // getCondRow
+
+//-------------------------------------------------------
+// Function to get an action row
+// Return the html string
+// Parameters :
+// act  = action id (0 to 3)
+// aval = action values (if existing)
+// create = true/false. If false, display existing aval
+// 						If true, create new aval row content (without <TR> tag)
+//-------------------------------------------------------
+function getActRow($act, $aval, $create=false){
+	if ($create){ // Init fields if row creation
+		$aval['address'] = "";
+		$aval['method'] = "PUT";
+		$aval['body'] = "";
+	}
+	else {echo "<TR>";}
+	display_td_checkbox("act",$act,"asel");
+	echo "<TD>";
+	echo "<INPUT TYPE=text ID=aaddr$act VALUE=\"".$aval['address']."\" CLASS=ui-corner-all>";
+	echo "<TD>";
+	selMethod("sbact_".$act,$aval['method']);
+	echo "<TD>";
+	echo "<INPUT TYPE=text ID=abody$act VALUE=\"";
+	$comma="";
+	if ($aval['body'] != ""){
+		foreach ($aval['body'] as $key => $val){
+			echo $comma."&quot;$key&quot;:&quot;$val&quot;";
+			$comma=", ";
+		}
+	}
+	echo "\" CLASS=ui-corner-all>\n"; 
+} // getActRow
+
+//-------------------------------------------------------
+// Function to display the operator selbox
+// For reminder : eq, gt, lt or dx (has changed)
+//-------------------------------------------------------
+function selOperator($selboxid,$opval){
+	global $trs;
+	echo "<SELECT ID=$selboxid CLASS=selope>\n";
+	echo "<OPTION VALUE='eq'";
+	if ($opval == "eq"){echo " SELECTED";}
+	echo "> = </OPTION>\n";
+	echo "<OPTION VALUE='gt'";
+	if ($opval == "gt"){echo " SELECTED";}
+	echo "> &gt; </OPTION>\n";
+	echo "<OPTION VALUE='lt'";
+	if ($opval == "lt"){echo " SELECTED";}
+	echo "> &lt; </OPTION>\n";
+	echo "<OPTION VALUE='dx'";
+	if ($opval == "dx"){echo " SELECTED";}
+	echo ">".$trs["op_dx"]."</OPTION>\n";
+	echo "</SELECT>\n";
+
+	echo "<SCRIPT>\$(\"#$selboxid\").selectmenu({width : 'auto'});</SCRIPT>\n";
+} // selOperator
+
+//-------------------------------------------------------
+// Function to display the action method selbox
+// For reminder : put, post, delete
+//-------------------------------------------------------
+function selMethod($selmethid,$methval){
+	echo "<SELECT ID=$selmethid CLASS=selmeth>\n";
+	echo "<OPTION VALUE='PUT'";
+	if ($methval == "PUT"){echo " SELECTED";}
+	echo ">PUT</OPTION>\n";
+	echo "<OPTION VALUE='POST'";
+	if ($methval == "POST"){echo " SELECTED";}
+	echo ">POST</OPTION>\n";
+	echo "<OPTION VALUE='DELETE'";
+	if ($methval == "DELETE"){echo " SELECTED";}
+	echo ">DELETE</OPTION>\n";
+	echo "</SELECT>\n";
+
+	echo "<SCRIPT>\$(\"#$selmethid\").selectmenu({width : 'auto'});</SCRIPT>\n";
+} // selMethod
+
 ?>

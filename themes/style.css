@@ -23,6 +23,9 @@ a {
 a.about {
 	color: #f29a00;
 }
+#histo {
+	text-align: left;
+}
 
 /* Style for generic elements */
 table {
@@ -317,4 +320,8 @@ HIL002 : 2 lamps (2 bottom)
 /* Classes for effects debug window */
 #runout {
 	text-align:left;
+}
+/* Class for selectmenu with overflow property like div */
+.overflow {
+	height: 150px;
 }

@@ -104,7 +104,7 @@ function display_lights_groups($prefid="",$cbpos="E",$brislider=false){
 
 	echo "<TABLE CLASS=det_table>";
 	echo "<THEAD>";
-	echo "<TR>";
+	echo "<TR CLASS=grp>";
 	echo "<TD>";
 	if ($cbpos == "B"){display_td_checkbox($prefid,"all");}
 	echo "<TD CLASS=\"label all\"><LABEL FOR=".$prefid."cb_all>".$trs["All"]."</LABEL>";

@@ -21,7 +21,6 @@ foreach ($HueAPI->info['scenes'] as $sceneid => $sval){
 }
 asort($a_sname);
 
-
 // Display scenes
 echo "<TABLE>";
 $oldname = "";

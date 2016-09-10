@@ -10,8 +10,26 @@ if (! defined('ANTI_HACK')){exit;}
 $('#detail').hide("slide");
 </SCRIPT>
 <DIV ID=about>phpMyHue 1.5<BR>
-&copy; <A HREF="mailto:bardin.frederic@gmail.com" CLASS=about>F. Bardin</A> 03-2016<BR>
+&copy; <A HREF="mailto:bardin.frederic@gmail.com" CLASS=about>F. Bardin</A> 09-2016<BR>
 <small>
 Bridge IP : <?php echo $bridgeip?><BR>
 Current language : <?php echo $lang?>
+<BR><DIV ID=histo>
+<H3><?php echo $trs['Histo']?></H3>
+<DIV>
+<?php
+$histo = @file("HISTO.txt");
+foreach ($histo as $num => $line){
+	$line = preg_replace("/^(v.*) - /","<B>$1</B> - ",$line);
+	echo "$line<BR>\n";
+}
+?>
+</DIV></DIV>
 </small></DIV>
+<SCRIPT>
+$('#histo').accordion({
+	collapsible: true,
+	heightStyle: "content",
+	active: false
+});
+</SCRIPT>

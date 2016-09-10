@@ -49,7 +49,7 @@ function rulesTab(){
 // Functions for rules details tab
 //=======================================
 //---------------------------------------
-// Trigger row selection
+// Trigger row selection (advanced mode)
 // Select a row for conditions or actions acts as a radio button
 // Row selection impacts button enable/disable
 //---------------------------------------
@@ -88,7 +88,7 @@ function catchRowSelection(objectid){
 } // catchRowSelection
 
 //---------------------------------------
-// Trigger operator change
+// Trigger operator change (advanced mode)
 //---------------------------------------
 function catchSelopeChange(objectid){
 	$(objectid).on("selectmenuchange", function (event,val) {
@@ -101,7 +101,7 @@ function catchSelopeChange(objectid){
 } // catchSelopeChange
 
 //--------------------------------------------------
-// Set the state (enable/disable) of the tables buttons
+// Set the state (enable/disable) of the tables buttons (advanced mode)
 // These buttons are : up, down, delete, add
 //--------------------------------------------------
 function setButtonsState(){
@@ -127,7 +127,7 @@ function setButtonsState(){
 } // setButtonsState
 
 //----------------------------------------------------------
-// Update up and down button depending on the selected row
+// Update up and down button depending on the selected row (advanced mode)
 // parameter : tableid = id of table buttons
 //----------------------------------------------------------
 function updateUpDownState(tableid){
@@ -158,7 +158,7 @@ function updateUpDownState(tableid){
 } // updateUpDownState
 
 //---------------------------------------
-// Initialize the rows count with displayed rule
+// Initialize the rows count with displayed rule (advanced mode)
 //---------------------------------------
 function InitRowsCount(){
 	nbcond = $(tabdetail+" tbody input.csel").length;
@@ -169,13 +169,13 @@ function InitRowsCount(){
 } // InitRowsCount
 
 //---------------------------------------
-// Function for 'sensor' rules detail tab
+// Function for 'sensor' rules detail tab (advanced mode included)
 //---------------------------------------
 function sensorRulesDetail(){
 	InitRowsCount();	
 
 	// Trigger rule display on selection
-	$("#srsel").on("selectmenuchange", function (event,val) {
+	$("#srsel").on("selectmenuchange", function(){
 		var sensorid = $("#sensorid").val();
 		var ruleid = $(this).val();
 		$(tabdetail).load("details.php?rt=rules&nh=&sensor="+sensorid+"&rule="+ruleid, function(){
@@ -206,10 +206,14 @@ function sensorRulesDetail(){
 	// Manage update of rule
 	$("#rupd").click(function(){updateRule();});
 	$("#rdel").click(function(){deleteRule();});
+
+	// Manage switch between simple and advanced mode if existing
+	$("#simplemod").click(function(){switchToAdvMode(false);});
+	$("#advmod").click(function(){switchToAdvMode(true)});;
 } // sensorRulesDetail
 
 //-----------------------------------------------------
-// Move up a table row
+// Move up a table row (advanced mode)
 // parameter :
 // - tableid = id the table where the row is to move up
 //-----------------------------------------------------
@@ -228,7 +232,7 @@ function mvUpSelectedDetail(tableid){
 } // mvUpSelectedDetail
 
 //-----------------------------------------------------
-// Move down a table row
+// Move down a table row (advanced mode)
 // parameter :
 // - tableid = id the table where the row is to move down
 //-----------------------------------------------------
@@ -247,7 +251,7 @@ function mvDownSelectedDetail(tableid){
 } // mvDownSelectedDetail
 
 //-----------------------------------------------------
-// Delete selected row
+// Delete selected row (advanced mode)
 // parameters :
 // - tableid = id the table where the row is to delete
 //-----------------------------------------------------
@@ -270,7 +274,7 @@ function delSelectedDetail(tableid){
 } // delSelectedDetail
 
 //-----------------------------------------------------
-// Add new condition row
+// Add new condition row (advanced mode)
 //-----------------------------------------------------
 function addCond(){
 	var sensorid = $("#sensorid").val();
@@ -285,7 +289,7 @@ function addCond(){
 } // addCond
 
 //-----------------------------------------------------
-// Add new action row
+// Add new action row (advanced mode)
 //-----------------------------------------------------
 function addAct(){
 	$("#acttable").append('<TR></TR>');
@@ -299,6 +303,8 @@ function addAct(){
 
 //-----------------------------------------------------
 // Update rule with current display
+// Remark : call getConditionsJson and getActionJson from each specific display
+// The specific display are in lib and named rd_<display>.php
 //-----------------------------------------------------
 function updateRule(){
 	// Get values
@@ -308,68 +314,13 @@ function updateRule(){
 	var rule_status = $("#srradio [name=srradio]:checked").val();
 
 	// Get conditions
-	var tdnum;
-	var cond,address,operator,value;
-	cond = "";
-	$("#condtable tr").each(function(){
-		address = "";
-		tdnum = 0;
-		$(this).find("td").each(function(){
-			tdnum++;
-			switch(tdnum){
-				case 1 : // Check box = ignored
-					break;
-				case 2 : // Sensor address
-					address = $(this).find("input").val();
-					break;
-				case 3 : // Operator
-					operator = $(this).find("select").val();
-					break;
-				case 4 : // Value
-					value = $(this).find("input").val();
-					break;
-			}
-		});
-		if (address != "" && operator != ""){
-			if (cond != ""){cond += ",";}
-			cond += '{"address":"/sensors/'+sensorid+'/'+address+'","operator":"'+operator+'"';
-			if (operator != "dx"){
-				cond += ',"value":"'+value+'"';
-			}
-			cond += '}';
-		}
-	});
+	var cond = getConditionsJson(sensorid);
+//msg("cond="+cond);
 	
 	// Get actions
-	var act,method,body;
-	act = "";
-	$("#acttable tr").each(function(){
-		address = "";
-		tdnum = 0;
-		$(this).find("td").each(function(){
-			tdnum++;
-			switch(tdnum){
-				case 1 : // Check box = ignored
-					break;
-				case 2 : // Action address
-					address = $(this).find("input").val();
-					break;
-				case 3 : // Method
-					method = $(this).find("select").val();
-					break;
-				case 4 : // Json body send as action
-					body = $(this).find("input").val();
-					break;
-			}
-		});
-		if (address != "" && method != ""){
-			if (act != ""){act += ",";}
-			act += '{"address":"'+address+'","method":"'+method+'"';
-			act += ',"body":{'+body+'}';
-			act += '}';
-		}
-	});
-	
+	var act = getActionsJson();
+//msg("act="+act);
+
 	// Create json string only if condition and action exist
 	if (cond != "" && act != ""){
 		var cmdjs = "&cmdjs={";
@@ -441,7 +392,21 @@ function deleteRule(){
         }
       }
 	});
-
-
 } // deleteRule
 
+//-----------------------------------------------------
+// Switch to simple or advanced mode
+//-----------------------------------------------------
+function switchToAdvMode(advmode){
+	var sensorid = $("#sensorid").val();
+	var ruleid = $("#srsel").val();
+
+	var advstr= "";
+	if (advmode){advstr = "&advmode="+advmode;}
+
+	$(tabdetail).load("details.php?rt=rules&nh=&sensor="+sensorid+"&rule="+ruleid+advstr, function(){
+		scrollCurrentTab("#detail");
+	});
+	// re-Initialize rows counters and buttons
+	InitRowsCount();	
+} // switchToAdvMode

@@ -1,8 +1,9 @@
 v1.5 - 11/09/2016 : 
 	 - Add Sensors Rules management
 	 - Update color conversion with new formulas from meethue
-	 - Add 'on' status in setcolor/getcolor effect execution (not only color status)
-	 - Update sample effects with save/restore original status
+	 - Add 'on' state in setcolor/getcolor effect execution (not only color state)
+	 - Update sample effects with save/restore lights original state
+	 - Add collapse/extend capabilities to 'All' in lights list
      - Correct some minor display bugs
 v1.4.2 - 05/05/2016 : add new effect sample
 v1.4.1 - 28/12/2015 : Correction to manage white only lights (='dimmable light' type)

@@ -306,23 +306,17 @@ function lightsList(listtab,prefid){
 		if (prefid == ""){loadSelectedLightsDetail(listtab);}
 	});
 	
-	// Collapse/Extend group
+	// Collapse/Extend groups
 	$(listtab+' span.grp').click(function(){
 		var gnum = $(this).attr('gnum');
-		if ($(this).attr('open')){
-			$(listtab+' tbody tr.grp'+gnum).hide(300);
-			$(this).switchClass('ui-icon-circle-minus','ui-icon-circle-plus',0);
-			$(this).removeAttr('open');
-			// Uncheck lights if group not checked
-			if (! $(listtab+' tbody tr.grp[gnum='+gnum+'] input.grp').prop('checked')){
-				$(listtab+' tbody tr.grp'+gnum+' input.light').prop('checked',false);
-				$(listtab+' tbody tr.grp'+gnum+' td.label').removeClass('ui-state-focus');
-				if (prefid == ""){loadSelectedLightsDetail(listtab);}
-			}
-		} else {
-			$(listtab+' tbody tr.grp'+gnum).show(300);
-			$(this).switchClass('ui-icon-circle-plus','ui-icon-circle-minus',0);
-			$(this).attr('open','');
+		var open = $(this).attr('open');
+
+		collapseGroup(listtab,prefid,this,open);
+
+		if (gnum == 0){ // if all, manage all groups
+			$(listtab+' tbody span.grp').each(function(){
+				collapseGroup(listtab,prefid,this,open);
+			});
 		}
 	});
 
@@ -364,6 +358,34 @@ function lightsList(listtab,prefid){
 		}
 	});	
 } // lightsList
+
+// ---------------------------------------------------
+// Manage the collapse capabilities on a group list
+// Parameters :
+// listtab = id of list tab
+// prefid = prefix applied to id if detail tab
+// groupobj = pointer to the group row to manage
+// open = current status of groupobj
+// ---------------------------------------------------
+function collapseGroup(listtab,prefid,groupobj,open){
+	var gnum = $(groupobj).attr('gnum');
+
+	if (open){
+		$(listtab+' tbody tr.grp'+gnum).hide(300);
+		$(groupobj).switchClass('ui-icon-circle-minus','ui-icon-circle-plus',0);
+		$(groupobj).removeAttr('open');
+		// Uncheck lights if group not checked
+		if (! $(listtab+' tbody tr.grp[gnum='+gnum+'] input.grp').prop('checked')){
+			$(listtab+' tbody tr.grp'+gnum+' input.light').prop('checked',false);
+			$(listtab+' tbody tr.grp'+gnum+' td.label').removeClass('ui-state-focus');
+			if (prefid == ""){loadSelectedLightsDetail(listtab);}
+		}
+	} else {
+		$(listtab+' tbody tr.grp'+gnum).show(300);
+		$(groupobj).switchClass('ui-icon-circle-plus','ui-icon-circle-minus',0);
+		$(groupobj).attr('open','');
+	}
+} // collapseGroup
 
 // -----------------------------
 // Switch a lights group on/off

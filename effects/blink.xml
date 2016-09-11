@@ -1,6 +1,12 @@
 <effect name="Blink" comment="Sample for blinking lights">
+	<!-- Set var -->
 	<var name="duration" value="0.2" />
 	<var name="tt" value="0" />
+    <!-- Save original state -->
+    <getcolor id="1" name="save_1" />
+    <getcolor id="2" name="save_2" />
+    <getcolor id="3" name="save_3" />
+    <getcolor id="4" name="save_4" />
 	<!-- red -->
 	<light id="1" on="true" bri="202" xy="[0.675,0.322]" />
 	<!-- blue -->
@@ -42,5 +48,10 @@
 			<timer duration="$duration" />
 		</loop>
 	</loop>
+    <!-- Restore original state -->
 	<light id="4" effect="none" />
+    <setcolor id="1" name="save_1" />
+    <setcolor id="2" name="save_2" />
+    <setcolor id="3" name="save_3" />
+    <setcolor id="4" name="save_4" />
 </effect>

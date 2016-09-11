@@ -1,7 +1,20 @@
 <?php
-/*=============================
+/*==================================================
  Functions library for phpMyHue
-===============================*/
+ ---------------------------------------------------
+ These functions are used by several screens or need an external call by ajax
+ ---------------------------------------------------
+ huecolor.php : includes functions to manage colors
+ choose_lang : allow to choose a lang amon exiting translation files
+ display_bri_slider : display a slider to manage brightness
+ display_td_checkbox : display selection checkbox on a row
+ display_light_row : display a light row
+ display_lights_groups : display all groups and lights
+ getCondRow : display a condition row for a rule
+ getActRow : display an action row for a rule
+ selOperator : display the operation select box for a row condition for a rule
+ selMethod : display the method select box for a row action for a rule
+====================================================*/
 // Anti-hack
 if (! defined('ANTI_HACK')){exit;}
 
@@ -29,7 +42,7 @@ function choose_lang(){
 } // choose_lang
 
 // -------------------------------------------------------------
-// Display brillance slider
+// Display brightness slider
 // -------------------------------------------------------------
 // use 2 <TD> : one for the slide, one to display the value
 // -------------------------------------------------------------
@@ -105,7 +118,7 @@ function display_lights_groups($prefid="",$cbpos="E",$brislider=false){
 	echo "<TABLE CLASS=det_table>";
 	echo "<THEAD>";
 	echo "<TR CLASS=grp>";
-	echo "<TD>";
+	echo "<TD><SPAN CLASS=\"grp ui-icon ui-icon-circle-minus\" gnum=0 open></SPAN>";
 	if ($cbpos == "B"){display_td_checkbox($prefid,"all");}
 	echo "<TD CLASS=\"label all\"><LABEL FOR=".$prefid."cb_all>".$trs["All"]."</LABEL>";
 	echo "<TD><BUTTON ID=".$prefid."allon>On</BUTTON><BUTTON ID=".$prefid."alloff>Off</BUTTON>";

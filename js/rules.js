@@ -370,27 +370,35 @@ function deleteRule(){
 	var method = "&method=DELETE";
 
 	// Confirmation required before delete
-	// TODO add text localisation in dialog
     $("#deldialog").dialog({
-	  title : "Delete selected rule",
-      resizable: false,
+	  title : trs.Delete_the_rule,
+      resizable: true,
       modal: true,
-      buttons: {
-        "Delete": function() {
-		  $.getJSON('hueapi_cmd.php?action='+action+method, (function(jsmsg){
-			if (processReturnMsg(jsmsg,trs.Rule+' '+trs.Deleted)){
-				var sensorid = $("#sensorid").val();
-				$(tabdetail).load("details.php?rt=rules&nh=&sensor="+sensorid, function(){
-					scrollCurrentTab("#detail");
-				});
-			}
-		  }));
-          $(this).dialog("close");
-        },
-        Cancel: function() {
-          $(this).dialog("close");
-        }
-      }
+	  open: function(event, ui){ // Change close button title
+			$('[aria-describedby="deldialog"] .ui-dialog-titlebar-close').attr('title', trs.Close)
+	  },
+      buttons: [
+		{	// Delete button
+	    	text:trs.Delete,
+			click: function() {
+		  		$.getJSON('hueapi_cmd.php?action='+action+method, (function(jsmsg){
+					if (processReturnMsg(jsmsg,trs.Rule+' '+trs.Deleted)){
+						var sensorid = $("#sensorid").val();
+						$(tabdetail).load("details.php?rt=rules&nh=&sensor="+sensorid, function(){
+							scrollCurrentTab("#detail");
+						});
+					}
+		  		}));
+          		$(this).dialog("close");
+       		}
+		},
+		{	// Cancel button
+			text: trs.Cancel,
+        	click: function() {
+          		$(this).dialog("close");
+        	}
+		}
+		]
 	});
 } // deleteRule
 

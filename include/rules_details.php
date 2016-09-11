@@ -49,8 +49,7 @@ foreach ($a_srules as $ruleid => $rname){
 }
 echo "</SELECT>\n";
 
-//==> Ajouter bouton supprimer si selection d'une regle
-
+// If rule selected
 if(! isset($selruleid) or $selruleid == ""){
 	echo "</TABLE>";
 } else {

@@ -1,6 +1,9 @@
 <effect name="On Off" comment="Very simple effect : Turn on/off lights">
+	<!-- Set var -->
 	<var name="duration" value="0.5" />
+	<!-- Turn off all lights -->
 	<group id="0" on="false" />
+	<!-- Loop to turn on then off lamps 1, 2 and 3 -->
 	<loop repeat="2">
 		<light id="1" on="true" />
 		<timer duration="$duration" />

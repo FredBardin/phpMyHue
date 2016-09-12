@@ -9,7 +9,7 @@ Php web interface to manage Philips Hue lights in a local network.
 * Copy color settings between lights (copy to, copy from, switch with)
 * Switch lights on/off
 * Run simple effects
-* **Full rules management** for sensors (simplified mode available for **Hue Tap** switch)
+* **Full rules management** for sensors (simplified mode available for **Hue Tap** switch with on/off functionalities)
 * **Multi Lang** (new translation files can be added)
 * Fully touch device compatible
 * **Hue API class available** in 'include/hueapi.php' (see comments in file)

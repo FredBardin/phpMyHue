@@ -9,22 +9,29 @@ Php web interface to manage Philips Hue lights in a local network.
 * Copy color settings between lights (copy to, copy from, switch with)
 * Switch lights on/off
 * Run simple effects
+* **Full rules management** for sensors (simplified mode available for **Hue Tap** switch)
+* **Multi Lang** (new translation files can be added)
 * Fully touch device compatible
-* Multi Lang (new translation files can be added)
 * **Hue API class available** in 'include/hueapi.php' (see comments in file)
 * **Hue cmd web service available** with 'hueapi_cmd.php' (see comments in file and [wiki](https://github.com/FredBardin/phpMyHue/wiki/Web-services))
 * Hue effects web service available with 'main.php' ([see wiki](https://github.com/FredBardin/phpMyHue/wiki/Web-services))
 * ...
 
 **Screenshots**
-Lights screen in english            
-![screenshot](screen1_pmh.jpg)
+Lights screen            
+![screenshot](pmh_lights.gif)
 
 Scenes screen in french            
-![screenshot](screen2_pmh.jpg)
+![screenshot](pmh_scenes.gif)
 
-Effects screen in english            
-![screenshot](screen3_pmh.gif)
+Effects screen            
+![screenshot](pmh_effects.gif)
+
+Rules screen (simple mode)
+![screenshot](pmh_rules_simple.gif)
+
+Rules screen (advanced mode)
+![screenshot](pmh_rules_advanced.gif)
 
 ## Installation
 1. Copy 'phpMyHue' directory and its content in your web server.

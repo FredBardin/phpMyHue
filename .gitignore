@@ -27,9 +27,10 @@ include/config.php
 *_old.php
 jquery-ui_FULL
 effects/*
-!effects/celebration.xml
 !effects/blink.xml
+!effects/garland.xml
 !effects/onoff.xml
+!effects/score.xml
 
 # =========================
 # Operating System Files

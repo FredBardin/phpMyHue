@@ -1,4 +1,4 @@
-<effect name="Celebration" comment="Sample Effect">
+<effect name="Garland" comment="Sample Effect">
 	<!-- Set some var -->
 	<var name="hueyellow" value="22008" />
 	<var name="hueblue" value="47126" />

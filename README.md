@@ -19,19 +19,19 @@ Php web interface to manage Philips Hue lights in a local network.
 
 **Screenshots**
 
-*Lights screen            
+Lights screen            
 ![screenshot](pmh_lights.gif)
 
-*Scenes screen in french            
+Scenes screen in french            
 ![screenshot](pmh_scenes.gif)
 
-*Effects screen            
+Effects screen            
 ![screenshot](pmh_effects.gif)
 
-*Rules screen (simple mode)
+Rules screen (simple mode)        
 ![screenshot](pmh_rules_simple.gif)
 
-*Rules screen (advanced mode)
+Rules screen (advanced mode)       
 ![screenshot](pmh_rules_advanced.gif)
 
 ## Installation

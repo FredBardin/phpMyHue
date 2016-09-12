@@ -17,7 +17,7 @@ Php web interface to manage Philips Hue lights in a local network.
 * Hue effects web service available with 'main.php' ([see wiki](https://github.com/FredBardin/phpMyHue/wiki/Web-services))
 * ...
 
-**Screenshots**
+**Screenshots** 
 Lights screen            
 ![screenshot](pmh_lights.gif)
 

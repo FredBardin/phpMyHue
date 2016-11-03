@@ -40,7 +40,7 @@ Rules (advanced mode)
 2. Open a browser on your installation url, it should be something like "http://my_web_server/phpMyHue"
 	* **Automatic configuration** begins : follow configuration informations in your browser
 
-If you're asked to proceed manually because automatic setup failed to complete (ie. : local file writing not allowed from your web server), follow the displayed manual instructions or the ones below :
+If you're asked to proceed manually because automatic setup failed to complete (ie. : local file writing not allowed from your web server), follow the displayed instructions or the ones below :
 
 1. Rename 'include/config.tpl.php' as 'include/config.php'
 2. Edit 'include/config.php' and put correct values for '$bridgeip', '$username' and, if needed, for '$lang'.  

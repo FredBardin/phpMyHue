@@ -11,7 +11,7 @@ Php web interface to manage Philips Hue lights in a local network.
 * Copy color settings between lights (copy to, copy from, switch with)
 * Switch lights on/off
 * Run simple effects
-* **Multi Lang** (new translation files can be added after installation or be submitted for an integration)
+* **Multi Lang** (new translation files can be added after installation and/or be submitted for an integration)
 * Fully touch device compatible
 * **Hue API class available** in 'include/hueapi.php' (see comments in file)
 * **Hue cmd web service available** with 'hueapi_cmd.php' (see comments in file and [wiki](https://github.com/FredBardin/phpMyHue/wiki/Web-services))
@@ -46,7 +46,7 @@ If you're asked to proceed manually because automatic setup failed to complete (
 2. Edit 'include/config.php' and put correct values for '$bridgeip', '$username' and, if needed, for '$lang'.  
 	* 'bridgeip' is the ip address of your hue bridge in your lan.  
 	* 'username' is a registered user in your hue bridge (cf http://www.developers.meethue.com/documentation/api-core-concepts).  
-	* 'lang' references an existing 'include/text_"lang".json' file ('en' by default).  
+	* 'lang' references an existing 'lang/text_"lang".json' file ('en' by default).  
 
 ### Licence
 MIT

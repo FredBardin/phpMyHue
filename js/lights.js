@@ -1,6 +1,8 @@
 // Javascript Functions for lights tab in phpMyHue
 // F. Bardin 2015/02/10
 // ------------------------------------------------
+// 2016/12/28 : correct group description when not a lightgroup
+// ------------------------------------------------
 
 /*====================================
   Tab lights functions
@@ -110,10 +112,10 @@ function loadSelectedLightsDetail(tablights){
 		$('#detail').show("slide"); // Show tab
 		$('#selname').hide(); // Hide name selection by default
 		$('#transset').hide(); // Hide color settings transfer by default
-		$('#descri').accordion('option','active',false);
-		$('#brislider').val(0); // Reset brightness
-		updateColorPicker("", 0, '#ffffff');
+		$('#descri').accordion('option','active',false); // Close description by default
 		$('#descri').hide(); // Hide description by default
+		$('#brislider').val(0); // Reset brightness by default
+		updateColorPicker("", 0, '#ffffff'); // set color to white by default
 
 		if (lamponly != grponly){ // Show group management only if all elements are of the same type
 			$('#grpmgmt').show();

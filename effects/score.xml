@@ -15,16 +15,16 @@
 	<light id="2" on="true" />
 	<light id="3" on="true" />
 	<light id="4" on="true" />
-	<!-- Loop to switch lamp 1 with 4 and 2 with 3 -->
+	<!-- Loop to switch lamp 1 with 2 and 3 with 4 -->
 	<loop repeat="$repeat">
 		<getcolor id="1" name="first" />
-		<getcolor id="4" name="second" />
+		<getcolor id="2" name="second" />
 		<setcolor id="1" name="second" transitiontime="$transition" />
+		<setcolor id="2" name="first" transitiontime="$transition" />
+		<getcolor id="3" name="first" />
+		<getcolor id="4" name="second" />
+		<setcolor id="3" name="second" transitiontime="$transition" />
 		<setcolor id="4" name="first" transitiontime="$transition" />
-		<getcolor id="2" name="first" />
-		<getcolor id="3" name="second" />
-		<setcolor id="2" name="second" transitiontime="$transition" />
-		<setcolor id="3" name="first" transitiontime="$transition" />
 		<timer duration="$duration" />
 	</loop>
 	<!-- Restore original state -->

@@ -27,7 +27,7 @@ function choose_lang(){
 	global $lang;
 
 	// Get lang file array
-	$lang_ar = glob('include/text_??.json');
+	$lang_ar = glob('lang/text_??.json');
 
 	// Display lang list
 	echo "<SELECT ID=c_lang NAME=\"lang\">\n";
@@ -137,16 +137,19 @@ function display_lights_groups($prefid="",$cbpos="E",$brislider=false){
 		foreach ($gval['lights'] as $internal => $lnum){display_light_row($prefid,$lnum,$gnum,$cbpos,$brislider);}
 	}
 
-	// Lamps without group
-	echo "<TR CLASS=grp gnum=other>";
-	echo "<TD><SPAN CLASS=\"grp ui-icon ui-icon-circle-minus\" gnum=other open></SPAN>";
-	if ($cbpos == "B"){display_td_checkbox($prefid, "other", "grp", "other");}
-	echo "<TD CLASS=\"label grp\"><LABEL FOR=".$prefid."cb_other>".$trs["Lamps"]."</LABEL>";
-	echo "<TD><BUTTON ID=".$prefid."otheron>On</BUTTON><BUTTON ID=".$prefid."otheroff>Off</BUTTON>";
-	if ($cbpos == "E"){display_td_checkbox($prefid, "other", "grp", "other");}
-	if ($brislider){display_bri_slider($prefid,"other","other");}
-	foreach ($HueAPI->info['lights'] as $lnum => $lval){if (! isset($lval['grp'])){display_light_row($prefid,$lnum,"other",$cbpos,$brislider);}}
-	echo "</DIV>";
+	// Lamps without group only if existing
+	$othergroup=false;
+	foreach ($HueAPI->info['lights'] as $lnum => $lval){if (! isset($lval['grp'])){$othergroup=true;break;}}
+	if ($othergroup){
+		echo "<TR CLASS=grp gnum=other>";
+		echo "<TD><SPAN CLASS=\"grp ui-icon ui-icon-circle-minus\" gnum=other open></SPAN>";
+		if ($cbpos == "B"){display_td_checkbox($prefid, "other", "grp", "other");}
+		echo "<TD CLASS=\"label grp\"><LABEL FOR=".$prefid."cb_other>".$trs["Lamps"]."</LABEL>";
+		echo "<TD><BUTTON ID=".$prefid."otheron>On</BUTTON><BUTTON ID=".$prefid."otheroff>Off</BUTTON>";
+		if ($cbpos == "E"){display_td_checkbox($prefid, "other", "grp", "other");}
+		if ($brislider){display_bri_slider($prefid,"other","other");}
+		foreach ($HueAPI->info['lights'] as $lnum => $lval){if (! isset($lval['grp'])){display_light_row($prefid,$lnum,"other",$cbpos,$brislider);}}
+	}
 
 	echo "</TABLE>";
 } // display_lights_groups

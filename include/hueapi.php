@@ -67,6 +67,22 @@ class HueAPI {
 
 		// Store info array with action result
 		$ar_action = explode("/",$action);
+
+//==> hack for msl lights and groups
+		switch ($ar_action[0]) {
+			case "lights" : 
+					$json_info = file_get_contents("include/lights.json.txt");
+				break;
+			case "groups" : 
+					$json_info = file_get_contents("include/groups.json.txt");
+				break;
+		}
+		if (isset($ar_action[1])){ // if id requested : returns only selected id
+			$array_temp = json_decode($json_info,true);
+			$json_info = json_encode($array_temp[$ar_action[1]]);
+		}
+//=============
+
 		$current_info = &$this->info;
 		foreach($ar_action as $key){
 			$current_info = &$current_info[$key];

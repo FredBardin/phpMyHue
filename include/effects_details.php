@@ -26,13 +26,12 @@ echo $content;
 
 echo "<BR><BUTTON ID=rundbg>".$trs["Launch_with_execution_trace"]."</BUTTON>";
 
-echo "<DIV ID=runout></DIV>";
+echo "<DIV ID=runout title=\"".$trs["Execution_trace"]."\"></DIV>";
 ?>
 <SCRIPT language="javascript">
 scrollCurrentTab('#detail');
 $("#rundbg").button();
 $("#runout").dialog({
-  title: trs.Execution_trace,
   closeText: trs.Close,
   autoOpen: false,
   width : 500,

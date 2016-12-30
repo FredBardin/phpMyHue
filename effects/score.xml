@@ -1,0 +1,35 @@
+<effect name="Score !" comment="Score celebration">
+	<!-- Set var -->
+	<var name="repeat" value="8" />
+	<var name="transition" value="2" />
+	<var name="duration" value="0.5" />
+	<!-- Save original state -->
+	<getcolor id="1" name="save_1" />
+	<getcolor id="2" name="save_2" />
+	<getcolor id="3" name="save_3" />
+	<getcolor id="4" name="save_4" />
+	<!-- Blink all lights -->
+	<group id="0" alert="select" />
+	<!-- Turn on lights 1 to 4 -->
+	<light id="1" on="true" />
+	<light id="2" on="true" />
+	<light id="3" on="true" />
+	<light id="4" on="true" />
+	<!-- Loop to switch lamp 1 with 4 and 2 with 3 -->
+	<loop repeat="$repeat">
+		<getcolor id="1" name="first" />
+		<getcolor id="4" name="second" />
+		<setcolor id="1" name="second" transitiontime="$transition" />
+		<setcolor id="4" name="first" transitiontime="$transition" />
+		<getcolor id="2" name="first" />
+		<getcolor id="3" name="second" />
+		<setcolor id="2" name="second" transitiontime="$transition" />
+		<setcolor id="3" name="first" transitiontime="$transition" />
+		<timer duration="$duration" />
+	</loop>
+	<!-- Restore original state -->
+	<setcolor id="1" name="save_1" />
+	<setcolor id="2" name="save_2" />
+	<setcolor id="3" name="save_3" />
+	<setcolor id="4" name="save_4" />
+</effect>

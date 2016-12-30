@@ -31,9 +31,7 @@
 if (! defined('ANTI_HACK')){exit;}
 
 // Load config if init not in progress
-if (! defined('INIT')){
-	include "include/config.php";
-}
+if (! defined('INIT')){include "include/config.php";}
 
 // Load translations
 $trs = json_decode(implode(file('include/text_'.$lang.'.json')),true);
@@ -73,7 +71,7 @@ class HueAPI {
 		foreach($ar_action as $key){
 			$current_info = &$current_info[$key];
 		}
-		$current_info =  json_decode($json_info,true);
+		$current_info = json_decode($json_info,true);
 
 		return $json_info;
 	} // loadInfo

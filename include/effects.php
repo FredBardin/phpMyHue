@@ -30,7 +30,8 @@ for ($i=0; @$effects[$i]; $i++){
 	echo "<TD><LABEL FOR=".$effects[$i].">";
 	if (isset($descri[$i]['comment'])){echo $descri[$i]['comment'];}
 	echo "</LABEL>";
-	echo "<TD><SPAN CLASS=\"ui-icon ui-icon-circle-zoomin\" effect=".$effects[$i]." TITLE=\"".$trs["See_details"]."\"></SPAN>";
+	echo "<TD>&nbsp";
+	echo "<TD><SPAN CLASS=\"ui-icon ui-icon-zoomin\" effect=".$effects[$i]." TITLE=\"".$trs["See_details"]."\"></SPAN>";
 }
 ?>
 <SCRIPT TYPE="text/javascript" SRC="js/effects.js"></SCRIPT>

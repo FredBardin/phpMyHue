@@ -27,6 +27,9 @@ switch ($rt)
 	case "effects" :
 		include 'include/effects.php';
 		break;
+	case "rules" :
+		include 'include/rules.php';
+		break;
 	case "about" :
 		include 'include/about.php';
 		break;
@@ -59,10 +62,21 @@ switch ($rt)
 
 		display_light($lnum);
 		break;
-	case "color" :
+	case "color" : // echo json with xy+bri from rgb
 		include 'include/huecolor.php';
 		$rgb = $_REQUEST['rgb'];
 		echo RGBToXy($rgb);
+		break;
+	case "addcond" : // add a condition row
+		include 'include/functions.php';
+		$sensorid = $_REQUEST['sensorid'];
+		$cond = $_REQUEST['cond'];
+		getCondRow($sensorid, $cond, array(), true);
+		break;
+	case "addact" : // add an action row
+		include 'include/functions.php';
+		$act = $_REQUEST['act'];
+		getActRow($act, array(), true);
 		break;
 }
 ?>

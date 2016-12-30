@@ -154,8 +154,7 @@ function loadSelectedLightsDetail(tablights){
 				}
 
 				// Display informations
-				 $.getJSON('hueapi_cmd.php?action='+action, function(info){
-					// FBA --> currently no tranlastion
+				$.getJSON('hueapi_cmd.php?action='+action, function(info){
 					var descri = lasttype.charAt(0).toUpperCase()+lasttype.slice(1)+' id: '+lastnum;
 					descri += '<BR>'+trs.Type+': '+info.type;
 					if (lasttype == 'light' || info.type == 'Luminaire')
@@ -200,6 +199,7 @@ function loadSelectedLightsDetail(tablights){
 
 //---------------------------------------
 // Execute action from lights detail tab
+// Parameters : action [,xy color value]
 //---------------------------------------
 function lightsDetailAction(tabaction,xy){
 	var type = "";
@@ -374,9 +374,9 @@ function lightsDetailAction(tabaction,xy){
 					
 			function cleanstate(stateobj){ // Clean state properties : keep copyable only
 				stateobj.on = true;	// Light must be on to accept color change
-				delete stateobj.effect;
 				delete stateobj.alert;
 				delete stateobj.reachable;
+				delete stateobj.effect;
 				delete stateobj.colormode;
 				// Always use xy to switch color because it is also the used parameters to display color.
 				// When a color update occurs with a mode, the bridge computes values for the other modes but it takes some times.

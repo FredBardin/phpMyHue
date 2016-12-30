@@ -1,7 +1,16 @@
-v1.0 - 24/04/2015 : Creation
-v1.1 - 04/05/2015 : Html tag attributes and javascript optimization
-v1.2 - 07/06/2015 : Add Multi Lang support
-v1.2.1 - 15/07/2015 : Correction of a select group display bug when a special case occured.
-v1.2.2 - 16/07/2015 : Update logo in code and screenshots
+v1.5 - 11/09/2016 : 
+	 - Add Sensors Rules management
+	 - Update color conversion with new formulas from meethue
+	 - Add 'on' state in setcolor/getcolor effect execution (not only color state)
+	 - Update sample effects with save/restore lights original state
+	 - Add collapse/extend capabilities to 'All' in lights list
+     - Correct some minor display bugs
+v1.4.2 - 05/05/2016 : add new effect sample
+v1.4.1 - 28/12/2015 : Correction to manage white only lights (='dimmable light' type)
+v1.4 - 13/12/2015 : Add Effects scripts
 v1.3 - 07/11/2015 : Add Automatic Configuration
-v1.4 - 11/11/2015 : Add Effects scripts
+v1.2.2 - 16/07/2015 : Update logo in code and screenshots
+v1.2.1 - 15/07/2015 : Correction of a select group display bug when a special case occured.
+v1.2 - 07/06/2015 : Add Multi Lang support
+v1.1 - 04/05/2015 : Html tag attributes and javascript optimization
+v1.0 - 24/04/2015 : Creation

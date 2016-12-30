@@ -27,9 +27,14 @@ function xyToRGB($x,$y,$bri){
 	}
 
 	// Convert to sRGB D65 (official formula on meethue)
- 	$r = $X * 3.2406 - $Y * 1.5372 - $Z * 0.4986;
-	$g = - $X * 0.9689 + $Y * 1.8758 + $Z * 0.0415;
- 	$b = $X * 0.0557 - $Y * 0.204 + $Z * 1.057;
+	// old formula 
+ 	// $r = $X * 3.2406 - $Y * 1.5372 - $Z * 0.4986;
+	// $g = - $X * 0.9689 + $Y * 1.8758 + $Z * 0.0415;
+ 	// $b = $X * 0.0557 - $Y * 0.204 + $Z * 1.057;
+	// formula 2016
+ 	$r =   $X * 1.656492 - $Y * 0.354851 - $Z * 0.255038;
+	$g = - $X * 0.707196 + $Y * 1.655397 + $Z * 0.036152;
+ 	$b =   $X * 0.051713 - $Y * 0.121364 + $Z * 1.011530;
 
 	// Apply reverse gamma correction
     $r = ($r <= 0.0031308 ? 12.92 * $r : (1.055) * pow($r, (1 / 2.4)) - 0.055);
@@ -68,14 +73,19 @@ function RGBToXy($RGB){
 	$b = $b / 255;
 
 	// Apply gamma correction
-	$r = ($r > 0.04055 ? pow(($r + 0.055) / 1.055, 2.4) : ($r / 12.92));
-	$g = ($g > 0.04055 ? pow(($g + 0.055) / 1.055, 2.4) : ($g / 12.92));
-	$b = ($b > 0.04055 ? pow(($b + 0.055) / 1.055, 2.4) : ($b / 12.92));
+	$r = ($r > 0.04045 ? pow(($r + 0.055) / 1.055, 2.4) : ($r / 12.92));
+	$g = ($g > 0.04045 ? pow(($g + 0.055) / 1.055, 2.4) : ($g / 12.92));
+	$b = ($b > 0.04045 ? pow(($b + 0.055) / 1.055, 2.4) : ($b / 12.92));
 
-	// Convert to XYZ
-	$X = $r * 0.649926 + $g * 0.103455 + $b * 0.197109;
- 	$Y = $r * 0.234327 + $g * 0.743075 + $b * 0.022598;
- 	$Z = $r * 0        + $g * 0.053077 + $b * 1.035763;
+	// Convert to XYZ (official formula on meethue)
+	// old formula
+	//$X = $r * 0.649926 + $g * 0.103455 + $b * 0.197109;
+ 	//$Y = $r * 0.234327 + $g * 0.743075 + $b * 0.022598;
+ 	//$Z = $r * 0        + $g * 0.053077 + $b * 1.035763;
+	// formula 2016
+	$X = $r * 0.664511 + $g * 0.154324 + $b * 0.162028;
+ 	$Y = $r * 0.283881 + $g * 0.668433 + $b * 0.047685;
+ 	$Z = $r * 0.000088 + $g * 0.072310 + $b * 0.986039;
 
 	// Calculate xy and bri
 	if (($X+$Y+$Z) == 0){
@@ -100,10 +110,6 @@ function display_light($lnum){
 
 	$linfo = &$HueAPI->info['lights'][$lnum];
 
-	// Init color type
-	if ($linfo['type'] == "Extended color light"){$type="bulb";}
-	else {$type="other";}
-	
 	// Init on/off + lamp color
 	$unreachable = false;
 	$popup = "";
@@ -117,7 +123,11 @@ function display_light($lnum){
 		}
 	} else { // light on : get rgb color
 		$onoff = "on";
-		$lcolor=xyToRGB($lstate['xy']['0'],$lstate['xy']['1'],$lstate['bri'],$type);
+		if ($linfo['type'] == "Dimmable light"){ // White and grey : xy are constant
+			$lcolor=xyToRGB("0.3127","0.329",$lstate['bri']);
+		} else {
+			$lcolor=xyToRGB($lstate['xy']['0'],$lstate['xy']['1'],$lstate['bri']);
+		}
 	}
 
 	// Init lamp class

@@ -1,3 +1,8 @@
+v1.6 - : 
+	 - New logo
+	 - Move translation files from 'include' to 'lang'
+	 - Don't display anymore 'lamps' pseudo group if empty
+     - De-select a light now correctly remove 'checked' display on all related multi-selections
 v1.5 - 11/09/2016 : 
 	 - Add Sensors Rules management
 	 - Update color conversion with new formulas from meethue

@@ -42,7 +42,7 @@ if (isset($action)){
 		}
 		echo json_encode($HueAPI->info['groups']['other']);
 	} else { // Normal process
-			// if command or delete : set, else load information
+		// if command or delete : set, else load information
 		if (isset($cmdjs) || $method == "DELETE"){
 			echo $HueAPI->setInfo($action,$cmdjs,$method);
 		} else {

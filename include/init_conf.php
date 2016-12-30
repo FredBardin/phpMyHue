@@ -33,7 +33,7 @@ if (file_exists("include/$conf_file")){
 
 	// Load translations
 	if ($lang == ""){$lang = "en";} // Default lang = en
-	$trs = json_decode(implode(file('include/text_'.$lang.'.json')),true);
+	$trs = json_decode(implode(file('lang/text_'.$lang.'.json')),true);
 
 	echo "<FORM METHOD=post>";
 

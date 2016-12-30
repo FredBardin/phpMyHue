@@ -12,6 +12,8 @@
 // lightList 			manage list list event (for light tab or scene detail tab)
 // switchGroup 			switch on or off a group of lamps
 //------------------------------------------------------------------------
+// 2016/12/28 : Correction on lights de-select if present in several groups 
+//------------------------------------------------------------------------
 //----------------------------------------
 // Create fonctions for mobiles detection
 //----------------------------------------
@@ -281,12 +283,11 @@ function lightsList(listtab,prefid){
 	});
 
 	// Uncheck all and group if a lamp is unchecked
-	// + check/uncheck all line for the same lamp (if it belongs to several groups)
+	// + check/uncheck all lines for the same lamp (if it belongs to several groups)
 	$(listtab+' tbody input.light').change(function() {
 		id=$(this).attr('id');
 		var lnum = $(this).attr('lnum');
 		var gnum = $(this).attr('gnum');
-		$('#'+prefid+'s_'+gnum+'_'+lnum).toggleClass('cbchecked');
 		if ($(this).prop('checked')){
 			$(listtab+' tbody tr.light[lnum='+lnum+'] td.label').addClass('ui-state-focus');
 			$(listtab+' tbody tr.light[lnum='+lnum+'] input.light').prop('checked',true);
@@ -294,14 +295,16 @@ function lightsList(listtab,prefid){
 		} else {
 			$(listtab+' tbody tr.light[lnum='+lnum+'] td.label').removeClass('ui-state-focus');
 			$(listtab+' tbody tr.light[lnum='+lnum+'] input.light').prop('checked',false);
+			$(listtab+' tbody tr.light[lnum='+lnum+'] input.light').parent('span').removeClass('cbchecked');
 			$(listtab+' tbody tr.light[lnum='+lnum+']').each(function(){
 				gnum = $(this).attr('gnum');
-				$(listtab+' tbody tr.grp[gnum='+gnum+'] input.grp').prop('checked',false);
 				$(listtab+' tbody tr.grp[gnum='+gnum+'] td.label').removeClass('ui-state-focus');
+				$(listtab+' tbody tr.grp[gnum='+gnum+'] input.grp').prop('checked',false);
+				$(listtab+' tbody tr.grp[gnum='+gnum+'] input.grp').parent('span').removeClass('cbchecked');
 			});
+			$(listtab+' thead td.label').removeClass('ui-state-focus');
 			$('#'+prefid+'cb_all').prop('checked',false);
 			$('#'+prefid+'s_all').removeClass('cbchecked');
-			$(listtab+' thead td.label').removeClass('ui-state-focus');
 		}
 		if (prefid == ""){loadSelectedLightsDetail(listtab);}
 	});

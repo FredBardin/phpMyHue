@@ -40,7 +40,7 @@ else {$cur_branch = " (".$cur_branch.")";}
 include "include/init_conf.php";
 
 // Load translations (lf+cr+<+>+' are removed)
-$trs_json = preg_replace("/[\n\r<>']/","", implode(file('include/text_'.$lang.'.json')));
+$trs_json = preg_replace("/[\n\r<>']/","", implode(file('lang/text_'.$lang.'.json')));
 $trs = json_decode($trs_json,true);
 ?>
 
@@ -68,6 +68,7 @@ $trs = json_decode($trs_json,true);
 
 </DIV><!-- div page -->
 <SCRIPT>
+// Make transalations available in javascript
 var trs = jQuery.parseJSON('<?php echo $trs_json?>');
 
 // Enable tooltip if not on mobile (= touch interface)

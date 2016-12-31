@@ -127,14 +127,16 @@ function display_lights_groups($prefid="",$cbpos="E",$brislider=false){
 
 	echo "<TBODY>";
 	foreach ($HueAPI->info['groups'] as $gnum => $gval){ // Existing groups
-		echo "<TR CLASS=grp gnum=$gnum>";
-		echo "<TD><SPAN CLASS=\"grp ui-icon ui-icon-circle-minus\" gnum=$gnum open></SPAN>";
-		if ($cbpos == "B"){display_td_checkbox($prefid, "$gnum", "grp", $gnum);}
-		echo "<TD CLASS=\"label grp\"><LABEL FOR=".$prefid."cb_$gnum gnum=$gnum>".$gval['name']."</LABEL>";
-		echo "<TD><BUTTON CLASS=gron gnum=$gnum>On</BUTTON><BUTTON CLASS=groff gnum=$gnum>Off</BUTTON>";
-		if ($cbpos == "E"){display_td_checkbox($prefid, $gnum, "grp", $gnum);}
-		if ($brislider){display_bri_slider($prefid,$gnum,$gnum);}
-		foreach ($gval['lights'] as $internal => $lnum){display_light_row($prefid,$lnum,$gnum,$cbpos,$brislider);}
+		if ($gval['type'] != "LightSource"){ // Exclude 'LightSource' groups : included into 'Luminaire' groups
+			echo "<TR CLASS=grp gnum=$gnum>";
+			echo "<TD><SPAN CLASS=\"grp ui-icon ui-icon-circle-minus\" gnum=$gnum open></SPAN>";
+			if ($cbpos == "B"){display_td_checkbox($prefid, "$gnum", "grp", $gnum);}
+			echo "<TD CLASS=\"label grp\"><LABEL FOR=".$prefid."cb_$gnum gnum=$gnum>".$gval['name']."</LABEL>";
+			echo "<TD><BUTTON CLASS=gron gnum=$gnum>On</BUTTON><BUTTON CLASS=groff gnum=$gnum>Off</BUTTON>";
+			if ($cbpos == "E"){display_td_checkbox($prefid, $gnum, "grp", $gnum);}
+			if ($brislider){display_bri_slider($prefid,$gnum,$gnum);}
+			foreach ($gval['lights'] as $internal => $lnum){display_light_row($prefid,$lnum,$gnum,$cbpos,$brislider);}
+		}
 	}
 
 	// Lamps without group only if existing

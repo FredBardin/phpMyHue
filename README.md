@@ -38,7 +38,7 @@ Rules (advanced mode)
 ## Installation
 1. Copy 'phpMyHue' directory and its content in your web server.
 2. Open a browser on your installation url, it should be something like "http://my_web_server/phpMyHue"
-	* **Automatic configuration** begins : follow configuration informations in your browser
+	* **Automatic configuration** begins (bridge detection, user creation, ...) : follow configuration informations in your browser
 
 If you're asked to proceed manually because automatic setup failed to complete (ie. : local file writing not allowed from your web server), follow the displayed instructions or the ones below :
 

@@ -2,6 +2,7 @@
 // F. Bardin 2015/02/10
 // ------------------------------------------------
 // 2016/12/28 : correct group description when not a lightgroup
+// 2017/05/28 : some corrections in particular configuration
 // ------------------------------------------------
 
 /*====================================
@@ -169,6 +170,7 @@ function loadSelectedLightsDetail(tablights){
 						if (info.state.effect != 'none'){
 							descri += '<BR>'+trs.Effect+': '+info.state.effect;
 						}
+//==> FBA : INIT
 						// Set brightness
 						$('#brislider').val(info.state.bri);
 
@@ -202,6 +204,8 @@ function loadSelectedLightsDetail(tablights){
 //---------------------------------------
 // Execute action from lights detail tab
 // Parameters : action [,xy color value]
+//
+// xy if only use for 'color' action
 //---------------------------------------
 function lightsDetailAction(tabaction,xy){
 	var type = "";
@@ -213,7 +217,7 @@ function lightsDetailAction(tabaction,xy){
 	var successmsg = "";
 	var tablights = "#"+getCurrentTabsID('#tabs');
 
-	$('#sellist span').each(function(){ // Read each selected element to get info
+	$('#sellist span').each(function(){ // Read each selected element to process action
 		type = $(this).attr('type');
 		num = $(this).attr('num');
 		action = '';
@@ -315,17 +319,28 @@ function lightsDetailAction(tabaction,xy){
 						case 'bri' : // reload updated lamps
 						case 'color' :
 							if (curtype == 'light'){ // only 1 light
-								$(tablights+' table a.switch[lnum='+curnum+']').load('main.php?rt=display&lnum='+curnum);
+								$(tablights+' table a.switch[lnum='+curnum+']').load('main.php?rt=display&lnum='+curnum, function(data){
+									UpdateColorOnBriUpdate();
+								});
 							} else { // update group
 								var searchgroup = '';
 								var lnum = 0;
 								if (curtype != 'all'){searchgroup = ' tr.grp'+curnum;}
 								$(tablights+' table'+searchgroup+' a.switch').each(function(){
 									lnum = $(this).attr('lnum');
-									$(this).load('main.php?rt=display&lnum='+lnum);
+									$(this).load('main.php?rt=display&lnum='+lnum, function(data){
+										UpdateColorOnBriUpdate();
+									});
 								});
 							}
 							break;
+					}
+				} else {
+					// Reset color and brightness if error
+					switch(tabaction){
+						case 'bri' :
+						case 'color' :
+							UpdateColorOnBriUpdate();
 					}
 				}
 			}));
@@ -446,10 +461,7 @@ function lightsDetail(){
     $('#tsexec').click(function(){lightsDetailAction('tsexec');});
 
 	// Set brightness
-	$('#brislider').change(function(){
-		lightsDetailAction('bri');
-		setTimeout(UpdateColorOnBriUpdate(),1500); // Update color picker if needed
-	});
+	$('#brislider').change(function(){lightsDetailAction('bri');});
 
 	// Alert
 	$('#blink1').click(function(){lightsDetailAction('blink1');});
@@ -477,15 +489,19 @@ function UpdateColorOnBriUpdate(){
 	var lnumref = "";
 	var hexrgb = $('#colorpicker').val();
 
-	// Search checked lights, count them and store last lnum found
+	// Search checked lights, if on : count them and store first lnum found
 	$(tablights+' table tbody input.light').each(function(){
 		if ($(this).prop('checked')){
 			lnum = $(this).attr('lnum');
 			if ($(tablights+' table a.switch[lnum='+lnum+'] .swon').length){
-				if (lnumref == ""){lnumref = lnum;
-				}
+				if (lnumref == ""){lnumref = lnum;}
 		 		nblights++;
 				if (nblights > 1){return false;} // exit each()
+			} else { // if 1 lum off --> no update
+				if ($(tablights+' table a.switch[lnum='+lnum+'] .swoff').length){
+					lnumref="";
+					return false; // exit each()
+				}
 			}
 		}
 	});
@@ -498,16 +514,14 @@ function UpdateColorOnBriUpdate(){
 
 //---------------------------------------
 // Update color picker value
+// Parameters : tablights, lnumref[, hexrgb]
+//
+// if hexrgb given : tablights could be empty ("") because not used
+// if hexrgb not given : tablights have to be filled
 //---------------------------------------
 function updateColorPicker(tablights, lnumref, hexrgb){
 	if (! hexrgb){
-		var rgb = $(tablights+' table a.switch[lnum='+lnumref+'] .swon').css('background-color');
-    	if (rgb){
- 			rgb = rgb.match(/^rgb\((\d+),\s*(\d+),\s*(\d+)\)$/);
-			hexrgb = "#" + ("0" + parseInt(rgb[1],10).toString(16)).slice(-2) +
-                       	   ("0" + parseInt(rgb[2],10).toString(16)).slice(-2) +
-                       	   ("0" + parseInt(rgb[3],10).toString(16)).slice(-2);
-		}
+		hexrgb = $(tablights+' table a.switch[lnum='+lnumref+'] div').attr('rgb');
 	}
 	if (hexrgb){
 		// Update value as the object is not initialized, that prevents to trigger a change event

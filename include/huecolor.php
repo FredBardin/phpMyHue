@@ -114,6 +114,11 @@ function display_light($lnum){
 	$unreachable = false;
 	$popup = "";
 	$lstate = &$linfo['state'];
+	if ($linfo['type'] == "Dimmable light"){ // White and grey : xy are constant
+		$rgbcolor=xyToRGB("0.3127","0.329",$lstate['bri']);
+	} else {
+		$rgbcolor=xyToRGB($lstate['xy']['0'],$lstate['xy']['1'],$lstate['bri']);
+	}
 	if ($lstate['on'] == "" || $lstate['reachable'] == ""){
 		$onoff = "off";
 		$lcolor = "transparent";
@@ -121,13 +126,9 @@ function display_light($lnum){
 			$unreachable = true;
 			$popup = " TITLE=\"".$trs["Unreachable"]."\"";
 		}
-	} else { // light on : get rgb color
+	} else { // light on : display rgb color
 		$onoff = "on";
-		if ($linfo['type'] == "Dimmable light"){ // White and grey : xy are constant
-			$lcolor=xyToRGB("0.3127","0.329",$lstate['bri']);
-		} else {
-			$lcolor=xyToRGB($lstate['xy']['0'],$lstate['xy']['1'],$lstate['bri']);
-		}
+		$lcolor = $rgbcolor;
 	}
 
 	// Init lamp class
@@ -137,7 +138,7 @@ function display_light($lnum){
 	// cf css --> groups display may require some changes to do so
 	
 	// Display lamp
-	echo "<DIV STYLE=\"background-color:$lcolor;\" CLASS=\"$lclass\"$popup>";
+	echo "<DIV STYLE=\"background-color:$lcolor;\" RGB=$rgbcolor CLASS=\"$lclass\"$popup>";
 	if ($unreachable){echo "<SPAN CLASS=\"ui-state-focus unreachable\"><SPAN CLASS=\"ui-icon ui-icon-alert unreachable\"></SPAN></SPAN>";}
 	echo "</DIV>";
 } // display_light

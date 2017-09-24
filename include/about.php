@@ -18,7 +18,7 @@ Current language : <?php echo $lang?>
 <H3><?php echo $trs['Histo']?></H3>
 <DIV>
 <?php
-$histo = @file("HISTO.txt");
+$histo = @file("histo.txt");
 foreach ($histo as $num => $line){
 	$line = preg_replace("/^(v.*) - /","<B>$1</B> - ",$line);
 	echo "$line<BR>\n";

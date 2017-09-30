@@ -28,7 +28,7 @@
 // <setcolor /> : put a saved on+color on a given light (default) or group id (+[transitiontime])
 //----------------------------------------------------
 // F. Bardin 14/11/2015
-// 11/07/2015 : add 'on' state to getcolor/setcolor 
+// 11/07/2016 : add 'on' state to getcolor/setcolor 
 //====================================================
 // Anti-hack
 if (! defined('ANTI_HACK')){exit;}

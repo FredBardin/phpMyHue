@@ -6,6 +6,8 @@ v1.6 - /09/2017 :
      - Don't display 'LightSource' groups (already included into 'Luminaire' groups)
 WIP	 - Display now color and brightness of a lamp in details tab even if turned off
 WIP  - Lights details tab now always displays changes immediately for color or brightness
+     - Add choose language function in 'about' tab for updatable config file
+       (depend on your installation)
 v1.5 - 11/09/2016 : 
 	 - Add Sensors Rules management
 	 - Update color conversion with new formulas from meethue

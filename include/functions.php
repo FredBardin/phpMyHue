@@ -5,7 +5,7 @@
  These functions are used by several screens or need an external call by ajax
  ---------------------------------------------------
  huecolor.php : includes functions to manage colors
- choose_lang : allow to choose a lang amon exiting translation files
+ choose_lang : allow to choose a lang among exiting translation files
  display_bri_slider : display a slider to manage brightness
  display_td_checkbox : display selection checkbox on a row
  display_light_row : display a light row
@@ -264,5 +264,4 @@ function selMethod($selmethid,$methval){
 
 	echo "<SCRIPT>\$(\"#$selmethid\").selectmenu({width : 'auto'});</SCRIPT>\n";
 } // selMethod
-
 ?>

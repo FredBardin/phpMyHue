@@ -1,11 +1,11 @@
 # ![phpMyHue](img/phpmyhue.png)
 
-Php web interface to manage Philips Hue lights in a local network.
+Php web interface and api to manage Philips Hue lights in a local network.
 
 ## Main Functionnalities
 * **Full group management**
 * **Scenes update or creation**
-* Manage and run **scripted effects** (debug mode available) ([see wiki](https://github.com/FredBardin/phpMyHue/wiki/Effects-scripts)) 
+* Manage and run xml **scripted effects** (debug mode available) ([see wiki](https://github.com/FredBardin/phpMyHue/wiki/Effects-scripts)) 
 * **Full rules management** for sensors (simplified mode available for **Hue Tap** switch with on/off functionalities)
 * Set color and/or brightness for a light or several at once
 * Copy color settings between lights (copy to, copy from, switch with)

@@ -1,21 +1,25 @@
 <?php
+//----------------------------------------------
 // About pannel
 // F. Bardin 12/04/2015
-//-----------------------------------
+//----------------------------------------------
+// 30/09/2017 : add language update capability
+//----------------------------------------------
 // Anti-hack
 if (! defined('ANTI_HACK')){exit;}
 
+include 'include/functions.php';
 ?>
 <SCRIPT language="javascript">
 $('#detail').hide("slide");
 </SCRIPT>
 <DIV ID=about>phpMyHue 1.6<BR>
-&copy; <A HREF="mailto:bardin.frederic@gmail.com" CLASS=about>F. Bardin</A> 12-2016/01-2017<BR>
+&copy; <A HREF="mailto:bardin.frederic@gmail.com" CLASS=about>F. Bardin</A> 04-2015/09-2017<BR>
 <small>
 Bridge IP : <?php echo $bridgeip?><BR>
-Current language : <?php echo $lang?>
+<SPAN CLASS=aligntxt>Current language : </SPAN><?php choose_lang() ?>
 <BR><DIV ID=histo>
-<H3><?php echo $trs['Histo']?></H3>
+<SPAN><?php echo $trs['Histo']?></SPAN>
 <DIV>
 <?php
 $histo = @file("histo.txt");
@@ -26,7 +30,11 @@ foreach ($histo as $num => $line){
 ?>
 </DIV></DIV>
 </small></DIV>
-<SCRIPT>
+<SCRIPT language="javascript">
+$("#c_lang").selectmenu({width : 'auto'});
+$("#c_lang").on("selectmenuchange", function(){
+	location.assign('index.php?updconf=y&lang='+$(this).val());
+});
 $('#histo').accordion({
 	collapsible: true,
 	heightStyle: "content",

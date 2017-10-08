@@ -25,6 +25,7 @@ $RECYCLE.BIN/
 *.swp
 include/config.php
 *_old.php
+*_org.php
 jquery-ui_FULL
 effects/*
 !effects/blink.xml

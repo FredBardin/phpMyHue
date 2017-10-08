@@ -113,6 +113,8 @@
 "Button":"Bouton",
 "Simple_mode":"Mode Simple",
 "Advanced_mode":"Mode Avancé",
+"Bridge_IP":"IP pont Hue",
+"Current_language":"Langage courant",
 "Histo":"Histo",
 "Problem_for_updating_configuration_file":"Problème pour mettre à jour le fichier de configuration",
 "":""

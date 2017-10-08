@@ -113,6 +113,8 @@
 "Button":"Button",
 "Simple_mode":"Simple mode",
 "Advanced_mode":"Advanced mode",
+"Bridge_IP":"Bridge IP",
+"Current_language":"Current language",
 "Histo":"Histo",
 "Problem_for_updating_configuration_file":"Problem for updating the configuration file",
 "":""

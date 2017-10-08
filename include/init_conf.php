@@ -1,50 +1,52 @@
 <?php
 // Initialize configuration
-//------------------------------------------------
+//---------------------------------------------------
 // If not exists (=first install) : create it
-// If exists : load it
-//------------------------------------------------
+// If exists : load it and re-write it if requested
+//---------------------------------------------------
 // F. Bardin 06/09/2015
-//------------------------------------------------
+//---------------------------------------------------
+// 30/09/2017 : Add re-write config query management
+//---------------------------------------------------
 // Anti-hack
 if (! defined('ANTI_HACK')){exit;}
 
 include 'include/functions.php';
-
-// Define 
-define('INIT', true);
 
 $conf_file = "config.php";
 $template_file = "config.tpl.php";
 
 ini_set('default_socket_timeout', 1);
 
-// If config file does not exist : copy template
-if (file_exists("include/$conf_file")){
+// If config file does not exist : initialization
+if (file_exists("include/$conf_file")){ // config exists
 	@$updconf = $_REQUEST['updconf'];
-	if (isset($updconf)){
+
+	include "include/$conf_file";
+
+	if (isset($updconf)){ // If config update requested
 		// Backup config parameters sent
 		@$bridgeip_bck = $_REQUEST['bridgeip'];
 		@$username_bck = $_REQUEST['username'];
 		@$lang_bck = $_REQUEST['lang'];
 
-		// Load config to initialize all parameters
-		include "include/$conf_file";
-
-		// Update old config with new parameter
+		// Update old config with new parameter(s)
 		if (isset($bridgeip_bck)){$bridgeip = $bridgeip_bck;}
 		if (isset($username_bck)){$username = $username_bck;}
 		if (isset($lang_bck)){$lang = $lang_bck;}
 
 		// Write new config
-// TODO ==> TO TRANSLATE AND TO DISPLAY as message
-		if (writeConf()){$msg="Config updated";}
-		else			{echo "Problem writing config file";}
+		if (! writeConf()){
+			// If problem : reload old config and display error message
+			include "include/$conf_file";
+			$trs = json_decode(implode(file('lang/text_'.$lang.'.json')),true);
+			echo "<H3>".$trs["Problem_for_updating_configuration_file"]."</H3>";
+		}
 	}
 
-	// Read config
-	include "include/$conf_file";
-} else {
+} else { // Initialize configuration
+	define('INIT', true);
+
 	@$confstep = $_REQUEST['confstep'];
 
 	// Load config parameters
@@ -177,13 +179,6 @@ function recordConf(){
 	echo "<BR><DIV STYLE=\"margin:auto;width:500px;border:1px outset #000000;text-align:left;\"><CODE>".$conf_html."</CODE></DIV>";
 
 } // recordConf
-
-//----------------------------------------------
-// Function to update configuration
-// (no part of ini process)
-//----------------------------------------------
-function updateConf(){
-} // updateConf
 
 //-----------------------------------------------------------------------------------------------
 // Function to (re)write completly config.php file

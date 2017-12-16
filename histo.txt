@@ -8,6 +8,7 @@ WIP	 - Display now color and brightness of a lamp in details tab even if turned 
 WIP  - Lights details tab now always displays changes immediately for color or brightness
      - Add choose language function in 'about' tab for updatable config file
        (depend on your installation)
+     - Scenes and rules tabs are now always displayed even with some strict type mode activated
 v1.5 - 11/09/2016 : 
 	 - Add Sensors Rules management
 	 - Update color conversion with new formulas from meethue

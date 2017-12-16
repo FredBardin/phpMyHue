@@ -16,10 +16,10 @@ $('#detail').hide("slide");
 <?php
 
 // Create id->name array
-$a_sname="";
-foreach ($HueAPI->info['sensors'] as $sensorid => $sval){
-	$a_sname[$sensorid] = $sval['name'];
-}
+$a_sname = array();
+//foreach ($HueAPI->info['sensors'] as $sensorid => $sval){
+//	$a_sname[$sensorid] = $sval['name'];
+//}
 asort($a_sname);
 
 // Display sensors

@@ -26,7 +26,7 @@ for ($i=0; @$effects[$i]; $i++){
 	if (! isset($descri[$i]['name'])){$descri[$i]['name'] = $effects[$i];}
 	echo "\n<TR CLASS=radio>";
 	echo "<TD><SPAN CLASS=\"ui-icon ui-icon-radio-off\"><INPUT TYPE=radio NAME=efradio ID=".$effects[$i]."></SPAN>";
-	echo "<TD CLASS=sname><LABEL FOR=".$effects[$i].">".$descri[$i]['name']."</LABEL>";
+	echo "<TD CLASS=sname><LABEL FOR=".$effects[$i]."><BUTTON CLASS=fx fx=".$effects[$i].">".$descri[$i]['name']."</BUTTON></LABEL>";
 	echo "<TD><LABEL FOR=".$effects[$i].">";
 	if (isset($descri[$i]['comment'])){echo $descri[$i]['comment'];}
 	echo "</LABEL>";
@@ -37,6 +37,7 @@ for ($i=0; @$effects[$i]; $i++){
 <SCRIPT TYPE="text/javascript" SRC="js/effects.js"></SCRIPT>
 <SCRIPT language="javascript">
 $('#detail').hide("slide");
+$('#tabs button.fx').button();
 effectsTab();
 </SCRIPT>
 

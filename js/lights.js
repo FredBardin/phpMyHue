@@ -1,8 +1,9 @@
 // Javascript Functions for lights tab in phpMyHue
 // F. Bardin 2015/02/10
 // ------------------------------------------------
-// 2016/12/28 : correct group description when not a lightgroup
-// 2017/05/28 : some corrections in particular configuration
+// 2016/12/28 : Correct group description when not a lightgroup
+// 2017/05/28 : Some corrections in particular configuration
+// 2017/12/30 : Immediate display update for color and brightness when a change occurs
 // ------------------------------------------------
 
 /*====================================
@@ -110,23 +111,25 @@ function loadSelectedLightsDetail(tablights){
 
 	// Update detail tab display
 	if (selcount > 0){
-		$('#detail').show("slide"); // Show tab
-		$('#selname').hide(); // Hide name selection by default
-		$('#transset').hide(); // Hide color settings transfer by default
-		$('#descri').accordion('option','active',false); // Close description by default
-		$('#descri').hide(); // Hide description by default
-		$('#brislider').val(0); // Reset brightness by default
-		updateColorPicker("", 0, '#ffffff'); // set color to white by default
+		// Initialize to defaults
+		$('#detail').show("slide"); 		// Show tab
+		$('#selname').hide(); 				// Hide name selection
+		$('#transset').hide(); 				// Hide color settings transfert
+		$('#descri').accordion('option','active',false); // Close description
+		$('#descri').hide(); 				// Hide description
+		$('#brislider').val(0); 			// Reset brightness
+		updateColorPicker("", 0, '#ffffff'); // Set color to white
 
-		if (lamponly != grponly){ // Show group management only if all elements are of the same type
+		// Show group management only if all elements are of the same type
+		if (lamponly != grponly){
 			$('#grpmgmt').show();
 
-			if (lamponly){ // show lamp options
+			if (lamponly){ // Show lamp options
 				$('#grplegend').text(trs.Fill_a_group_with_selected_lamps);
 				$('#grplightopt').show();
 				$('#grpopt').hide();
 			}
-			else { // show group option
+			else { // Show group option
 				$('#grplegend').text(trs.Delete_selected_groups);
 				$('#grplightopt').hide();
 				$('#grpopt').show();
@@ -170,12 +173,12 @@ function loadSelectedLightsDetail(tablights){
 						if (info.state.effect != 'none'){
 							descri += '<BR>'+trs.Effect+': '+info.state.effect;
 						}
-//==> FBA : INIT
 						// Set brightness
 						$('#brislider').val(info.state.bri);
 
 						// Set color
 						updateColorPicker(tablights,lastnum);
+
 					} else {
 						if (info.action.effect != 'none'){
 							descri += '<BR>'+trs.Effect+': '+info.action.effect;
@@ -217,30 +220,35 @@ function lightsDetailAction(tabaction,xy){
 	var successmsg = "";
 	var tablights = "#"+getCurrentTabsID('#tabs');
 
-	$('#sellist span').each(function(){ // Read each selected element to process action
+	// Read each selected element to process action
+	$('#sellist span').each(function(){
 		type = $(this).attr('type');
 		num = $(this).attr('num');
 		action = '';
 		actionsup = '';
 
-		switch(type){ // Set action to execute depending on element type
+		// Set action to execute depending on element type
+		switch(type){
 			case 'all' :
 				action='groups/0/action';
 				break;
+
 			case 'group' :
 				if (num != 'other'){
 					action='groups/'+num;
 					actionsup='/action';
 				}
-				else {action=num;} // trick for hueapi_cmd.php
+				else {action=num;} // Trick for hueapi_cmd.php and pseudo group 'other'
 				break;
+
 			case 'light' :
 				action='lights/'+num;
 				actionsup='/state';
 				break;
 		}
 
-		switch(tabaction){ // Set bridge content to update depending on tab detail action
+		// Set bridge content to update depending on tab detail action
+		switch(tabaction){
 			case 'updname' :
 				var name = $('#elemname').val();
 				cmdjs = '"name":"'+encodeURIComponent(name)+'"';
@@ -302,7 +310,7 @@ function lightsDetailAction(tabaction,xy){
 				action = "";
 				break;
 		}
-		if (action != ""){ // Send action and return result into msg box (!! no error management)
+		if (action != ""){ // Send action and return result into msg box (!! no error management --> delegated to bridge)
 			if (cmdjs != "" && tabaction != 'color'){cmdjs = '&cmdjs={'+cmdjs+'}';}
 
 			// Store current value to use in load callback below (else only get the last one)
@@ -424,7 +432,9 @@ function lightsDetailAction(tabaction,xy){
 							$.getJSON('hueapi_cmd.php?action='+actionselected+actionsup+'&cmdjs='+JSON.stringify(ltargeted),
 								function(jsmsg){
 									if (processReturnMsg(jsmsg)){
-										$(tablights+' a.switch[lnum='+num+']').load('main.php?rt=display&lnum='+num);
+										$(tablights+' a.switch[lnum='+num+']').load('main.php?rt=display&lnum='+num, function(data){
+											UpdateColorOnBriUpdate();
+										});
 									}
 							});
 							break;
@@ -436,7 +446,9 @@ function lightsDetailAction(tabaction,xy){
 											function(ret2){
 												$(tablights+' a.switch[lnum='+valtarget+']').load('main.php?rt=display&lnum='+valtarget);
 												if (processReturnMsg(ret2)){
-													$(tablights+' a.switch[lnum='+num+']').load('main.php?rt=display&lnum='+num);
+													$(tablights+' a.switch[lnum='+num+']').load('main.php?rt=display&lnum='+num, function(data){
+														UpdateColorOnBriUpdate();
+													});
 												}
 										});
 									}
@@ -524,10 +536,10 @@ function updateColorPicker(tablights, lnumref, hexrgb){
 		hexrgb = $(tablights+' table a.switch[lnum='+lnumref+'] div').attr('rgb');
 	}
 	if (hexrgb){
-		// Update value as the object is not initialized, that prevents to trigger a change event
-		$('#colorpicker').data('minicolors-initialized',false) 
+		// If initialization : no change triggered
+		if (tablights == ""){$('#colorpicker').data('minicolors-initialized',false);}
 		$('#colorpicker').minicolors('value',hexrgb);
-		$('#colorpicker').data('minicolors-initialized',true) 
+		if (tablights == ""){$('#colorpicker').data('minicolors-initialized',true);}
 	}
 } // updateColorPicker
 

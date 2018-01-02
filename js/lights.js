@@ -1,10 +1,11 @@
 // Javascript Functions for lights tab in phpMyHue
 // F. Bardin 2015/02/10
-// ------------------------------------------------
+// ----------------------------------------------------------------------
 // 2016/12/28 : Correct group description when not a lightgroup
 // 2017/05/28 : Some corrections in particular configuration
 // 2017/12/30 : Immediate display update for color and brightness when a change occurs
-// ------------------------------------------------
+// 2017/01/02 : Optimize immediate display and correct problems on some brightness changes
+// ----------------------------------------------------------------------
 
 /*====================================
   Tab lights functions
@@ -118,7 +119,7 @@ function loadSelectedLightsDetail(tablights){
 		$('#descri').accordion('option','active',false); // Close description
 		$('#descri').hide(); 				// Hide description
 		$('#brislider').val(0); 			// Reset brightness
-		updateColorPicker("", 0, '#ffffff'); // Set color to white
+		updateColorPicker("",0,'#ffffff'); // Set displayed color to white
 
 		// Show group management only if all elements are of the same type
 		if (lamponly != grponly){
@@ -137,7 +138,8 @@ function loadSelectedLightsDetail(tablights){
 		}
 	   	else {$('#grpmgmt').hide();}
 
-		if (selcount == 1 && lasttype != 'all'){ // if 1 element and not all lamps : name can be changed if not 'other' group
+		// If only 1 element and not all lamps : name can be changed if not 'other' group
+		if (selcount == 1 && lasttype != 'all'){
 			if (lastnum != 'other'){ // if not group other : display change name
 				var action = "";
 				selstring = '<SPAN type='+lasttype+' num='+lastnum+'>';
@@ -328,7 +330,7 @@ function lightsDetailAction(tabaction,xy){
 						case 'color' :
 							if (curtype == 'light'){ // only 1 light
 								$(tablights+' table a.switch[lnum='+curnum+']').load('main.php?rt=display&lnum='+curnum, function(data){
-									UpdateColorOnBriUpdate();
+									updateColorPicker(tablights, curnum);
 								});
 							} else { // update group
 								var searchgroup = '';
@@ -337,7 +339,7 @@ function lightsDetailAction(tabaction,xy){
 								$(tablights+' table'+searchgroup+' a.switch').each(function(){
 									lnum = $(this).attr('lnum');
 									$(this).load('main.php?rt=display&lnum='+lnum, function(data){
-										UpdateColorOnBriUpdate();
+										updateColorPicker(tablights, lnum);
 									});
 								});
 							}
@@ -348,7 +350,8 @@ function lightsDetailAction(tabaction,xy){
 					switch(tabaction){
 						case 'bri' :
 						case 'color' :
-							UpdateColorOnBriUpdate();
+							$('#brislider').val(0);
+							updateColorPicker("",0,'#ffffff');
 					}
 				}
 			}));
@@ -433,7 +436,7 @@ function lightsDetailAction(tabaction,xy){
 								function(jsmsg){
 									if (processReturnMsg(jsmsg)){
 										$(tablights+' a.switch[lnum='+num+']').load('main.php?rt=display&lnum='+num, function(data){
-											UpdateColorOnBriUpdate();
+											updateColorPicker(tablights, num, "", true);
 										});
 									}
 							});
@@ -447,7 +450,7 @@ function lightsDetailAction(tabaction,xy){
 												$(tablights+' a.switch[lnum='+valtarget+']').load('main.php?rt=display&lnum='+valtarget);
 												if (processReturnMsg(ret2)){
 													$(tablights+' a.switch[lnum='+num+']').load('main.php?rt=display&lnum='+num, function(data){
-														UpdateColorOnBriUpdate();
+														updateColorPicker(tablights, num, "", true);
 													});
 												}
 										});
@@ -490,56 +493,27 @@ function lightsDetail(){
 
 } // lightsDetail
 
-//---------------------------------------------
-// Update color if needed on brightness update
-// Remark : this function is triggered by bri change
-//---------------------------------------------
-function UpdateColorOnBriUpdate(){
-	var tablights = "#"+getCurrentTabsID('#tabs');
-	var nblights = 0;
-	var lnum = 0;
-	var lnumref = "";
-	var hexrgb = $('#colorpicker').val();
-
-	// Search checked lights, if on : count them and store first lnum found
-	$(tablights+' table tbody input.light').each(function(){
-		if ($(this).prop('checked')){
-			lnum = $(this).attr('lnum');
-			if ($(tablights+' table a.switch[lnum='+lnum+'] .swon').length){
-				if (lnumref == ""){lnumref = lnum;}
-		 		nblights++;
-				if (nblights > 1){return false;} // exit each()
-			} else { // if 1 lum off --> no update
-				if ($(tablights+' table a.switch[lnum='+lnum+'] .swoff').length){
-					lnumref="";
-					return false; // exit each()
-				}
-			}
-		}
-	});
-	// If color not initialized and severel checked lights : no color update
-	if (hexrgb == "#ffffff" && nblights > 1){lnumref = "";}
-
-	// If lnum ref exists : update
-	if (lnumref != ""){updateColorPicker(tablights, lnumref);}
-} // UpdateColorOnBriUpdate
-
-//---------------------------------------
+//------------------------------------------------------------------------
 // Update color picker value
-// Parameters : tablights, lnumref[, hexrgb]
+// Parameters : tablights, lnumref[, hexrgb[, updateBri]]
 //
-// if hexrgb given : tablights could be empty ("") because not used
-// if hexrgb not given : tablights have to be filled
-//---------------------------------------
-function updateColorPicker(tablights, lnumref, hexrgb){
-	if (! hexrgb){
+// If hexrgb given : tablights could be empty ("") because not used
+// If hexrgb not given : tablights have to be filled
+// updateBri (true/false=default) : update bri display too 
+//------------------------------------------------------------------------
+function updateColorPicker(tablights, lnumref, hexrgb, updateBri=false){
+	if (! hexrgb || hexrgb == ""){
 		hexrgb = $(tablights+' table a.switch[lnum='+lnumref+'] div').attr('rgb');
 	}
 	if (hexrgb){
-		// If initialization : no change triggered
-		if (tablights == ""){$('#colorpicker').data('minicolors-initialized',false);}
+		$('#colorpicker').data('minicolors-initialized',false);
 		$('#colorpicker').minicolors('value',hexrgb);
-		if (tablights == ""){$('#colorpicker').data('minicolors-initialized',true);}
+		$('#colorpicker').data('minicolors-initialized',true);
+		if (updateBri){ // Update brightness is requested too
+			$.getJSON('main.php?rt=color&rgb='+encodeURIComponent(hexrgb), function(xy){
+				$('#brislider').val(xy.bri);
+			});
+		}
 	}
 } // updateColorPicker
 

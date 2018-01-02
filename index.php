@@ -9,9 +9,10 @@
 define('ANTI_HACK', true);
 
 // Catch current git branch to display in title if not master
+$cur_branch = "";
 @list($ref,$dir,$cur_branch) = explode("/",trim(@file(".git/HEAD")[0]));
 if ($cur_branch == "master"){$cur_branch = "";}
-else {$cur_branch = " (".$cur_branch.")";}
+else {if ($cur_branch != ""){$cur_branch = " (".$cur_branch.")";}}
 
 ?>
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN">

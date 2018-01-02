@@ -358,7 +358,7 @@ function lightsDetailAction(tabaction,xy){
 		}
 	});
 
-	// Group assign/create executed after reading all lamp
+	//== Group assign/create executed after reading all lamp
 	if (tabaction == 'grpassign'){
 		var valsel = $('#assigngrp').val();
 		var newgrp = $('#newgrp').val();
@@ -389,7 +389,7 @@ function lightsDetailAction(tabaction,xy){
 		}
 	}
 	
-	// Copy actions
+	//== Copy actions
 	if (tabaction == 'tsexec'){
 		var valtarget = $('#tssell').val();
 		var actionselected = 'lights/'+num;

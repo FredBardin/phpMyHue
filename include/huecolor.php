@@ -2,7 +2,7 @@
 // Functions to handle colors with hue
 // F. Bardin 07/02/2015
 // 29/07/2015 : clean code
-// ? ==> com.philips.lighting.hue.sdk.utilities.PHUtilities
+// 05/01/2018 : fix for color temperature lights
 //-----------------------------------
 // Anti-hack
 if (! defined('ANTI_HACK')){exit;}

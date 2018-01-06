@@ -2,6 +2,7 @@
 // Functions to handle colors with hue
 // F. Bardin 07/02/2015
 // 29/07/2015 : clean code
+// 05/01/2018 : fix for color temperature lights
 //-----------------------------------
 // Anti-hack
 if (! defined('ANTI_HACK')){exit;}
@@ -114,7 +115,8 @@ function display_light($lnum){
 	$unreachable = false;
 	$popup = "";
 	$lstate = &$linfo['state'];
-	if ($linfo['type'] == "Dimmable light"){ // White and grey : xy are constant
+	if ($linfo['type'] == "Dimmable light" || $linfo['type'] == "Color Temperature Light")
+	{ // White and grey : xy are constant
 		$rgbcolor=xyToRGB("0.3127","0.329",$lstate['bri']);
 	} else {
 		$rgbcolor=xyToRGB($lstate['xy']['0'],$lstate['xy']['1'],$lstate['bri']);

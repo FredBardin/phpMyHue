@@ -1,3 +1,4 @@
+v1.7 - xx/01/2018 : Full management of Color Temperature Lights
 v1.6.1 - 05/01/2018 : fix for Color Temperature Light
 v1.6 - 30/12/2017 : 
 	 - New logo

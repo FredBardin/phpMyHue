@@ -3,6 +3,7 @@
 // F. Bardin 07/02/2015
 // 29/07/2015 : clean code
 // 05/01/2018 : fix for color temperature lights
+// 06/01/2018 : 
 //-----------------------------------
 // Anti-hack
 if (! defined('ANTI_HACK')){exit;}
@@ -115,12 +116,17 @@ function display_light($lnum){
 	$unreachable = false;
 	$popup = "";
 	$lstate = &$linfo['state'];
-	if ($linfo['type'] == "Dimmable light" || $linfo['type'] == "Color Temperature Light")
-	{ // White and grey : xy are constant
-		$rgbcolor=xyToRGB("0.3127","0.329",$lstate['bri']);
-	} else {
-		$rgbcolor=xyToRGB($lstate['xy']['0'],$lstate['xy']['1'],$lstate['bri']);
+
+	switch ($linfo['type']){
+		case "Dimmable light" :
+			// White and grey : xy are constant
+			$rgbcolor=xyToRGB("0.3127","0.329",$lstate['bri']);
+		case "Color Temperature Light" :
+			$rgbcolor=xyToRGB("0.3127","0.329",$lstate['bri']); // temp fix
+		default : 
+			$rgbcolor=xyToRGB($lstate['xy']['0'],$lstate['xy']['1'],$lstate['bri']);
 	}
+
 	if ($lstate['on'] == "" || $lstate['reachable'] == ""){
 		$onoff = "off";
 		$lcolor = "transparent";

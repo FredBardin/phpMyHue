@@ -119,7 +119,9 @@ function display_light($lnum){
 	{ // White and grey : xy are constant
 		$rgbcolor=xyToRGB("0.3127","0.329",$lstate['bri']);
 	} else {
-		$rgbcolor=xyToRGB($lstate['xy']['0'],$lstate['xy']['1'],$lstate['bri']);
+		$x = isset($lstate['xy']) ? $lstate['xy'][0] : 0;
+        $y = isset($lstate['xy']) ? $lstate['xy'][1] : 0;
+		$rgbcolor=xyToRGB($x, $y,$lstate['bri']);
 	}
 	if ($lstate['on'] == "" || $lstate['reachable'] == ""){
 		$onoff = "off";

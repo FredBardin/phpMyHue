@@ -3,7 +3,7 @@
 // F. Bardin 07/02/2015
 // 29/07/2015 : clean code
 // 05/01/2018 : fix for color temperature lights
-// 06/01/2018 : 
+// 21/05/2018 : Add CT<->RGB conversion
 //-----------------------------------
 // Anti-hack
 if (! defined('ANTI_HACK')){exit;}
@@ -104,6 +104,49 @@ function RGBToXy($RGB){
 } // RGBToXy
 
 // ------------------------------------------
+// Convert Color Temperature to RGB
+// Parameters = as supplied by the bridge :
+// 	            ct value
+// 	            brightness value
+// Return RGB in #XXXXXX format (hexa values)
+// ------------------------------------------
+function CTToRgb($ct,$bri){
+	$ct = $ct / 100;
+
+	if ($ct > 66){
+		$ct = $ct - 60;
+        $r = 329.698727446 * pow($ct, -0.1332047592);
+        $g = 288.1221695283 * pow($ct, -0.0755148492 );
+		$b = 255;
+	} else {
+		$r = 255;
+		$g = 99.4708025861 * log($ct) - 161.1195681661; 
+		if ($ct < 20){
+            $b = 0;
+        } else {
+			$ct = $ct - 10;
+            $b = 138.5177312231 * log($ct) - 305.0447927307;
+        }
+	}
+
+	// Adjust rgb if needed
+	$r = ($r > 255 ? 255 : $r);
+	$g = ($g > 255 ? 255 : $g);
+	$b = ($b > 255 ? 255 : $b);
+
+	// Create a web RGB string (format #xxxxxx)
+	$RGB = "#".substr("0".dechex($r),-2).substr("0".dechex($g),-2).substr("0".dechex($b),-2);
+
+	return $RGB;
+} // CTToRgb
+
+// ------------------------------------------
+// Convert RGB to Color Temperature
+// ------------------------------------------
+function RgbToCT($RGB){
+} // RgbToCT
+
+// ------------------------------------------
 // Display a ligh with icon and color
 // Remark : HueAPI->info must already be set
 // ------------------------------------------
@@ -121,8 +164,10 @@ function display_light($lnum){
 		case "Dimmable light" :
 			// White and grey : xy are constant
 			$rgbcolor=xyToRGB("0.3127","0.329",$lstate['bri']);
-		case "Color Temperature Light" :
-			$rgbcolor=xyToRGB("0.3127","0.329",$lstate['bri']); // temp fix
+			break;
+		case "Color temperature light" :
+			$rgbcolor=CTToRGB($lstate['xy'],$lstate['bri']);
+			break;
 		default : 
 			$rgbcolor=xyToRGB($lstate['xy']['0'],$lstate['xy']['1'],$lstate['bri']);
 	}

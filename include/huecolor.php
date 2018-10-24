@@ -166,7 +166,7 @@ function display_light($lnum){
 			$rgbcolor=xyToRGB("0.3127","0.329",$lstate['bri']);
 			break;
 		case "Color temperature light" :
-			$rgbcolor=CTToRGB($lstate['xy'],$lstate['bri']);
+			$rgbcolor=CTToRGB($lstate['ct'],$lstate['bri']);
 			break;
 		default : 
 			$rgbcolor=xyToRGB($lstate['xy']['0'],$lstate['xy']['1'],$lstate['bri']);

@@ -121,7 +121,7 @@ function display_light($lnum){
 	} else {
 		$x = isset($lstate['xy']) ? $lstate['xy'][0] : 0;
         $y = isset($lstate['xy']) ? $lstate['xy'][1] : 0;
-		$rgbcolor=xyToRGB($x, $y,$lstate['bri']);
+        $rgbcolor=xyToRGB($x, $y, $lstate['bri']);
 	}
 	if ($lstate['on'] == "" || $lstate['reachable'] == ""){
 		$onoff = "off";

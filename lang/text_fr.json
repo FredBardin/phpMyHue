@@ -25,7 +25,7 @@
 "Effect":"Effet",
 "Simple_Effects":"Effets simples",
 "1_Blink":"Alarme",
-"Blink_30_s":"Alarme 30 s",
+"Blink_Long":"Alarme 15 s",
 "Blink_Off":"Fin Alarme",
 "Blink_stopped":"Alarme stoppée.",
 "Color_Loop":"Boucle Couleur",

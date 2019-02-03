@@ -5,6 +5,7 @@
 // 2017/05/28 : Some corrections in particular configuration
 // 2017/12/30 : Immediate display update for color and brightness when a change occurs
 // 2017/01/02 : Optimize immediate display and correct problems on some brightness changes
+// 2019/01/06 : Add explicite type in group creation instead of the default
 // ----------------------------------------------------------------------
 
 /*====================================
@@ -273,7 +274,7 @@ function lightsDetailAction(tabaction,xy){
 				action += actionsup;
 				cmdjs = '"alert":"select"';
 				break;
-			case 'blink30s' :
+			case 'blinklong' :
 				action += actionsup;
 				cmdjs = '"alert":"lselect"';
 				break;
@@ -362,6 +363,7 @@ function lightsDetailAction(tabaction,xy){
 	if (tabaction == 'grpassign'){
 		var valsel = $('#assigngrp').val();
 		var newgrp = $('#newgrp').val();
+		var grptype = $('#grptype').val();
 		var successmsg = trs.Group+" ";
 
 		action = 'groups';
@@ -369,7 +371,7 @@ function lightsDetailAction(tabaction,xy){
 
 		if (newgrp != ""){ // Create new group with selection
 			method = '&method=POST';
-			cmdjs = '&cmdjs={"name":"'+newgrp+'",'+cmdjs+'}';
+			cmdjs = '&cmdjs={"name":"'+newgrp+'","type":"'+grptype+'",'+cmdjs+'}';
 			successmsg += newgrp+" "+trs.Created;
 		} else {          // Update lamp of selected group
 			if (valsel != 'other'){
@@ -480,7 +482,7 @@ function lightsDetail(){
 
 	// Alert
 	$('#blink1').click(function(){lightsDetailAction('blink1');});
-	$('#blink30s').click(function(){lightsDetailAction('blink30s');});
+	$('#blinklong').click(function(){lightsDetailAction('blinklong');});
 	$('#blinkoff').click(function(){lightsDetailAction('blinkoff');});
 
 	// Colorloop

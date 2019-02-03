@@ -1,7 +1,8 @@
 <?php
 // Set the div details for lights
 // F. Bardin 2015/02/15
-// ------------------------------------
+// 06/01/2019 : add type choice for group creation
+// ------------------------------------------------
 // Anti-hack
 if (! defined('ANTI_HACK')){exit;}
 
@@ -27,7 +28,7 @@ echo "\n</TABLE>";
 echo "\n<DIV ID=actions>";
 echo "<FIELDSET CLASS=\"ui-widget ui-widget-content ui-corner-all\"><LEGEND>".$trs["Simple_Effects"]."</LEGEND>\n";
 echo "<BUTTON ID=blink1>".$trs["1_Blink"]."</BUTTON>";
-echo "<BUTTON ID=blink30s>".$trs["Blink_30_s"]."</BUTTON>";
+echo "<BUTTON ID=blinklong>".$trs["Blink_Long"]."</BUTTON>";
 echo "<BUTTON ID=blinkoff>".$trs["Blink_Off"]."</BUTTON>";
 echo "&nbsp;&nbsp;";
 echo "<BUTTON ID=colorloop>".$trs["Color_Loop"]."</BUTTON>";
@@ -74,7 +75,19 @@ foreach ($HueAPI->info['groups'] as $gnum => $gval){
 }
 echo "</SELECT>\n";
 
-echo "<SPAN ID=creategrp> ".$trs["or_create"]." <INPUT TYPE=text ID=newgrp CLASS=ui-corner-all></SPAN>\n";
+echo "<SPAN ID=creategrp> ".$trs["or_create"]." ";
+echo "<DIV ID=grpval>";
+echo "<DIV ID=dnewgrp>";
+echo "<INPUT TYPE=text ID=newgrp CLASS=ui-corner-all> ";
+echo "</DIV>";
+echo "<DIV ID=dgrptype>";
+echo $trs["Type"]."&nbsp;<SELECT ID=grptype>\n";
+echo "<OPTION SELECTED>Room</OPTION>\n";
+echo "<OPTION>LightGroup</OPTION>\n";
+echo "</SELECT>\n";
+echo "</DIV>";
+echo "</DIV>";
+echo "</SPAN>\n";
 echo "<BUTTON ID=grpassign>".$trs["Fill_Group"]."</BUTTON>\n";
 echo "</SPAN>\n"; // grplightopt
 
@@ -117,7 +130,7 @@ $("#brislider").noUiSlider_pips({
 });
 $("#brislider").Link('lower').to($('#brival'));
 
-$("#blink1, #blink30s, #blinkoff").button();
+$("#blink1, #blinklong, #blinkoff").button();
 $("#colorloop, #colorloopoff").button();
 
 $('#colorpicker').minicolors({
@@ -128,6 +141,7 @@ $('#colorpicker').minicolors({
 });
 
 $("#assigngrp").selectmenu({width : 'auto'});
+$("#grptype").selectmenu({width : 'auto'});
 $("#grpassign").button({
  icons: {primary: "ui-icon-arrowthick-1-e"}
 });

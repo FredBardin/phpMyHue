@@ -288,6 +288,11 @@ HIL002 : 2 lamps (2 bottom)
 	position: relative;
 	top: -.1em;
 }
+#grpval {
+	display: inline-block;
+	position: relative;
+	top: .8em;
+}
 #grpassign {
 	float: right;
 }

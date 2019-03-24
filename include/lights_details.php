@@ -75,19 +75,18 @@ foreach ($HueAPI->info['groups'] as $gnum => $gval){
 }
 echo "</SELECT>\n";
 
-echo "<SPAN ID=creategrp> ".$trs["or_create"]." ";
+echo "<SPAN ID=creategrp> ".$trs["or_create"]." </SPAN>\n";
 echo "<DIV ID=grpval>";
 echo "<DIV ID=dnewgrp>";
 echo "<INPUT TYPE=text ID=newgrp CLASS=ui-corner-all> ";
-echo "</DIV>";
+echo "</DIV>"; // dnewgrp
 echo "<DIV ID=dgrptype>";
-echo $trs["Type"]."&nbsp;<SELECT ID=grptype>\n";
+echo "<SPAN ID=typegrp>&nbsp;".$trs["Type"]."</SPAN>&nbsp;<SELECT ID=grptype>\n";
 echo "<OPTION SELECTED>Room</OPTION>\n";
 echo "<OPTION>LightGroup</OPTION>\n";
 echo "</SELECT>\n";
-echo "</DIV>";
-echo "</DIV>";
-echo "</SPAN>\n";
+echo "</DIV>"; // dgrptype
+echo "</DIV>"; // grpval
 echo "<BUTTON ID=grpassign>".$trs["Fill_Group"]."</BUTTON>\n";
 echo "</SPAN>\n"; // grplightopt
 

@@ -1,7 +1,9 @@
-v1.7 - 06/01/2019 : 
+v1.7 - 07/01/2019 : 
      - Add explicite type in group creation instead to let the default value
      - Change display text for long alarm (api is only 15s now instead of 30s previously)
      - Change text in translation file from "Blink_30_s" to "Blink_Long" => could impact custom translation files
+     - Add candle bulb icon
+     - Pretty accurate display of Color Temperature Lights but always partial management (brightness only)
 v1.7a - 24/10/2018 : Partial management of Color Temperature Lights
 v1.6.1 - 05/01/2018 : fix for Color Temperature Light
 v1.6 - 30/12/2017 : 

@@ -7,7 +7,7 @@
 if (! defined('ANTI_HACK')){exit;}
 
 // Elements selected and name update if 1 element or color switch if 2 lights selected
-echo "\n<DIV ID=dispname><SPAN ID=sellist></SPAN>";
+echo "\n<DIV ID=dispname><SPAN ID=sellist CTYPE=x></SPAN>";
 echo "<SPAN ID=selname><INPUT TYPE=text ID=elemname CLASS=ui-corner-all> <BUTTON ID=updname>".$trs["Rename"]."</BUTTON>";
 echo "</SPAN>"; // selname
 echo "</DIV>"; // dispname

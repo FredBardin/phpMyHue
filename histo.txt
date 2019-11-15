@@ -1,12 +1,13 @@
-v1.7 - 07/01/2019 : 
-     - Add explicite type in group creation instead to let the default value
-     - Change display text for long alarm (api is only 15s now instead of 30s previously)
-     - Change text in translation file from "Blink_30_s" to "Blink_Long" => could impact custom translation files
+v1.7 - 15/11/2019 :
+     - Pretty accurate display of Color Temperature Lights (works better with maximum brightness)
      - Add candle bulb icon
-     - Pretty accurate display of Color Temperature Lights but always partial management (brightness only)
+     - Add explicit type in group creation instead to let the default value
+     - Change text in translation file from "Blink_30_s" to "Blink_Long" => could impact custom translation files not in package
+     - Change display text for long alarm (api is only 15s now instead of 30s previously)
+     - Add full compatibility with php 7 (depending on your platform, additional installation of php-xml package could be needed)
 v1.7a - 24/10/2018 : Partial management of Color Temperature Lights
 v1.6.1 - 05/01/2018 : fix for Color Temperature Light
-v1.6 - 30/12/2017 : 
+v1.6 - 30/12/2017 :
 	 - New logo
 	 - Move translation files from 'include' to 'lang'
 	 - Add choose language function in 'about' tab for updatable config file (depends on your installation)
@@ -17,7 +18,7 @@ v1.6 - 30/12/2017 :
 	 - Now, display color and brightness of a lamp in details tab even if turned off
 	 - Now, lights details tab always displays changes immediately for color or brightness
 	 - Now, scenes and rules tabs are always displayed even with some strict type mode activated
-v1.5 - 11/09/2016 : 
+v1.5 - 11/09/2016 :
 	 - Add Sensors Rules management
 	 - Update color conversion with new formulas from meethue
 	 - Add 'on' state in setcolor/getcolor effect execution (not only color state)
@@ -29,7 +30,7 @@ v1.4.1 - 28/12/2015 : Correction to manage white only lights (='dimmable light' 
 v1.4 - 13/12/2015 : Add Effects scripts
 v1.3 - 07/11/2015 : Add Automatic Configuration
 v1.2.2 - 16/07/2015 : Update logo in code and screenshots
-v1.2.1 - 15/07/2015 : Correction of a select group display bug when a special case occured.
+v1.2.1 - 15/07/2015 : Correction of a select group display bug when a special case occurred.
 v1.2 - 07/06/2015 : Add Multi Lang support
 v1.1 - 04/05/2015 : Html tag attributes and javascript optimization
 v1.0 - 24/04/2015 : Creation

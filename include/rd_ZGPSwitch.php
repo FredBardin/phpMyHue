@@ -80,7 +80,7 @@ echo "<TD>";
 // Scenes list
 $HueAPI->loadInfo("scenes");
 // Create id->name array
-$a_sname="";
+$a_sname=array();
 foreach ($HueAPI->info['scenes'] as $sceneid => $sval){
 	$a_sname[$sceneid] = $sval['name'];
 }

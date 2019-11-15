@@ -25,7 +25,7 @@
 "Effect":"Effect",
 "Simple_Effects":"Simple effects",
 "1_Blink":"1 Blink",
-"Blink_30_s":"Blink 30 s",
+"Blink_Long":"Blink 15 s",
 "Blink_Off":"Blink Off",
 "Blink_stopped":"Blink stopped.",
 "Color_Loop":"Color Loop",

@@ -5,6 +5,7 @@
 // 2017/05/28 : Some corrections in particular configuration
 // 2017/12/30 : Immediate display update for color and brightness when a change occurs
 // 2017/01/02 : Optimize immediate display and correct problems on some brightness changes
+// 2019/01/06 : Add explicite type in group creation instead of the default
 // ----------------------------------------------------------------------
 
 /*====================================
@@ -30,7 +31,7 @@ function lightsTab(){
   Lights tab detail functions
 =====================================*/
 //-----------------------------------------------------------------------
-// Load selected element into detail tab
+// Load selected element into detail tab from 'tablights' ID
 // if detail exists show tab, else hide
 // if all or a group is selected, only load this element not its content
 //-----------------------------------------------------------------------
@@ -44,10 +45,11 @@ function loadSelectedLightsDetail(tablights){
 	var lamponly = true;// True/false if only lamp selection
 	var grponly = true;	// True/false if only group selection
 	var recordlight = true; // True if checked lamp have to be recorded in selection (false when their group is selected)
+	var recordgroup = true; // True if checked group have to be recorded in selection (false when all is selected)
 	var a_lnum = new Array(); // Array of selected lamp numid to avoid multiple selection of same lamp if it exists in several groups
+	var colortype = "ct";	// Global lamp color type value for the selection -> if one rgb : global=rgb
 
-
-	// Select all checkboxes
+	// Loop on each checkboxes in source tab
 	$(tablights+' table input[type=checkbox]').each(function(){
 		if ($(this).prop('checked')){
 			var elemid = $(this).attr('id');		
@@ -61,11 +63,11 @@ function loadSelectedLightsDetail(tablights){
 				lamponly = false;
 				grponly = false;
 				lasttype = 'all';
-				return false;
+				recordgroup = false;
+				recordlight = false;
 
 			} else {
-
-				if ($(this).attr('class') == 'grp'){ // Group
+				if (recordgroup && $(this).attr('class') == 'grp'){ // Group
 					num = $(this).attr('gnum');
 					name = $(tablights+' tbody tr.grp[gnum='+num+'] td.label').text();
 					lamponly = false;
@@ -78,6 +80,13 @@ function loadSelectedLightsDetail(tablights){
 					if (num == 'other'){grponly = false;} // other is a pseudo-group not a real one
 
 				} else { // Light
+					// Update lamp color type
+					if (colortype == "ct"){
+						num = $(this).attr('lnum'); 
+						if ($(tablights+' table a.switch[lnum='+num+'] div').attr('ctype') != "ct"){
+							colortype = "rgb";
+						}
+					}
 					if (recordlight){ // if current group not selected : record light
 						num = $(this).attr('lnum'); 
 						name = $(tablights+' tbody tr.grp'+$(this).attr('gnum')+'[lnum='+num+'] td.label').text();
@@ -203,6 +212,7 @@ function loadSelectedLightsDetail(tablights){
 		$('#descri').accordion('option','active',false);
 	}
 
+	$(tabdetail+' #sellist').attr('ctype',colortype);
 	$(tabdetail+' #sellist').html(selstring);
 } // loadSelectedLightsDetail
 
@@ -211,6 +221,8 @@ function loadSelectedLightsDetail(tablights){
 // Parameters : action [,xy color value]
 //
 // xy if only use for 'color' action
+//
+// FBA: TO UPDATE FOR CT LIGHTS --> xy should be ct
 //---------------------------------------
 function lightsDetailAction(tabaction,xy){
 	var type = "";
@@ -273,7 +285,7 @@ function lightsDetailAction(tabaction,xy){
 				action += actionsup;
 				cmdjs = '"alert":"select"';
 				break;
-			case 'blink30s' :
+			case 'blinklong' :
 				action += actionsup;
 				cmdjs = '"alert":"lselect"';
 				break;
@@ -293,6 +305,10 @@ function lightsDetailAction(tabaction,xy){
 				successmsg = trs.Color_Loop_stopped;
 				break;
 
+			case 'ct' :
+				action += actionsup;
+				cmdjs = '"ct":'+xy;
+				break;
 			case 'color' :
 				action += actionsup;
 				cmdjs = '&cmdjs='+JSON.stringify(xy);
@@ -318,7 +334,6 @@ function lightsDetailAction(tabaction,xy){
 			// Store current value to use in load callback below (else only get the last one)
 			var curtype = (type);
 			var curnum = (num);
-
 			$.getJSON('hueapi_cmd.php?action='+action+cmdjs+method, (function(jsmsg){
 				if (processReturnMsg(jsmsg,successmsg)){
 					switch(tabaction){
@@ -328,6 +343,7 @@ function lightsDetailAction(tabaction,xy){
 
 						case 'bri' : // reload updated lamps
 						case 'color' :
+						case 'ct' :
 							if (curtype == 'light'){ // only 1 light
 								$(tablights+' table a.switch[lnum='+curnum+']').load('main.php?rt=display&lnum='+curnum, function(data){
 									updateColorPicker(tablights, curnum);
@@ -362,6 +378,7 @@ function lightsDetailAction(tabaction,xy){
 	if (tabaction == 'grpassign'){
 		var valsel = $('#assigngrp').val();
 		var newgrp = $('#newgrp').val();
+		var grptype = $('#grptype').val();
 		var successmsg = trs.Group+" ";
 
 		action = 'groups';
@@ -369,7 +386,7 @@ function lightsDetailAction(tabaction,xy){
 
 		if (newgrp != ""){ // Create new group with selection
 			method = '&method=POST';
-			cmdjs = '&cmdjs={"name":"'+newgrp+'",'+cmdjs+'}';
+			cmdjs = '&cmdjs={"name":"'+newgrp+'","type":"'+grptype+'",'+cmdjs+'}';
 			successmsg += newgrp+" "+trs.Created;
 		} else {          // Update lamp of selected group
 			if (valsel != 'other'){
@@ -480,7 +497,7 @@ function lightsDetail(){
 
 	// Alert
 	$('#blink1').click(function(){lightsDetailAction('blink1');});
-	$('#blink30s').click(function(){lightsDetailAction('blink30s');});
+	$('#blinklong').click(function(){lightsDetailAction('blinklong');});
 	$('#blinkoff').click(function(){lightsDetailAction('blinkoff');});
 
 	// Colorloop
@@ -521,9 +538,22 @@ function updateColorPicker(tablights, lnumref, hexrgb, updateBri=false){
 // Function triggered by minicolors picker
 //----------------------------------------
 function changeColorPicker(rgb){
-		// Get x, y, bri correspondance to RGB
-		$.getJSON('main.php?rt=color&rgb='+encodeURIComponent(rgb), function(xy){
-			$('#brislider').val(xy.bri); // Update brightness
-			lightsDetailAction('color',xy);
-		});
+	var tabdetail = "#"+getCurrentTabsID('#detail');
+	var colortype = $(tabdetail+' #sellist').attr('ctype');
+
+	// Process update depending on color type
+	switch (colortype){
+		case 'rgb' : // Get x, y, bri correspondance to RGB
+			$.getJSON('main.php?rt=color&rgb='+encodeURIComponent(rgb), function(xy){
+				$('#brislider').val(xy.bri); // Update brightness
+				lightsDetailAction('color',xy);
+			});
+			break;
+
+		case 'ct' : // Get x, y, bri correspondance to ct
+			$.getJSON('main.php?rt=ct&rgb='+encodeURIComponent(rgb), function(ct){
+				lightsDetailAction('ct',ct);
+			});
+			break;
+	}	
 } // changeColorPicker

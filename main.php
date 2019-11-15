@@ -67,6 +67,11 @@ switch ($rt)
 		$rgb = $_REQUEST['rgb'];
 		echo RGBToXy($rgb);
 		break;
+	case "ct" : // echo json with ct from rgb
+		include 'include/huecolor.php';
+		$rgb = $_REQUEST['rgb'];
+		echo RgbToCT($rgb);
+		break;
 	case "addcond" : // add a condition row
 		include 'include/functions.php';
 		$sensorid = $_REQUEST['sensorid'];

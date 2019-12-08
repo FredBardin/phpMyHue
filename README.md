@@ -45,7 +45,7 @@ If you're asked to proceed manually because automatic setup failed to complete (
 1. Rename 'include/config.tpl.php' as 'include/config.php'
 2. Edit 'include/config.php' and put correct values for '$bridgeip', '$username' and, if needed, for '$lang'.  
 	* 'bridgeip' is the ip address of your hue bridge in your lan.  
-	* 'username' is a registered user in your hue bridge (cf http://www.developers.meethue.com/documentation/api-core-concepts).  
+	* 'username' is a registered user in your hue bridge (cf https://developers.meethue.com/develop/get-started-2/core-concepts).  
 	* 'lang' references an existing 'lang/text_"lang".json' file ('en' by default).  
 
 ### Licence

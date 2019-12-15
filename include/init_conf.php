@@ -48,6 +48,7 @@ if (file_exists("include/$conf_file")){ // config exists
 	define('INIT', true);
 
 	@$confstep = $_REQUEST['confstep'];
+	@$subnet = $_REQUEST['subnet'];
 
 	// Load config parameters
 	@$bridgeip = $_REQUEST['bridgeip'];
@@ -62,6 +63,15 @@ if (file_exists("include/$conf_file")){ // config exists
 
 	// Config steps
 	switch($confstep){
+		case "0" : // Confirm subnet
+			echo "<H3>".$trs["Subnet_to_look_for_Hue_brigde"]."</H3>";
+			getBridgeSubnet();
+			echo "<INPUT TYPE=text NAME=\"subnet\" VALUE=\"$subnet\" SIZE=\"10\">";
+			echo "<INPUT TYPE=hidden NAME=\"confstep\" VALUE=\"1\">";
+			echo "<INPUT TYPE=hidden NAME=\"lang\" VALUE=\"$lang\">";
+			echo "<H4>".$trs["If_not_known_let_the_default_displayed_value"]."</H4>";
+			break;
+
 		case "1" : // Look for bridge
 			echo "<H3>".$trs["Looking_for_Hue_brigde_IP"]."</H3>";
 			getBridgeIP();
@@ -87,7 +97,7 @@ if (file_exists("include/$conf_file")){ // config exists
 
 		default : // Init step
 			echo "<H2>Configuration missing - Automatic setup begins</H2>";
-			echo "<INPUT TYPE=hidden NAME=\"confstep\" VALUE=\"1\">";
+			echo "<INPUT TYPE=hidden NAME=\"confstep\" VALUE=\"0\">";
 			echo "<H3>Choose a language ";
 			choose_lang();
 			echo "</H3>";
@@ -97,17 +107,22 @@ if (file_exists("include/$conf_file")){ // config exists
 	die();
 }
 
+//----------------------------------------------------------------
+// Function to initialize the subnet where to look for Hue bridge
+//----------------------------------------------------------------
+function getBridgeSubnet(){
+	global $subnet; 
+	// Init default subnet from web server ip
+	$ip = $_SERVER["SERVER_ADDR"];
+	$subnet = preg_replace("/(.*)[.]([^.]*)/","$1",$ip);
+
+} // getBridgeSubnet
+
 //----------------------------------------
 // Function to look for Hue bridge IP
 //----------------------------------------
 function getBridgeIP(){
-	global $trs,$bridgeip; 
-
-	// Get web server ip
-	// It's assumed that bridge is on the same sub-network with subnet mask 255.255.255.0
-	$ip = $_SERVER["SERVER_ADDR"];
-	// Get subnet
-	$subnet = preg_replace("/(.*)[.]([^.]*)/","$1",$ip);
+	global $trs,$bridgeip,$subnet; 
 
 	$request = "/api/config";
 	$search_str = "Philips hue";
@@ -119,6 +134,7 @@ function getBridgeIP(){
 
 	$i=0;
 	$found=false;
+	// It's assumed that bridge is on the sub-network with subnet mask 255.255.255.0
 	while (! $found and $i < 254){ // Scan subnet with ip range from 1 to 254
 		$i++;
 		$bridgeip = $subnet.".".$i;

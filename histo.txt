@@ -1,3 +1,5 @@
+v1.7.1 - 15/12/2019 :
+     - In the automatic configuration, the default subnet to look for the hue bridge can now be changed 
 v1.7 - 15/11/2019 :
      - Pretty accurate display of Color Temperature Lights (works better with maximum brightness)
      - Add candle bulb icon

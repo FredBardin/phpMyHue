@@ -19,6 +19,7 @@ else {$cur_branch = "";}
 <META HTTP-EQUIV="Content-Type" CONTENT="text/html; charset=UTF-8" />
 <TITLE>phpMyHue<?php echo $cur_branch?></TITLE>
 </HEAD>
+<LINK REL="icon" type="image/png" href="favicon.ico">
 <LINK REL="stylesheet" TYPE="text/css" HREF="js/jquery-ui/jquery-ui.min.css">
 <LINK REL="stylesheet" TYPE="text/css" HREF="js/nouislider/jquery.nouislider.min.css">
 <LINK REL="stylesheet" TYPE="text/css" HREF="js/nouislider/jquery.nouislider.pips.min.css">

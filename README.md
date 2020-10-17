@@ -2,21 +2,20 @@
 
 Php web interface and api to manage Philips Hue lights in a local network.
 
-## Main Functionnalities
-* **Full group management**
-* **Scenes update or creation**
-* Manage and run xml **scripted effects** (debug mode available) ([see wiki](https://github.com/FredBardin/phpMyHue/wiki/Effects-scripts)) 
-* **Full rules management** for sensors (simplified mode available for **Hue Tap** switch with on/off functionalities)
-* Set color and/or brightness for a light or several at once
-* Copy color settings between lights (copy to, copy from, switch with)
-* Switch lights on/off
-* Run simple effects
-* **Multi Lang** (new translation files can be added locally and/or be submitted thru an issue, [see wiki](https://github.com/FredBardin/phpMyHue/wiki/Multi-lang))
+## Functionnalities
 * Fully touch device compatible
+* **Multi Lang** (translation files can be added locally, see 'lang' directory, and/or be submitted thru an issue to be added to the project, [see wiki](https://github.com/FredBardin/phpMyHue/wiki/Multi-lang))
+* **Scripted effects** ready to use or to create (debug mode available) ([see wiki](https://github.com/FredBardin/phpMyHue/wiki/Effects-scripts)) 
+* **Scenes update or creation**
+* **Full group management**
+* **Full rules management** for sensors (simple mode available for **Hue Tap** with additional capabilities)
+* Turn on/off, set color and/or brightness for a light or several at once
+* Copy color settings between lights (copy to, copy from, switch with)
+* Run simple effects
 * **Hue API php class available** in 'include/hueapi.php' (see comments in file)
 * **Hue cmd web service API available** with 'hueapi_cmd.php' (see comments in file and [wiki](https://github.com/FredBardin/phpMyHue/wiki/Web-services))
 * Hue effects web service API available with 'main.php' ([see wiki](https://github.com/FredBardin/phpMyHue/wiki/Web-services))
-* ...
+* And more ...
 
 **Screenshots**
 
@@ -36,9 +35,9 @@ Rules (advanced mode)
 ![screenshot](pmh_rules_advanced.png)
 
 ## Installation
-1. Copy 'phpMyHue' directory and its content in your web server.
+1. Copy 'phpMyHue' directory and its content in your web server root directory.
 2. Open a browser on your installation url, it should be something like "http://my_web_server/phpMyHue"
-	* **Automatic configuration** begins (bridge detection, user creation, ...) : follow configuration informations in your browser
+	* **Automatic configuration** begins (bridge detection, user creation, ...) : follow information in your browser
 
 If you're asked to proceed manually because automatic setup failed to complete (ie. : local file writing not allowed from your web server), follow the displayed instructions or the ones below :
 

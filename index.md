@@ -13,8 +13,8 @@ Php web interface and api to manage Philips Hue lights in a local network.
 * Copy color settings between lights (copy to, copy from, switch with)
 * Run simple effects
 * **Hue API php class available** in 'include/hueapi.php' (see comments in file)
-* **Hue cmd web service API available** with 'hueapi_cmd.php' (see comments in file and [wiki](https://github.com/FredBardin/phpMyHue/wiki/Web-services))
-* Hue effects web service API available with 'main.php' ([see wiki](https://github.com/FredBardin/phpMyHue/wiki/Web-services))
+* **Hue cmd web service API available** with 'hueapi_cmd.php' (see comments in file and [wiki](https://github.com/FredBardin/phpMyHue/wiki/Web-services-API))
+* Hue effects web service API available with 'main.php' ([see wiki](https://github.com/FredBardin/phpMyHue/wiki/Web-services-API))
 * And more ...
 
 **Screenshots**

@@ -1,42 +1,42 @@
 v1.7.3 - 29/11/2020 :
-	 - Groups and lamps are now sorted by name (Lamps without group stay at the end)
-     - Add new lamps discovery in 'About' tab
-     - Groups display state is now persistent (collapse or not)
-     - Add load name index methods in api class
-     - Correct some html in index page
-     - Nicer favicon
+  - Groups and lamps are now sorted by name (Lamps without group stay at the end)
+  - Add new lamps discovery in 'About' tab
+  - Groups display state is now persistent (collapsed or not)
+  - Add load name index methods in api class
+  - Correct some html in index page
+  - Nicer favicon
 v1.7.2 - 17/10/2020 :
-     - Add favicon
-     - Add german translation (thanks to Norbert Klein)
+  - Add favicon
+  - Add german translation (thanks to Norbert Klein)
 v1.7.1 - 15/12/2019 :
-	 - In automatic configuration, the default subnet to look for hue bridge can now be changed 
+  - In automatic configuration, the default subnet to look for hue bridge can now be changed 
 v1.7 - 15/11/2019 :
-     - Pretty accurate display of Color Temperature Lights (works better with maximum brightness)
-     - Add candle bulb icon
-     - Add explicit type in group creation instead to let the default value
-     - Change text in translation file from "Blink_30_s" to "Blink_Long" => could impact custom translation files not in package
-     - Change display text for long alarm (api is only 15s now instead of 30s previously)
-     - Add full compatibility with php 7 (depending on your platform, additional installation of php-xml package could be needed)
+  - Pretty accurate display of Color Temperature Lights (works better with maximum brightness)
+  - Add candle bulb icon
+  - Add explicit type in group creation instead to let the default value
+  - Change text in translation file from "Blink_30_s" to "Blink_Long" => could impact custom translation files not in package
+  - Change display text for long alarm (api is only 15s now instead of 30s previously)
+  - Add full compatibility with php 7 (depending on your platform, additional installation of php-xml package could be needed)
 v1.7a - 24/10/2018 : Partial management of Color Temperature Lights
 v1.6.1 - 05/01/2018 : fix for Color Temperature Light
 v1.6 - 30/12/2017 :
-	 - New logo
-	 - Move translation files from 'include' to 'lang'
-	 - Add choose language function in 'about' tab for updatable config file (depends on your installation)
-	 - Effects names are now a 'big' button instead of a 'small' text link (easier to click)
-	 - Don't display anymore 'lamps' pseudo group if empty
-	 - Now, de-select a light correctly remove 'checked' display on all related multi-selections
-	 - Don't display 'LightSource' groups (already included into 'Luminaire' groups)
-	 - Now, display color and brightness of a lamp in details tab even if turned off
-	 - Now, lights details tab always displays changes immediately for color or brightness
-	 - Now, scenes and rules tabs are always displayed even with some strict type mode activated
+  - New logo
+  - Move translation files from 'include' to 'lang'
+  - Add choose language function in 'about' tab for updatable config file (depends on your installation)
+  - Effects names are now a 'big' button instead of a 'small' text link (easier to click)
+  - Don't display anymore 'lamps' pseudo group if empty
+  - Now, de-select a light correctly remove 'checked' display on all related multi-selections
+  - Don't display 'LightSource' groups (already included into 'Luminaire' groups)
+  - Now, display color and brightness of a lamp in details tab even if turned off
+  - Now, lights details tab always displays changes immediately for color or brightness
+  - Now, scenes and rules tabs are always displayed even with some strict type mode activated
 v1.5 - 11/09/2016 :
-	 - Add Sensors Rules management
-	 - Update color conversion with new formulas from meethue
-	 - Add 'on' state in setcolor/getcolor effect execution (not only color state)
-	 - Update sample effects with save/restore lights original state
-	 - Add collapse/extend capabilities to 'All' in lights list
-     - Correct some minor display bugs
+  - Add Sensors Rules management
+  - Update color conversion with new formulas from meethue
+  - Add 'on' state in setcolor/getcolor effect execution (not only color state)
+  - Update sample effects with save/restore lights original state
+  - Add collapse/extend capabilities to 'All' in lights list
+  - Correct some minor display bugs
 v1.4.2 - 05/05/2016 : add new effect sample
 v1.4.1 - 28/12/2015 : Correction to manage white only lights (='dimmable light' type)
 v1.4 - 13/12/2015 : Add Effects scripts

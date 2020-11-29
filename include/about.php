@@ -4,6 +4,7 @@
 // F. Bardin 12/04/2015
 //----------------------------------------------
 // 30/09/2017 : add language update capability
+// 12/11/2020 : add new lamp discovery button
 //----------------------------------------------
 // Anti-hack
 if (! defined('ANTI_HACK')){exit;}
@@ -13,8 +14,8 @@ include 'include/functions.php';
 <SCRIPT language="javascript">
 $('#detail').hide("slide");
 </SCRIPT>
-<DIV ID=about>phpMyHue 1.7<BR>
-&copy; <A HREF="mailto:bardin.frederic@gmail.com" CLASS=about>F. Bardin</A> 04-2015/10-2020<BR>
+<DIV ID=about>phpMyHue 1.7.3<BR>
+&copy; <A HREF="mailto:bardin.frederic@gmail.com" CLASS=about>F. Bardin</A> 04-2015/11-2020<BR>
 <small>
 <?php echo $trs['Bridge_IP']?> : <?php echo $bridgeip?><BR>
 <SPAN CLASS=aligntxt><?php echo $trs['Current_language']?> : </SPAN>
@@ -24,6 +25,8 @@ if (isset($trs['TranslationAuthor']) & isset($trs['Translation'])){
 	echo "<BR>".$trs['Translation']." :<BR>".$trs['TranslationAuthor']."<BR>";
 }
 ?>
+<BR><BUTTON ID=discovery><?php echo $trs['NewLampDiscovery']?></BUTTON>
+<BR>
 <BR><DIV ID=histo>
 <SPAN>
 <?php 
@@ -45,6 +48,8 @@ $("#c_lang").selectmenu({width : 'auto'});
 $("#c_lang").on("selectmenuchange", function(){
 	location.assign('index.php?updconf=y&lang='+$(this).val());
 });
+$("#discovery").button();
+$('#discovery').click(function(){lampDiscovery();});
 $('#histo').accordion({
 	collapsible: true,
 	heightStyle: "content",

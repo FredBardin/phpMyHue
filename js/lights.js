@@ -23,8 +23,18 @@ function lightsTab(){
 	// Manage lights list events
 	lightsList(tablights)
 
+	// Init groups if open or not
+	$(tablights+' span.grp').each(function(){
+		var open = $(this).attr('open');
+		var gnum = $(this).attr('gnum');
+		if (! open && gnum > 0){
+			collapseGroup(tablights,"",this,true);
+		}
+	});
+
 	// Load detail tab with lights details
 	$("#"+getCurrentTabsID('#detail')).load('details.php?rt=lights');
+
 } // lightsTab
 
 /*====================================

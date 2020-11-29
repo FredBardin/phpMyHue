@@ -115,6 +115,8 @@ function display_light_row($prefid,$lnum,$gnum,$cbpos="E",$brislider=false){
 function display_lights_groups($prefid="",$cbpos="E",$brislider=false){
 	global $HueAPI, $trs;
 
+	$collapseClass = "Garage"; // Group class to defined collapse statut
+
 	echo "<TABLE CLASS=det_table>";
 	echo "<THEAD>";
 	echo "<TR CLASS=grp>";
@@ -126,16 +128,22 @@ function display_lights_groups($prefid="",$cbpos="E",$brislider=false){
 	if ($brislider){display_bri_slider($prefid,"all","all");}
 
 	echo "<TBODY>";
-	foreach ($HueAPI->info['groups'] as $gnum => $gval){ // Existing groups
+
+	// Display groups content
+	$HueAPI->loadGroupsLightsNameIndex();
+	foreach ($HueAPI->info['groupsnames'] as $gnum){
+		$gval = $HueAPI->info['groups'][$gnum];
 		if ($gval['type'] != "LightSource"){ // Exclude 'LightSource' groups : included into 'Luminaire' groups
 			echo "<TR CLASS=grp gnum=$gnum>";
-			echo "<TD><SPAN CLASS=\"grp ui-icon ui-icon-circle-minus\" gnum=$gnum open></SPAN>";
+			if ($gval['class'] == $collapseClass)	{$grpopen = "";}
+			else									{$grpopen = "open";}
+			echo "<TD><SPAN CLASS=\"grp ui-icon ui-icon-circle-minus\" gnum=$gnum $grpopen></SPAN>";
 			if ($cbpos == "B"){display_td_checkbox($prefid, "$gnum", "grp", $gnum);}
 			echo "<TD CLASS=\"label grp\"><LABEL FOR=".$prefid."cb_$gnum gnum=$gnum>".$gval['name']."</LABEL>";
 			echo "<TD><BUTTON CLASS=gron gnum=$gnum>On</BUTTON><BUTTON CLASS=groff gnum=$gnum>Off</BUTTON>";
 			if ($cbpos == "E"){display_td_checkbox($prefid, $gnum, "grp", $gnum);}
 			if ($brislider){display_bri_slider($prefid,$gnum,$gnum);}
-			foreach ($gval['lights'] as $internal => $lnum){display_light_row($prefid,$lnum,$gnum,$cbpos,$brislider);}
+			foreach ($gval['lightsnames'] as $lnum){display_light_row($prefid,$lnum,$gnum,$cbpos,$brislider);}
 		}
 	}
 
@@ -150,7 +158,9 @@ function display_lights_groups($prefid="",$cbpos="E",$brislider=false){
 		echo "<TD><BUTTON ID=".$prefid."otheron>On</BUTTON><BUTTON ID=".$prefid."otheroff>Off</BUTTON>";
 		if ($cbpos == "E"){display_td_checkbox($prefid, "other", "grp", "other");}
 		if ($brislider){display_bri_slider($prefid,"other","other");}
-		foreach ($HueAPI->info['lights'] as $lnum => $lval){if (! isset($lval['grp'])){display_light_row($prefid,$lnum,"other",$cbpos,$brislider);}}
+		foreach ($HueAPI->info['lightsnames'] as $lnum){
+			if (! isset($HueAPI->info['lights'][$lnum]['grp'])){display_light_row($prefid,$lnum,"other",$cbpos,$brislider);}
+		}
 	}
 
 	echo "</TABLE>";

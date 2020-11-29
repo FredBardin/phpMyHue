@@ -8,6 +8,7 @@ if (! defined('ANTI_HACK')){exit;}
 
 // Load sensors informations
 $HueAPI->loadInfo("sensors");
+$HueAPI->loadNameIndex("sensors");
 
 ?>
 <SCRIPT language="javascript">
@@ -15,18 +16,10 @@ $('#detail').hide("slide");
 </SCRIPT>
 <?php
 
-// Create id->name array
-$a_sname = array();
-foreach ($HueAPI->info['sensors'] as $sensorid => $sval){
-	$a_sname[$sensorid] = $sval['name'];
-}
-asort($a_sname);
-
 // Display sensors
 echo "<TABLE>";
 echo "<TR><TD><TH>".$trs["Sensor"]."<TH>".$trs["Type"];
-$oldname = "";
-foreach ($a_sname as $sensorid => $sname){
+foreach ($HueAPI->info['sensorsnames'] as $sname => $sensorid){
 	echo "\n<TR CLASS=radio>";
 	echo "<TD><SPAN CLASS=\"ui-icon ui-icon-radio-off\"><INPUT TYPE=radio NAME=seradio ID=$sensorid></SPAN>";
 	echo "<TD CLASS=sname><LABEL FOR=$sensorid>$sname</LABEL>";

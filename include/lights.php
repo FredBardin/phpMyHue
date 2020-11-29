@@ -11,6 +11,8 @@ include 'include/functions.php';
 $HueAPI->loadInfo("groups");
 $HueAPI->loadInfo("lights");
 $HueAPI->assignLightsGroup();
+$HueAPI->loadNameIndex("groups");
+$HueAPI->loadNameIndex("lights");
 
 ?>
 <SCRIPT language="javascript">

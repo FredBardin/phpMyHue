@@ -7,6 +7,7 @@ if (! defined('ANTI_HACK')){exit;}
 
 // Load scenes and lights informations
 $HueAPI->loadInfo("scenes");
+$HueAPI->loadNameIndex("scenes");
 
 ?>
 <SCRIPT language="javascript">
@@ -14,17 +15,9 @@ $('#detail').hide("slide");
 </SCRIPT>
 <?php
 
-// Create id->name array
-$a_sname = array();
-foreach ($HueAPI->info['scenes'] as $sceneid => $sval){
-	$a_sname[$sceneid] = $sval['name'];
-}
-asort($a_sname);
-
 // Display scenes
 echo "<TABLE>";
-$oldname = "";
-foreach ($a_sname as $sceneid => $sname){
+foreach ($HueAPI->info['scenesnames'] as $sname => $sceneid){
 	echo "\n<TR CLASS=radio>";
 	echo "<TD><SPAN CLASS=\"ui-icon ui-icon-radio-off\"><INPUT TYPE=radio NAME=scradio ID=$sceneid></SPAN>";
 	echo "<TD CLASS=sname><LABEL FOR=$sceneid>$sname</LABEL>";

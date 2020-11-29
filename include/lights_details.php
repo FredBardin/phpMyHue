@@ -47,7 +47,8 @@ echo "<INPUT TYPE=radio NAME=tsradio ID=swwith VALUE=swwith><LABEL FOR=swwith>".
 echo "</DIV>"; // tsradio
 echo "&nbsp;<SELECT ID=tssell>\n";
 echo "<OPTION VALUE=none>".$trs["Select_light"]."</OPTION>\n";
-foreach ($HueAPI->info['lights'] as $lnum => $lval){
+foreach ($HueAPI->info['lightsnames'] as $lnum){
+	$lval = $HueAPI->info['lights'][$lnum];
 	echo "<OPTION VALUE=$lnum>".$lval['name']."</OPTION>\n";
 }
 echo "</SELECT>\n";
@@ -66,7 +67,8 @@ echo "<SPAN ID=grplightopt>\n";
 
 echo "<SELECT ID=assigngrp>\n";
 echo "<OPTION VALUE=other>".$trs["Select"]."</OPTION>\n";
-foreach ($HueAPI->info['groups'] as $gnum => $gval){
+foreach ($HueAPI->info['groupsnames'] as $gnum){
+	$gval = $HueAPI->info['groups'][$gnum];
 	echo "<OPTION VALUE=$gnum LIGHTS=\"[";
 	$lightslist = "";
 	foreach ($gval['lights'] as $internal => $lnum){$lightslist .= ",$lnum";}

@@ -79,16 +79,12 @@ echo "<TD>";
 echo "<TD>";
 // Scenes list
 $HueAPI->loadInfo("scenes");
-// Create id->name array
-$a_sname=array();
-foreach ($HueAPI->info['scenes'] as $sceneid => $sval){
-	$a_sname[$sceneid] = $sval['name'];
-}
-asort($a_sname);
+$HueAPI->loadNameIndex("scenes");
+
 // Display scenes list
 echo "<SELECT ID=selhtsc>";
 echo "<OPTION>".$trs["Select"]." ".$trs["Scene"]."</OPTION>";
-foreach ($a_sname as $sceneid => $sname){
+foreach ($HueAPI->info['scenesnames'] as $sname => $sceneid){
 	echo "<OPTION VALUE=$sceneid";
 	if ($sceneid == $selsceneid){echo " SELECTED";}
 	echo ">$sname (".count($HueAPI->info['scenes'][$sceneid]['lights'])." ".$trs["Lights"].")";
@@ -98,6 +94,8 @@ echo "</SELECT>";
 
 //  On/Off list (all+groups)
 $HueAPI->loadInfo("groups");
+$HueAPI->loadNameIndex("groups");
+
 createGroupList($selgroupid, "selhton", " ".$trs["On"]);
 createGroupList($selgroupid, "selhtoff", " ".$trs["Off"]);
 
@@ -112,10 +110,10 @@ function createGroupList($gid, $selid, $label_suffix){
 
 	echo "<SELECT ID=$selid>";
 	echo "<OPTION VALUE=0>".$trs["All"]."$label_suffix</OPTION>";
-	foreach ($HueAPI->info['groups'] as $gnum => $gval){ 
+	foreach ($HueAPI->info['groupsnames'] as $gname => $gnum){
 		echo "<OPTION VALUE=$gnum";
 		if ($gid == $gnum){echo " SELECTED";}
-		echo ">".$gval['name']."$label_suffix</OPTION>";
+		echo ">$gname$label_suffix</OPTION>";
 	}
 	echo "</SELECT>";
 } // createGroupList

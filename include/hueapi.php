@@ -22,10 +22,18 @@
 //   Return command result in a php array or a json string depending on type of $content parameter.
 //
 // - assignLightsGroup() : add group id to lights (if several, only the biggest id)
+//   Lights and groups have to be loaded (see loadinfo()) before to use this method.
+//
+// - loadNameIndex($action) : create a name index from a bridge object (key=name, value=id)
+//   Target objects must be loaded (see loadinfo()) before to use this method.
+//   The index is created with "<object>names" as entry key into 'info' array.
+//
+// - loadGroupsLightsNameIndex : create name index for lights of a group
 // 
 // F. Bardin 07/02/2015
-// 20/02/2015 :  Add both php array or json input/output parameters
-// 20/09/2015 :  Don't set config environment if init in progress
+// 20/02/2015 : Add both php array or json input/output parameters
+// 20/09/2015 : Don't set config environment if init in progress
+// 17/11/2020 : Add methods to create name indexes
 //================================================================
 // Anti-hack
 if (! defined('ANTI_HACK')){exit;}
@@ -94,16 +102,44 @@ class HueAPI {
 	// Assign group id to lights array
 	//-------------------------------------
 	// Allow to identify lights without a group
-	// Groups info must be loaded before to call the function
+	// Groups info must be loaded before to call the method
 	// Lights info is not mandatory.
 	// Updating the lights info will delete the grp id.
 	// If several groups exist for a light, only the biggest id is recorded
 	//-------------------------------------
 	function assignLightsGroup(){
 		foreach ($this->info['groups'] as $gnum => $gval){
-			foreach ($gval['lights'] as $internal => $lnum){$this->info['lights'][$lnum]['grp'] = $gnum;}
+			foreach ($gval['lights'] as $lnum){$this->info['lights'][$lnum]['grp'] = $gnum;}
 		}
 	} // assignLightsGroup
+
+	//------------------------------------------
+	// Load a name index for a loaded object
+	//------------------------------------------
+	// Target object info must be loaded before to call the method
+	// Key of created index is "'$action'names"
+	// Each index name contains its associated ID.
+	//------------------------------------------
+	function loadNameIndex($action){
+		$idxname = $action."names";
+		foreach ($this->info[$action] as $gnum => $gval){$this->info[$idxname][$gval['name']] = $gnum;}
+		ksort($this->info[$idxname]);
+	} // loadNameIndex
+
+	//------------------------------------------
+	// Load name index for groups lights
+	//------------------------------------------
+	// Key of created index is names 'ligthsnames' and is at same level that 'lights' in a group.
+	// Each index name contains its associated ID.
+	//------------------------------------------
+	function loadGroupsLightsNameIndex(){
+		foreach ($this->info['groups'] as $gnum => $gval){
+			foreach ($gval['lights'] as $lnum){
+				$this->info['groups'][$gnum]['lightsnames'][$this->info['lights'][$lnum]['name']] = $lnum;
+			}
+		 ksort($this->info['groups'][$gnum]['lightsnames']);
+		}
+	} // loadGroupsLightsNameIndex
 
 	//=====================================
 	//== PRIVATE METHODS ==

@@ -41,8 +41,6 @@ function scenesTab(){
 	$(tabdetail).load('details.php?rt=scenes', function(){
 		lightsList(tabdetail,"S_");
 		initBriSliders();
-		$('#detail').show("slide");
-		scrollCurrentTab('#detail');
 
 		// if a scene was previously selected : re-select it
 		if ($('#detail').is('[sceneid]')){
@@ -55,6 +53,18 @@ function scenesTab(){
 		} else { // If no scene selected : disable update
 			$('#updscene').prop('disabled',true).addClass('ui-state-disabled');
 		}
+
+		// Init groups if open or not
+		$(tabdetail+' span.grp').each(function(){
+			var open = $(this).attr('open');
+			var gnum = $(this).attr('gnum');
+			if (! open && gnum > 0){
+				collapseGroup(tabdetail,"S_",this,true);
+			}
+		});
+
+		$('#detail').show("slide");
+		scrollCurrentTab('#detail');
 	});
 } // scenesTab
 

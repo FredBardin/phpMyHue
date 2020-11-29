@@ -138,10 +138,10 @@ div.swoff, div.swon {
 .swon.LCT002 {
 	background-image: url(../img/bulb-LCT002-on.png);
 }
-.swoff.LCT003 {
+.swoff.LCT003, .swoff.LCG002 {
 	background-image: url(../img/bulb-LCT003-off.png);
 }
-.swon.LCT003 {
+.swon.LCT003, .swon.LCG002  {
 	background-image: url(../img/bulb-LCT003-on.png);
 }
 .swoff.LLC001, .swoff.LLC006, .swoff.LLC010 {

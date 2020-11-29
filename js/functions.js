@@ -13,6 +13,7 @@
 // switchGroup 			switch on or off a group of lamps
 //------------------------------------------------------------------------
 // 2016/12/28 : Correction on lights de-select if present in several groups 
+// 2020/11/21 : Store group display state (open/class) in its class attribute
 //------------------------------------------------------------------------
 //----------------------------------------
 // Create fonctions for mobiles detection
@@ -310,9 +311,9 @@ function lightsList(listtab,prefid){
 	});
 	
 	// Collapse/Extend groups
-	$(listtab+' span.grp').click(function(){
-		var gnum = $(this).attr('gnum');
+	$(listtab+' span.grp').click(function(){ 
 		var open = $(this).attr('open');
+		var gnum = $(this).attr('gnum');
 
 		collapseGroup(listtab,prefid,this,open);
 
@@ -372,6 +373,7 @@ function lightsList(listtab,prefid){
 // ---------------------------------------------------
 function collapseGroup(listtab,prefid,groupobj,open){
 	var gnum = $(groupobj).attr('gnum');
+	var groupClass;
 
 	if (open){
 		$(listtab+' tbody tr.grp'+gnum).hide(300);
@@ -382,12 +384,24 @@ function collapseGroup(listtab,prefid,groupobj,open){
 			$(listtab+' tbody tr.grp'+gnum+' input.light').prop('checked',false);
 			$(listtab+' tbody tr.grp'+gnum+' td.label').removeClass('ui-state-focus');
 			if (prefid == ""){loadSelectedLightsDetail(listtab);}
+		groupClass = 'Garage';
 		}
 	} else {
 		$(listtab+' tbody tr.grp'+gnum).show(300);
 		$(groupobj).switchClass('ui-icon-circle-plus','ui-icon-circle-minus',0);
 		$(groupobj).attr('open','');
+
+		groupClass = 'Other';
 	}
+
+	// If group not 'all' or 'lamp' : Update group class with state (open/close)
+	if (gnum != 0 && gnum != 'other'){
+		var action = 'groups/'+gnum;
+		var cmdjs = '&cmdjs={"class":"'+groupClass+'"}'; 
+		$.getJSON('hueapi_cmd.php?action='+action+cmdjs, (function(jsmsg){
+			(processReturnMsg(jsmsg));
+		}));
+	}	
 } // collapseGroup
 
 // -----------------------------
@@ -413,3 +427,47 @@ function switchGroup(listtab,gnum,onoff){
 		});
 	});
 } // switchGroup
+
+// -----------------------------
+// New lamp discovery
+// -----------------------------
+function lampDiscovery(){
+	$.getJSON('hueapi_cmd.php?action=lights&method=POST',function(discover){
+		if (processReturnMsg(discover)){ // If no error, display discovery state
+			var discoveryDuration = 40; // in second
+			var statusTimer = 10; 		// in second
+			var countmax = Math.ceil(discoveryDuration / statusTimer) + 3;
+			discoveryTimer(countmax, 0, statusTimer);
+		}
+	});
+} // lampDiscovery
+
+// -----------------------------
+// Timer to get discovery status
+// -----------------------------
+// Parameters :
+// timerCount : total count of timer to run
+// timerDuration : duration in second of each time
+// -----------------------------
+function discoveryTimer(timerCount, timerDuration, timerNext){
+	timerNext = timerNext || timerDuration;
+
+	setTimeout(function(){
+		$.getJSON('hueapi_cmd.php?action=lights/new&method=GET', function(result){
+			var err = '';
+			var scanmsg;
+			if (result.lastscan == 'active'){
+				scanmsg = 'Scan ';
+				err = true;
+			} else {
+				scanmsg = 'Last Scan ';
+			}
+			msg(scanmsg+result.lastscan, err);
+			timerCount--;
+			if (timerCount > 0){ // run a new timer if count not reached
+				discoveryTimer(timerCount,timerNext);
+			}
+		});
+	},timerDuration*1000);
+} // discoveryTimer
+

@@ -16,9 +16,8 @@ else {$cur_branch = "";}
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN">
 <HTML>
 <HEAD>
-<META HTTP-EQUIV="Content-Type" CONTENT="text/html; charset=UTF-8" />
+<META HTTP-EQUIV="Content-Type" CONTENT="text/html; charset=UTF-8">
 <TITLE>phpMyHue<?php echo $cur_branch?></TITLE>
-</HEAD>
 <LINK REL="icon" type="image/png" href="favicon.ico">
 <LINK REL="stylesheet" TYPE="text/css" HREF="js/jquery-ui/jquery-ui.min.css">
 <LINK REL="stylesheet" TYPE="text/css" HREF="js/nouislider/jquery.nouislider.min.css">
@@ -30,6 +29,7 @@ else {$cur_branch = "";}
 <SCRIPT TYPE="text/javascript" SRC="js/nouislider/jquery.nouislider.all.min.js"></SCRIPT>
 <SCRIPT TYPE="text/javascript" SRC="js/jquery-minicolors/jquery.minicolors.js"></SCRIPT>
 <SCRIPT TYPE="text/javascript" SRC="js/functions.js"></SCRIPT>
+</HEAD>
 <BODY>
 <DIV ID=msg></DIV>
 <DIV ID=title><IMG SRC="img/phpmyhue.png"></DIV>

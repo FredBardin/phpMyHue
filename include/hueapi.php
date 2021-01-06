@@ -123,7 +123,7 @@ class HueAPI {
 	function loadNameIndex($action){
 		$idxname = $action."names";
 		foreach ($this->info[$action] as $gnum => $gval){$this->info[$idxname][$gval['name']] = $gnum;}
-		ksort($this->info[$idxname]);
+		if (isset($this->info[$idxname])){ksort($this->info[$idxname]);}
 	} // loadNameIndex
 
 	//------------------------------------------
@@ -133,11 +133,12 @@ class HueAPI {
 	// Each index name contains its associated ID.
 	//------------------------------------------
 	function loadGroupsLightsNameIndex(){
+		$idxnameok = true;
 		foreach ($this->info['groups'] as $gnum => $gval){
 			foreach ($gval['lights'] as $lnum){
 				$this->info['groups'][$gnum]['lightsnames'][$this->info['lights'][$lnum]['name']] = $lnum;
 			}
-		 ksort($this->info['groups'][$gnum]['lightsnames']);
+			if (isset($this->info['groups'][$gnum]['lightsnames'])){ksort($this->info['groups'][$gnum]['lightsnames']);}
 		}
 	} // loadGroupsLightsNameIndex
 

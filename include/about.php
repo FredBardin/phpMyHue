@@ -14,8 +14,8 @@ include 'include/functions.php';
 <SCRIPT language="javascript">
 $('#detail').hide("slide");
 </SCRIPT>
-<DIV ID=about>phpMyHue 1.7.3<BR>
-&copy; <A HREF="mailto:bardin.frederic@gmail.com" CLASS=about>F. Bardin</A> 04-2015/11-2020<BR>
+<DIV ID=about>phpMyHue 1.7.4<BR>
+&copy; <A HREF="mailto:bardin.frederic@gmail.com" CLASS=about>F. Bardin</A> 04-2015/01-2021<BR>
 <small>
 <?php echo $trs['Bridge_IP']?> : <?php echo $bridgeip?><BR>
 <SPAN CLASS=aligntxt><?php echo $trs['Current_language']?> : </SPAN>

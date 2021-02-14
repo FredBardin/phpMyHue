@@ -3,6 +3,7 @@
 Php web interface and api to manage Philips Hue lights in a local network.
 
 ## Functionnalities
+
 * Fully touch device compatible
 * **Multi Lang** (translation files can be added locally, see 'lang' directory, and/or be submitted thru an issue to be added to the project, [see wiki](https://github.com/FredBardin/phpMyHue/wiki/Multi-lang))
 * **Scripted effects** ready to use or to create (debug mode available) ([see wiki](https://github.com/FredBardin/phpMyHue/wiki/Effects-scripts)) 
@@ -19,35 +20,37 @@ Php web interface and api to manage Philips Hue lights in a local network.
 
 **Screenshots**
 
-Lights           
+Lights  
 ![screenshot](pmh_lights.jpg)
 
-Scenes in french            
+Scenes in french  
 ![screenshot](pmh_scenes.png)
 
-Effects           
+Effects  
 ![screenshot](pmh_effects.png)
 
-Rules (simple mode)        
+Rules (simple mode)  
 ![screenshot](pmh_rules_simple.png)
 
-Rules (advanced mode)       
+Rules (advanced mode)  
 ![screenshot](pmh_rules_advanced.png)
 
 ## Installation
+
 1. Copy 'phpMyHue' directory and its content in your web server root directory.
 2. Open a browser on your installation url, it should be something like "http://my_web_server/phpMyHue"
-	* **Automatic configuration** begins (bridge detection, user creation, ...) : follow information in your browser
+    * **Automatic configuration** begins (bridge detection, user creation, ...) : follow information in your browser
 
 If you're asked to proceed manually because automatic setup failed to complete (ie. : local file writing not allowed from your web server), follow the displayed instructions or the ones below :
 
 1. Rename 'include/config.tpl.php' as 'include/config.php'
 2. Edit 'include/config.php' and put correct values for '$bridgeip', '$username' and, if needed, for '$lang'.  
-	* 'bridgeip' is the ip address of your hue bridge in your lan.  
-	* 'username' is a registered user in your hue bridge (cf https://developers.meethue.com/develop/get-started-2/core-concepts).  
-	* 'lang' references an existing 'lang/text_"lang".json' file ('en' by default).  
+    * 'bridgeip' is the ip address of your hue bridge in your lan.  
+    * 'username' is a registered user in your hue bridge (cf https://developers.meethue.com/develop/get-started-2/core-concepts).  
+    * 'lang' references an existing 'lang/text_"lang".json' file ('en' by default).  
 
 ### Licence
+
 MIT
 
 Includes the following plugins also used with MIT licence : jquery-ui, jquery-minicolors

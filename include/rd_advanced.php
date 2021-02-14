@@ -94,7 +94,11 @@ function getConditionsJson(sensorid){
 		});
 		if (address != "" && operator != ""){
 			if (cond != ""){cond += ",";}
-			cond += '{"address":"/sensors/'+sensorid+'/'+address+'","operator":"'+operator+'"';
+			if (address.indexof("/") != 1){
+				cond += '{"address":"/sensors/'+sensorid+'/'+address+'","operator":"'+operator+'"';
+			} else {
+				cond += '{"address":"'+address+'","operator":"'+operator+'"';
+			}
 			if (operator != "dx"){
 				cond += ',"value":"'+value+'"';
 			}

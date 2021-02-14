@@ -18,9 +18,6 @@ var rowmaxelem = 4;	// Max number of elements in a row
 function rulesTab(){
 	scrollCurrentTab("#tabs");
 
-	// Get selector for Div ID of current tab
-	var tabrules = "#"+getCurrentTabsID("#tabs");
-
 	// Trigger sensor selection
 	$("#tabs td span.ui-icon input").click(function(){
 		$(this).change();
@@ -173,6 +170,16 @@ function InitRowsCount(){
 //---------------------------------------
 function sensorRulesDetail(){
 	InitRowsCount();	
+
+	// Change name
+	$('#updname').click(function(){
+		var sensorid = $("#sensorid").val();
+		var sensorname = $("#sensorname").val();
+		$.getJSON('hueapi_cmd.php?action=sensors/'+sensorid+'&cmdjs={"name":"'+sensorname+'"}',function(){
+        	$('#tabs label[for='+sensorid+']').first().text(sensorname);
+		});
+	});
+
 
 	// Trigger rule display on selection
 	$("#srsel").on("selectmenuchange", function(){

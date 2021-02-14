@@ -1,6 +1,7 @@
 <?php
 // Set the div details for sensor rules
 // F. Bardin 2016/03/06
+// 2021/02/13 : add sensor name management + information display
 // ------------------------------------
 // Anti-hack
 if (! defined('ANTI_HACK')){exit;}
@@ -16,6 +17,13 @@ $HueAPI->loadInfo("sensors/$sensorid");
 $HueAPI->loadInfo("rules");
 
 $maxelem = 4; // Max allowed conditions or actions
+
+//FBA
+// Elements selected and name update
+echo "\n<DIV ID=dispname>";
+echo "<SPAN ID=selname><INPUT TYPE=text ID=sensorname CLASS=ui-corner-all VALUE=\"".$HueAPI->info['sensors'][$sensorid]['name']."\"> <BUTTON ID=updname>".$trs["Rename"]."</BUTTON>";
+echo "</SPAN>"; // selname
+echo "</DIV>"; // dispname
 
 // Display selected sensor rules
 $rulesnum=0;
@@ -120,6 +128,10 @@ if(! isset($selruleid) or $selruleid == ""){
 }
 ?>
 <SCRIPT>
+// Initialize controls
+$('#updname').button({
+ icons: {primary: "ui-icon-arrowthick-1-e"}
+});
 $("#srsel").selectmenu({width : 'auto'});
 $("#srradio").buttonset({width : 'auto'});
 

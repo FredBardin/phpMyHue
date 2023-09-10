@@ -1,6 +1,7 @@
 title: phpMyHue
 description: Php web interface to manage Philips Hue lights and more
-google_analytics: UA-71330262-1
+#google_analytics: UA-71330262-1
+google_analytics: G-EQ0C4BBEDH 
 show_downloads: true
 #theme: jekyll-theme-cayman
 remote_theme: jekyll/jekyll-theme-cayman

@@ -219,7 +219,11 @@ function display_light($lnum){
 			break;
 		case "Color temperature light" :
 			$colortype = "ct";
-			$rgbcolor = CTToRGB($lstate['ct'],$lstate['bri']);
+			if ($lstate['ct'] == 0){
+				$rgbcolor = 0;
+			} else {
+				$rgbcolor = CTToRGB($lstate['ct'],$lstate['bri']);
+			}
 			break;
 		default : 
 			$colortype = "rgb";

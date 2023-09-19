@@ -1,9 +1,6 @@
-v1.8.1 - 19/09/2023 :
-  - Color Temperature Light with ct=0 (if not used for a long time) does not generate an error anymore
-v1.8 - 14/02/2021 :
-  - Sensor name can now be updated when selected in 'Rules' tab
-v1.7.4 - 06/01/2021 :
-  - Correction for empty object name lists 
+v1.8.1 - 19/09/2023 : Color Temperature Light with ct=0 (if not used for a long time) does not generate an error anymore
+v1.8 - 14/02/2021 : Sensor name can now be updated when selected in 'Rules' tab
+v1.7.4 - 06/01/2021 : Correction for empty object name lists 
 v1.7.3 - 29/11/2020 :
   - Groups and lamps are now sorted by name (Lamps without group stay at the end)
   - Add new lamps discovery in 'About' tab
@@ -14,8 +11,7 @@ v1.7.3 - 29/11/2020 :
 v1.7.2 - 17/10/2020 :
   - Add favicon
   - Add german translation (thanks to Norbert Klein)
-v1.7.1 - 15/12/2019 :
-  - In automatic configuration, the default subnet to look for hue bridge can now be changed 
+v1.7.1 - 15/12/2019 : In automatic configuration, the default subnet to look for hue bridge can now be changed 
 v1.7 - 15/11/2019 :
   - Pretty accurate display of Color Temperature Lights (works better with maximum brightness)
   - Add candle bulb icon

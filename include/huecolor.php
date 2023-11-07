@@ -153,7 +153,7 @@ function CTToRgb($ct,$bri){
 	}
 
 	// Create a web RGB string (format #xxxxxx)
-	$RGB = "#".substr("0".dechex($r),-2).substr("0".dechex($g),-2).substr("0".dechex($b),-2);
+	$RGB = "#".substr("0".dechex(round($r)),-2).substr("0".dechex(round($g)),-2).substr("0".dechex(round($b)),-2);
 
 	// Get xy + bri
 	$xybri = json_decode(RGBToXY($RGB));

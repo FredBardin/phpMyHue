@@ -6,6 +6,8 @@
 // 2017/12/30 : Immediate display update for color and brightness when a change occurs
 // 2017/01/02 : Optimize immediate display and correct problems on some brightness changes
 // 2019/01/06 : Add explicite type in group creation instead of the default
+// 2025/12/27 : Add delete light button in light information in detail tab
+// 2025/12/22 : Add multi-config support
 // ----------------------------------------------------------------------
 
 /*====================================
@@ -33,7 +35,7 @@ function lightsTab(){
 	});
 
 	// Load detail tab with lights details
-	$("#"+getCurrentTabsID('#detail')).load('details.php?rt=lights');
+	$("#"+getCurrentTabsID('#detail')).load('details.php?cf='+conf_file+'&rt=lights');
 
 } // lightsTab
 
@@ -181,7 +183,7 @@ function loadSelectedLightsDetail(tablights){
 				}
 
 				// Display informations
-				$.getJSON('hueapi_cmd.php?action='+action, function(info){
+				$.getJSON('hueapi_cmd.php?cf='+conf_file+'&action='+action, function(info){
 					var descri = lasttype.charAt(0).toUpperCase()+lasttype.slice(1)+' id: '+lastnum;
 					descri += '<BR>'+trs.Type+': '+info.type;
 					if (lasttype == 'light' || info.type == 'Luminaire')
@@ -194,6 +196,10 @@ function loadSelectedLightsDetail(tablights){
 						if (info.state.effect != 'none'){
 							descri += '<BR>'+trs.Effect+': '+info.state.effect;
 						}
+
+						// Add "delete light" button
+						descri += '<BR><BR><BUTTON id="dellight" class="hot"> '+trs.Delete+' '+trs.Light+' </BUTTON>';
+
 						// Set brightness
 						$('#brislider').val(info.state.bri);
 
@@ -206,6 +212,13 @@ function loadSelectedLightsDetail(tablights){
 						}
 					}
 					$('#detdescri').html(descri);
+
+					// Add delete event with confirmation (here because button created dynamically)
+					$('#dellight').click(function(){
+						if (confirm(trs.Delete+' '+trs.Light+' "'+$('#elemname').val()+'" ?')){
+							lightsDetailAction('dellight');
+						}
+					});
 				 });
 				 $('#descri').show();
 
@@ -334,6 +347,11 @@ function lightsDetailAction(tabaction,xy){
 				successmsg = trs.Group+" "+$('#elemname').val()+" "+trs.Deleted;
 				break;
 
+			case 'dellight' :
+				method = '&method=DELETE';
+				successmsg = trs.Light+" "+$('#elemname').val()+" "+trs.Deleted;
+				break;
+
 			default : // do nothing
 				action = "";
 				break;
@@ -344,10 +362,11 @@ function lightsDetailAction(tabaction,xy){
 			// Store current value to use in load callback below (else only get the last one)
 			var curtype = (type);
 			var curnum = (num);
-			$.getJSON('hueapi_cmd.php?action='+action+cmdjs+method, (function(jsmsg){
+			$.getJSON('hueapi_cmd.php?cf='+conf_file+'&action='+action+cmdjs+method, (function(jsmsg){
 				if (processReturnMsg(jsmsg,successmsg)){
 					switch(tabaction){
 						case 'delgrp' :	// reload lights tabs
+						case 'dellight' : // reload lights tabs
 							$("#tabs").tabs('load',0);
 							break;
 
@@ -355,7 +374,7 @@ function lightsDetailAction(tabaction,xy){
 						case 'color' :
 						case 'ct' :
 							if (curtype == 'light'){ // only 1 light
-								$(tablights+' table a.switch[lnum='+curnum+']').load('main.php?rt=display&lnum='+curnum, function(data){
+								$(tablights+' table a.switch[lnum='+curnum+']').load('main.php?cf='+conf_file+'&rt=display&lnum='+curnum, function(data){
 									updateColorPicker(tablights, curnum);
 								});
 							} else { // update group
@@ -364,7 +383,7 @@ function lightsDetailAction(tabaction,xy){
 								if (curtype != 'all'){searchgroup = ' tr.grp'+curnum;}
 								$(tablights+' table'+searchgroup+' a.switch').each(function(){
 									lnum = $(this).attr('lnum');
-									$(this).load('main.php?rt=display&lnum='+lnum, function(data){
+									$(this).load('main.php?cf='+conf_file+'&rt=display&lnum='+lnum, function(data){
 										updateColorPicker(tablights, lnum);
 									});
 								});
@@ -408,7 +427,7 @@ function lightsDetailAction(tabaction,xy){
 			}
 		}
 		if (action != ''){
-			$.getJSON('hueapi_cmd.php?action='+action+cmdjs+method, function(jsmsg){
+			$.getJSON('hueapi_cmd.php?cf='+conf_file+'&action='+action+cmdjs+method, function(jsmsg){
 				if (processReturnMsg(jsmsg,successmsg)){
 					$("#tabs").tabs('load',0);
 				}
@@ -443,40 +462,40 @@ function lightsDetailAction(tabaction,xy){
 				return stateobj;
 			} // cleanstate
 
-			$.getJSON('hueapi_cmd.php?action='+actionselected, function(infosel){// Get selected
+			$.getJSON('hueapi_cmd.php?cf='+conf_file+'&action='+actionselected, function(infosel){// Get selected
 				lselected = cleanstate(infosel.state);
 
-				$.getJSON('hueapi_cmd.php?action='+actiontargeted, function(infotgt){// Get targeted
+				$.getJSON('hueapi_cmd.php?cf='+conf_file+'&action='+actiontargeted, function(infotgt){// Get targeted
 					ltargeted = cleanstate(infotgt.state);
 
 					switch (typaction){ // Execture action
 						case 'cpto' : // Copy selected to targeted
-							$.getJSON('hueapi_cmd.php?action='+actiontargeted+actionsup+'&cmdjs='+JSON.stringify(lselected),
+							$.getJSON('hueapi_cmd.php?cf='+conf_file+'&action='+actiontargeted+actionsup+'&cmdjs='+JSON.stringify(lselected),
 								function(jsmsg){
 									if (processReturnMsg(jsmsg)){
-										$(tablights+' a.switch[lnum='+valtarget+']').load('main.php?rt=display&lnum='+valtarget);
+										$(tablights+' a.switch[lnum='+valtarget+']').load('main.php?cf='+conf_file+'&rt=display&lnum='+valtarget);
 									}
 							});
 							break;
 						case 'cpfrom' : // Copy targeted to selected
-							$.getJSON('hueapi_cmd.php?action='+actionselected+actionsup+'&cmdjs='+JSON.stringify(ltargeted),
+							$.getJSON('hueapi_cmd.php?cf='+conf_file+'&action='+actionselected+actionsup+'&cmdjs='+JSON.stringify(ltargeted),
 								function(jsmsg){
 									if (processReturnMsg(jsmsg)){
-										$(tablights+' a.switch[lnum='+num+']').load('main.php?rt=display&lnum='+num, function(data){
+										$(tablights+' a.switch[lnum='+num+']').load('main.php?cf='+conf_file+'&rt=display&lnum='+num, function(data){
 											updateColorPicker(tablights, num, "", true);
 										});
 									}
 							});
 							break;
 						case 'swwith' : // Switch selected with targeted = copy to + copy from
-							$.getJSON('hueapi_cmd.php?action='+actiontargeted+actionsup+'&cmdjs='+JSON.stringify(lselected),
+							$.getJSON('hueapi_cmd.php?cf='+conf_file+'&action='+actiontargeted+actionsup+'&cmdjs='+JSON.stringify(lselected),
 								function(ret1){
 									if (processReturnMsg(ret1)){
-										$.getJSON('hueapi_cmd.php?action='+actionselected+actionsup+'&cmdjs='+JSON.stringify(ltargeted),
+										$.getJSON('hueapi_cmd.php?cf='+conf_file+'&action='+actionselected+actionsup+'&cmdjs='+JSON.stringify(ltargeted),
 											function(ret2){
-												$(tablights+' a.switch[lnum='+valtarget+']').load('main.php?rt=display&lnum='+valtarget);
+												$(tablights+' a.switch[lnum='+valtarget+']').load('main.php?cf='+conf_file+'&rt=display&lnum='+valtarget);
 												if (processReturnMsg(ret2)){
-													$(tablights+' a.switch[lnum='+num+']').load('main.php?rt=display&lnum='+num, function(data){
+													$(tablights+' a.switch[lnum='+num+']').load('main.php?cf='+conf_file+'&rt=display&lnum='+num, function(data){
 														updateColorPicker(tablights, num, "", true);
 													});
 												}
@@ -537,7 +556,7 @@ function updateColorPicker(tablights, lnumref, hexrgb, updateBri=false){
 		$('#colorpicker').minicolors('value',hexrgb);
 		$('#colorpicker').data('minicolors-initialized',true);
 		if (updateBri){ // Update brightness is requested too
-			$.getJSON('main.php?rt=color&rgb='+encodeURIComponent(hexrgb), function(xy){
+			$.getJSON('main.php?cf='+conf_file+'&rt=color&rgb='+encodeURIComponent(hexrgb), function(xy){
 				$('#brislider').val(xy.bri);
 			});
 		}
@@ -554,14 +573,14 @@ function changeColorPicker(rgb){
 	// Process update depending on color type
 	switch (colortype){
 		case 'rgb' : // Get x, y, bri correspondance to RGB
-			$.getJSON('main.php?rt=color&rgb='+encodeURIComponent(rgb), function(xy){
+			$.getJSON('main.php?cf='+conf_file+'&rt=color&rgb='+encodeURIComponent(rgb), function(xy){
 				$('#brislider').val(xy.bri); // Update brightness
 				lightsDetailAction('color',xy);
 			});
 			break;
 
 		case 'ct' : // Get x, y, bri correspondance to ct
-			$.getJSON('main.php?rt=ct&rgb='+encodeURIComponent(rgb), function(ct){
+			$.getJSON('main.php?cf='+conf_file+'&rt=ct&rgb='+encodeURIComponent(rgb), function(ct){
 				lightsDetailAction('ct',ct);
 			});
 			break;

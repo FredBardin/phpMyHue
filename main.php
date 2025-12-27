@@ -5,13 +5,15 @@
 // Parameter : routage target
 //----------------------------------------------------------------------------
 // F. Bardin 07/02/2015
+// 22/12/2025 : add multi-config support
 //============================================================================
 // Anti-hack
 define('ANTI_HACK', true);
 
-include 'include/hueapi.php';
-
 @$rt=$_REQUEST['rt'];
+@$conf_file=$_REQUEST['cf'];
+
+include 'include/hueapi.php';
 
 header('Content-Type: text/html; charset=UTF-8'); // to correctly display translation
 

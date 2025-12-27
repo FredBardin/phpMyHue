@@ -345,3 +345,8 @@ HIL002 : 2 lamps (2 bottom)
 .overflow {
 	height: 150px;
 }
+
+/* Style for del light buttons : red text */
+button#dellight.hot {
+	color: rgb(255, 0, 0);
+}

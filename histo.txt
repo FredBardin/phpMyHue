@@ -1,3 +1,7 @@
+v1.9.0 - 20/12/2025 : 
+  - Bridge is now usable with https when availalble (new protocol parameter to add in config file)
+  - Multi bridge can now be used thru multi config files (duplicated installation no more needed)
+  - Lights can be deleted from a bridge (option in light 'Information' panel)
 v1.8.1 - 19/09/2023 : Color Temperature Light with ct=0 (if not used for a long time) does not generate an error anymore
 v1.8 - 14/02/2021 : Sensor name can now be updated when selected in 'Rules' tab
 v1.7.4 - 06/01/2021 : Correction for empty object name lists 

@@ -121,5 +121,8 @@
 "Subnet_to_look_for_Hue_brigde":"Subnet value to look for Hue bridge",
 "If_not_known_let_the_default_displayed_value":"If not known, let the default displayed value.",
 "NewLampDiscovery":"New Lamp(s) Discovery",
+"Protocol":"Protocol",
+"missing_in":"missing in",
+"initialised_to":"initiaiised to",
 "":""
 }

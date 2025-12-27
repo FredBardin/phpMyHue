@@ -10,15 +10,17 @@
 // for other command : request result
 //
 // F. Bardin 19/02/2015
+// 22/12/2025 : add multi-config support
 //===========================================
 // Anti-hack
 define('ANTI_HACK', true);
 
-include 'include/hueapi.php';
-
 @$action=$_REQUEST['action']; // Action to send
 @$cmdjs=$_REQUEST['cmdjs']; // Cmd to send in json format
 @$method=$_REQUEST['method'];	// Method to use (default=PUT)
+@$conf_file=$_REQUEST['cf']; // Config file to use
+
+include 'include/hueapi.php';
 
 // If action
 if (isset($action)){

@@ -34,12 +34,14 @@
 // 20/02/2015 : Add both php array or json input/output parameters
 // 20/09/2015 : Don't set config environment if init in progress
 // 17/11/2020 : Add methods to create name indexes
+// 20/12/2025 : Add https management + multiple config file support
 //================================================================
 // Anti-hack
 if (! defined('ANTI_HACK')){exit;}
 
 // Load config if init not in progress
-if (! defined('INIT')){include "include/config.php";}
+if (! defined('INIT')){include "include/$conf_file";}
+if (! isset($prot)){$prot="http";}
 
 // Load translations
 $trs = json_decode(implode(file('lang/text_'.$lang.'.json')),true);
@@ -50,14 +52,24 @@ class HueAPI {
 	//== Variables ==
 	//=====================================
 	private $apiurl; // Shortcut for api url
+	private $ssl_header; // Shortcut for api url
 	var $info = array(); // Array with loaded info
 
 	//=====================================
 	//== CONSTRUCTOR ==
 	//=====================================
 	function __construct(){
-		global $bridgeip, $username;
-		$this->apiurl = "http://$bridgeip/api/$username";
+		global $prot, $bridgeip, $username;
+
+		$this->apiurl = "$prot://$bridgeip/api/$username";
+		if ($prot=="https"){
+			$this->ssl_header = ['ssl' => [
+				'verify_peer' => false,
+				'verify_peer_name' => false,
+			]];
+		} else {
+			$this->ssl_header = [];
+		}
 	} // __construct
 
 	//=====================================
@@ -152,7 +164,7 @@ class HueAPI {
 	// Return : json with the requested content
 	//-------------------------------------
 	private function getInfo($action){
-		return @file("$this->apiurl/$action")[0];
+		return @file("$this->apiurl/$action",false,stream_context_create($this->ssl_header))[0];
 	} // getInfo
 
 	//-------------------------------------
@@ -162,12 +174,16 @@ class HueAPI {
 	// Return : json response
 	//-------------------------------------
 	private function sendCmd($action,$content_js,$method){
-		$context = array('http'=>array(
-                   	'method'=>$method,
-                   	'header'=>'Content-type: application/x-www-form-urlencoded',
-					'content'=>$content_js
-                	)
-				);
+		global $prot;
+
+		$context = [
+			'http' => [
+				'method' => $method,
+				'header' => 'Content-type: application/x-www-form-urlencoded',
+				'content' => $content_js,
+			]
+		];
+		if (isset($this->ssl_header)){$context = array_merge($context, $this->ssl_header);}	
 		return @file("$this->apiurl/$action",false,stream_context_create($context))[0]; 
 	} // sendCmd
 }// HueAPI

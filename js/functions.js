@@ -14,6 +14,7 @@
 //------------------------------------------------------------------------
 // 2016/12/28 : Correction on lights de-select if present in several groups 
 // 2020/11/21 : Store group display state (open/class) in its class attribute
+// 2025/12/20 : Add multi configuration support
 //------------------------------------------------------------------------
 //----------------------------------------
 // Create fonctions for mobiles detection
@@ -215,7 +216,7 @@ function lightsList(listtab,prefid){
 		onoff.preventDefault();
 		// switch and reload light
 		var lnum = $(this).attr('lnum');
-		$(listtab+' a.switch[lnum='+lnum+']').load('main.php?rt=switch&lnum='+lnum);
+		$(listtab+' a.switch[lnum='+lnum+']').load('main.php?cf='+conf_file+'&rt=switch&lnum='+lnum);
 	});
 
 	// Switch all
@@ -354,9 +355,9 @@ function lightsList(listtab,prefid){
 			var action = 'lights/'+lnum+'/state';
 			var cmdjs = '&cmdjs={"bri":'+val+'}'; 
 			var curlnum = (lnum);
-			$.getJSON('hueapi_cmd.php?action='+action+cmdjs, (function(jsmsg){
+			$.getJSON('hueapi_cmd.php?cf='+conf_file+'&action='+action+cmdjs, (function(jsmsg){
 				if (processReturnMsg(jsmsg)){
-					$(listtab+' a.switch[lnum='+curlnum+']').load('main.php?rt=display&lnum='+curlnum);
+					$(listtab+' a.switch[lnum='+curlnum+']').load('main.php?cf='+conf_file+'&rt=display&lnum='+curlnum);
 				}
 			}));
 		}
@@ -398,7 +399,7 @@ function collapseGroup(listtab,prefid,groupobj,open){
 	if (gnum != 0 && gnum != 'other'){
 		var action = 'groups/'+gnum;
 		var cmdjs = '&cmdjs={"class":"'+groupClass+'"}'; 
-		$.getJSON('hueapi_cmd.php?action='+action+cmdjs, (function(jsmsg){
+		$.getJSON('hueapi_cmd.php?cf='+conf_file+'&action='+action+cmdjs, (function(jsmsg){
 			(processReturnMsg(jsmsg));
 		}));
 	}	
@@ -416,14 +417,14 @@ function switchGroup(listtab,gnum,onoff){
 
 	if (gnum == 'other'){action = gnum;}
 
-	$.getJSON('hueapi_cmd.php?action='+action+cmdjs, function(){
+	$.getJSON('hueapi_cmd.php?cf='+conf_file+'&action='+action+cmdjs, function(){
 		// re-display all lights in the group
 		var lnum = "";
 		var gsearch = "";
 		if (gnum != '0'){gsearch = ' tr.grp'+gnum;}
 		$(listtab+gsearch+' a.switch').each(function(){
 			lnum = $(this).attr('lnum');
-			$(this).load('main.php?rt=display&lnum='+lnum);
+			$(this).load('main.php?cf='+conf_file+'&rt=display&lnum='+lnum);
 		});
 	});
 } // switchGroup
@@ -432,7 +433,7 @@ function switchGroup(listtab,gnum,onoff){
 // New lamp discovery
 // -----------------------------
 function lampDiscovery(){
-	$.getJSON('hueapi_cmd.php?action=lights&method=POST',function(discover){
+	$.getJSON('hueapi_cmd.php?cf='+conf_file+'&action=lights&method=POST',function(discover){
 		if (processReturnMsg(discover)){ // If no error, display discovery state
 			var discoveryDuration = 40; // in second
 			var statusTimer = 10; 		// in second
@@ -453,7 +454,7 @@ function discoveryTimer(timerCount, timerDuration, timerNext){
 	timerNext = timerNext || timerDuration;
 
 	setTimeout(function(){
-		$.getJSON('hueapi_cmd.php?action=lights/new&method=GET', function(result){
+		$.getJSON('hueapi_cmd.php?cf='+conf_file+'&action=lights/new&method=GET', function(result){
 			var err = '';
 			var scanmsg;
 			if (result.lastscan == 'active'){

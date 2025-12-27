@@ -1,6 +1,7 @@
 /*-------------------------
  Functions for scenes tab
  F. Bardin 21/03/2015
+ 2025/12/22 : Add multi-config support
  -------------------------*/
 //-------------------------
 // Function for scenes tab
@@ -29,7 +30,7 @@ function scenesTab(){
 		cbspan.addClass('ui-icon-arrow-1-e');
 		var sceneid = $(this).attr('id');
 		$('#detail').attr('sceneid',sceneid);
-		$.getJSON('hueapi_cmd.php?action=groups/0/action&cmdjs={"scene":"'+sceneid+'"}', function(jsmsg){
+		$.getJSON('hueapi_cmd.php?cf='+conf_file+'&action=groups/0/action&cmdjs={"scene":"'+sceneid+'"}', function(jsmsg){
 			if (processReturnMsg(jsmsg)){
 				loadScenesDetail(sceneid);
 			}
@@ -38,7 +39,7 @@ function scenesTab(){
 	});
 
 	// Load detail tab with scene details
-	$(tabdetail).load('details.php?rt=scenes', function(){
+	$(tabdetail).load('details.php?cf='+conf_file+'&rt=scenes', function(){
 		lightsList(tabdetail,"S_");
 		initBriSliders();
 
@@ -75,7 +76,7 @@ function initBriSliders(){
 	var tabdetail = "#"+getCurrentTabsID('#detail');
 
 	$(tabdetail+' .brislider:not([lnum])').val(0);
-	$.getJSON('hueapi_cmd.php?action=lights', function(info){
+	$.getJSON('hueapi_cmd.php?cf='+conf_file+'&action=lights', function(info){
 		$(tabdetail+' tbody .brislider[lnum]').each(function(){
 			lnum = $(this).attr('lnum');
 			$(this).val(info[lnum].state.bri);
@@ -90,7 +91,7 @@ function initBriSliders(){
 // 3 displays are done after 1s, 6s, 11s and 21s (which is generally enough).
 //------------------------
 function loadScenesDetail(sceneid){
-	$.getJSON('hueapi_cmd.php?action=scenes', (function(info){
+	$.getJSON('hueapi_cmd.php?cf='+conf_file+'&action=scenes', (function(info){
 		var timeout = 5000;
 
 		// Enable name and update
@@ -111,10 +112,10 @@ function loadScenesDetail(sceneid){
 			$(tabdetail+' tbody tr.light[lnum='+lnum+'] td.label').addClass('ui-state-focus');
 
 			// Re-display colors
-			setTimeout(function(){$(tabdetail+' a.switch[lnum='+lnum+']').load('main.php?rt=display&lnum='+lnum);
-				setTimeout(function(){$(tabdetail+' a.switch[lnum='+lnum+']').load('main.php?rt=display&lnum='+lnum);
-					setTimeout(function(){$(tabdetail+' a.switch[lnum='+lnum+']').load('main.php?rt=display&lnum='+lnum);
-						setTimeout(function(){$(tabdetail+' a.switch[lnum='+lnum+']').load('main.php?rt=display&lnum='+lnum);}, timeout*2);
+			setTimeout(function(){$(tabdetail+' a.switch[lnum='+lnum+']').load('main.php?cf='+conf_file+'&rt=display&lnum='+lnum);
+				setTimeout(function(){$(tabdetail+' a.switch[lnum='+lnum+']').load('main.php?cf='+conf_file+'&rt=display&lnum='+lnum);
+					setTimeout(function(){$(tabdetail+' a.switch[lnum='+lnum+']').load('main.php?cf='+conf_file+'&rt=display&lnum='+lnum);
+						setTimeout(function(){$(tabdetail+' a.switch[lnum='+lnum+']').load('main.php?cf='+conf_file+'&rt=display&lnum='+lnum);}, timeout*2);
 					}, timeout);
 				}, timeout);
 			}, 1000);
@@ -178,7 +179,7 @@ function saveScene(sceneid){
 			var cmdjs = '{"name":"'+encodeURIComponent(scname)+'","lights":['+lights_enum+']}';
 
 			// Send update
-			$.getJSON('hueapi_cmd.php?action=scenes/'+sceneid+'&cmdjs='+cmdjs, function(jsmsg){
+			$.getJSON('hueapi_cmd.php?cf='+conf_file+'&action=scenes/'+sceneid+'&cmdjs='+cmdjs, function(jsmsg){
 				var msg = "Scene "+sceneid+" with name '"+scname+"' ";
 				if (newscene){msg += "Created.";}
 				else         {msg += "Updated.";}

@@ -1,6 +1,7 @@
 /*-------------------------
  Functions for effects tab
  F. Bardin 01/12/2015
+ 2025/12/22 : Add multi-config support
  -------------------------*/
 //-------------------------
 // Function for effects tab
@@ -24,7 +25,7 @@ function effectsTab(){
 		cbspan.removeClass('ui-icon-radio-off');
 		cbspan.addClass('ui-icon-arrow-1-e');
 		var effectid = $(this).attr('id');
-		$(this).load('main.php?rt=runeffect&effect='+effectid);
+		$(this).load('main.php?cf='+conf_file+'&rt=runeffect&effect='+effectid);
 	});
 
 	// Manage effects details
@@ -45,7 +46,7 @@ function effectsTab(){
 
 			// Show and load tab
 			$("#detail").show("slide");
-			$("#"+getCurrentTabsID('#detail')).load('details.php?rt=effects&effect='+effect);
+			$("#"+getCurrentTabsID('#detail')).load('details.php?cf='+conf_file+'&rt=effects&effect='+effect);
 
 		} else {
 			$("#detail").hide("slide");
@@ -61,6 +62,6 @@ function effectsDetail(effect){
 	$("#rundbg").click(function(){
 		$("#runout").text(trs.Running_please_wait);
 		$("#runout").dialog("open");
-		$("#runout").load('main.php?rt=runeffect&effect='+effect+'&debug=1');
+		$("#runout").load('main.php?cf='+conf_file+'&rt=runeffect&effect='+effect+'&debug=1');
 	});
 } // effectsDetail

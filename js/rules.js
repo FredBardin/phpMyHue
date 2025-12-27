@@ -1,7 +1,8 @@
 /*-------------------------
  Functions for rules tab
  F. Bardin 05/03/2016
- -------------------------*/
+ 2025/12/22 : Add multi-config support
+-------------------------*/
 
 //---------------------------------------
 // Globals for rules details tab
@@ -35,7 +36,7 @@ function rulesTab(){
 		cbspan.addClass("ui-icon-arrow-1-e");
 		// Load detail tab with sensor rules
 		var sensorid = $(this).attr("id");
-		$(tabdetail).load("details.php?rt=rules&sensor="+sensorid, function(){
+		$(tabdetail).load("details.php?cf="+conf_file+"&rt=rules&sensor="+sensorid, function(){
 			$("#detail").show("slide");
 			scrollCurrentTab("#detail");
 		});
@@ -175,7 +176,7 @@ function sensorRulesDetail(){
 	$('#updname').click(function(){
 		var sensorid = $("#sensorid").val();
 		var sensorname = $("#sensorname").val();
-		$.getJSON('hueapi_cmd.php?action=sensors/'+sensorid+'&cmdjs={"name":"'+sensorname+'"}',function(){
+		$.getJSON('hueapi_cmd.php?cf='+conf_file+'&action=sensors/'+sensorid+'&cmdjs={"name":"'+sensorname+'"}',function(){
         	$('#tabs label[for='+sensorid+']').first().text(sensorname);
 		});
 	});
@@ -185,7 +186,7 @@ function sensorRulesDetail(){
 	$("#srsel").on("selectmenuchange", function(){
 		var sensorid = $("#sensorid").val();
 		var ruleid = $(this).val();
-		$(tabdetail).load("details.php?rt=rules&nh=&sensor="+sensorid+"&rule="+ruleid, function(){
+		$(tabdetail).load("details.php?cf="+conf_file+"&rt=rules&nh=&sensor="+sensorid+"&rule="+ruleid, function(){
 			scrollCurrentTab("#detail");
 		});
 		// re-Initialize rows counters and buttons
@@ -286,7 +287,7 @@ function delSelectedDetail(tableid){
 function addCond(){
 	var sensorid = $("#sensorid").val();
 	$("#condtable").append("<TR></TR>");
-	$("#condtable tr:last").load('main.php?rt=addcond&sensorid='+sensorid+'&cond='+nextcondid, function(){
+	$("#condtable tr:last").load('main.php?cf='+conf_file+'&rt=addcond&sensorid='+sensorid+'&cond='+nextcondid, function(){
 		$("#condcb_"+nextcondid).each(function(){catchRowSelection(this);});
 		$("#sbcond_"+nextcondid).each(function(){catchSelopeChange(this);});
 		nbcond++;
@@ -300,7 +301,7 @@ function addCond(){
 //-----------------------------------------------------
 function addAct(){
 	$("#acttable").append('<TR></TR>');
-	$("#acttable tr:last").load('main.php?rt=addact&act='+nextactid, function(){
+	$("#acttable tr:last").load('main.php?cf='+conf_file+'&rt=addact&act='+nextactid, function(){
 		$("#actcb_"+nextactid).each(function(){catchRowSelection(this);});
 		nbact++;
 		nextactid++;
@@ -346,7 +347,7 @@ function updateRule(){
 			method += "PUT";
 		}
 
-		$.getJSON('hueapi_cmd.php?action='+action+cmdjs+method, (function(jsmsg){
+		$.getJSON('hueapi_cmd.php?cf='+conf_file+'&action='+action+cmdjs+method, (function(jsmsg){
 			if (processReturnMsg(jsmsg)){
 				var successMsg;
 				if (ruleid == "0"){
@@ -358,7 +359,7 @@ function updateRule(){
 				msg(trs.Rule+' '+ruleid+' "'+rule_name+'" '+successMsg);
 
 				// re-display tab
-				$(tabdetail).load("details.php?rt=rules&nh=&sensor="+sensorid+"&rule="+ruleid, function(){
+				$(tabdetail).load("details.php?cf="+conf_file+"&rt=rules&nh=&sensor="+sensorid+"&rule="+ruleid, function(){
 					scrollCurrentTab("#detail");
 				});
 				// re-Initialize rows counters and buttons
@@ -388,10 +389,10 @@ function deleteRule(){
 		{	// Delete button
 	    	text:trs.Delete,
 			click: function() {
-		  		$.getJSON('hueapi_cmd.php?action='+action+method, (function(jsmsg){
+		  		$.getJSON('hueapi_cmd.php?cf='+conf_file+'&action='+action+method, (function(jsmsg){
 					if (processReturnMsg(jsmsg,trs.Rule+' '+trs.Deleted)){
 						var sensorid = $("#sensorid").val();
-						$(tabdetail).load("details.php?rt=rules&nh=&sensor="+sensorid, function(){
+						$(tabdetail).load("details.php?cf="+conf_file+"&rt=rules&nh=&sensor="+sensorid, function(){
 							scrollCurrentTab("#detail");
 						});
 					}
@@ -419,7 +420,7 @@ function switchToAdvMode(advmode){
 	var advstr= "";
 	if (advmode){advstr = "&advmode="+advmode;}
 
-	$(tabdetail).load("details.php?rt=rules&nh=&sensor="+sensorid+"&rule="+ruleid+advstr, function(){
+	$(tabdetail).load("details.php?cf="+conf_file+"&rt=rules&nh=&sensor="+sensorid+"&rule="+ruleid+advstr, function(){
 		scrollCurrentTab("#detail");
 	});
 	// re-Initialize rows counters and buttons

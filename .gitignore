@@ -19,12 +19,14 @@ $RECYCLE.BIN/
 
 # other
 .vs/*
+.vscode/*
 *.zip
 *.txt
 !LICENCE.txt
 !histo.txt
 *.swp
 include/config.php
+include/config_*.php
 *_old.php
 *_org.php
 jquery-ui_FULL

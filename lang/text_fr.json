@@ -118,8 +118,11 @@
 "Current_language":"Langage courant",
 "Histo":"Histo",
 "Problem_for_updating_configuration_file":"Problème pour mettre à jour le fichier de configuration",
-"Subnet_to_look_for_Hue_brigde":"Valeur du sous-réseau pour chercher le pont Hue",
+"Subnet_to_look_for_Hue_brigde":"valeur du Sous-Réseau pour chercher le pont Hue",
 "If_not_known_let_the_default_displayed_value":"Si non connue, laisser la valeur affichée par défaut.",
 "NewLampDiscovery":"Découverte Nouvelle(s) Lampe(s)",
+"Protocol":"Protocole",
+"missing_in":"manquant dans",
+"initialised_to":"initialisé à",
 "":""
 }
